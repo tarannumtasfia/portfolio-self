@@ -59,20 +59,20 @@ export default function Navbar() {
           </div>
 
           {/* Brand (logo on right side) */}
-          <Link href="/contact" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <img
               src="/logo.png"
               alt="Tasfia Tarannum"
               className="w-8 h-8 rounded-full object-cover border border-[#3e0097]"
             />
             <div className="flex flex-col leading-tight">
-              <Link href="/">
+              
                 <span className="text-sm md:text-xl font-bold text-[#3e0097]">
                   Tasfia Tarannum
                 </span>
-              </Link>
+              
               <span className="text-xs md:text-sm text-[#3e0097] font-medium md:ml-1 ">
-                Applicant
+                Junior Software Engineer
               </span>
             </div>
           </Link>
