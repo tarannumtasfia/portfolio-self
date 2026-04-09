@@ -52,7 +52,17 @@ export default function Home() {
           <div className="flex flex-col space-y-6 max-w-md">
             <div>
               <p className="text-lg font-bold text-[#3e0097]">Junior Software Engineer</p>
-              <p className="text-base text-gray-600">at FPT IS</p>
+              <p className="text-base text-gray-600">
+                at{" "}
+                <a
+                  href="https://fpt-is.com/en/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  FPT IS
+                </a>
+              </p>
               <p className="text-sm text-gray-500">Banani, Dhaka</p>
             </div>
           </div>
@@ -70,11 +80,6 @@ export default function Home() {
             continuously grow as a developer and contribute meaningfully to impactful projects
             through creativity, collaboration, and problem-solving.
           </p>
-
-          <div>
-            <span className="text-xs text-gray-500 tracking-widest">WORK</span>
-            <div className="text-sm text-gray-700 mt-1">FPT IS</div>
-          </div>
 
           <div className="flex space-x-4 mt-2">
             {/* LinkedIn */}
@@ -111,9 +116,8 @@ export default function Home() {
 
       {/* Video Modal */}
       <div
-        className={`fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${
-          showVideo ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm transition-opacity duration-300 ${showVideo ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
         onClick={handleClose}
       >
         <div
