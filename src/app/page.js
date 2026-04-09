@@ -68,14 +68,14 @@ export default function Home() {
           </div>
 
           <Link href="/contact">
-            <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg w-fit shadow transition">
+            <button className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg w-fit shadow transition cursor-pointer">
               Work with me
             </button>
           </Link>
 
           <p className="text-gray-700 text-sm text-justify">
             I'm a Junior Software Engineer based in Bangladesh, currently working with modern
-            technologies like React, Next.js, Node.js, and Express.js. I am passionate about
+            technologies like React, Next.js, Python, Django, Node.js (Express.js). I am passionate about
             building clean, efficient, and user-focused web applications. My goal is to
             continuously grow as a developer and contribute meaningfully to impactful projects
             through creativity, collaboration, and problem-solving.
@@ -106,7 +106,7 @@ export default function Home() {
             <button
               onClick={() => setShowVideo(true)}
               aria-label="Intro Video"
-              className="hover:scale-115 p-2 transition flex items-center justify-center"
+              className="hover:scale-115 p-2 transition flex items-center justify-center cursor-pointer"
             >
               <img src="/youtube-icon.png" alt="YouTube Icon" style={{ width: "36px", height: "36px" }} />
             </button>
