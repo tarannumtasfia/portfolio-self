@@ -40,7 +40,7 @@ export default function Navbar() {
               Skills
             </Link>
             <Link
-              href="/contact"
+              href="/contact-info"
               className="hover:text-indigo-600 font-medium text-black"
             >
               Contact
