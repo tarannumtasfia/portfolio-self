@@ -111,7 +111,7 @@ export default function Navbar() {
               Skills
             </Link>
             <Link
-              href="/contact"
+              href="/contact-info"
               onClick={() => setIsOpen(false)}
               className="w-full text-left px-4 py-2 rounded-lg text-gray-900 font-bold hover:bg-indigo-50 hover:text-indigo-700 transition"
             >
