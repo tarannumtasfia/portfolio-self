@@ -45,6 +45,17 @@ const projects = [
   iframeSrc: "https://courier-tracker-frontend-eosin.vercel.app/",
   bg: "bg-yellow-100",
 },
+{
+  id: "planetrix",
+  title: "Planetrix",
+  role: "Sustainable Energy Solutions",
+  tags: ["Next.js", "React", "Tailwind CSS"],
+  logo: "/portfolio_img.jpg",
+  description:
+    "A modern web platform for exploring sustainable energy solutions, featuring interactive UI, responsive design, and optimized performance using Next.js and Tailwind CSS.",
+  iframeSrc: "https://planetrix-frontend-one.vercel.app/",
+  bg: "bg-emerald-100",
+},
 
 ];
 

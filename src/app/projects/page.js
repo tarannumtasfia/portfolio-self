@@ -57,6 +57,17 @@ const projects = [
     iframeSrc: "https://courier-tracker-frontend-eosin.vercel.app/",
     bg: "bg-yellow-100",
   },
+  {
+    id: "planetrix",
+    title: "Planetrix",
+    role: "Sustainable Energy Solutions",
+    tags: ["Next.js", "React", "Tailwind CSS"],
+    logo: "/portfolio_img.jpg",
+    description:
+      "A modern web platform for exploring sustainable energy solutions, featuring interactive UI, responsive design, and optimized performance using Next.js and Tailwind CSS.",
+    iframeSrc: "https://planetrix-frontend-one.vercel.app/",
+    bg: "bg-emerald-100",
+  },
 ];
 
 const GridIcon = () => (
@@ -110,19 +121,19 @@ export default function Projects() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-sky-50 to-indigo-100 p-6 pt-20">
       {/* Header row */}
-     <div style={{display:"flex", alignItems:"center", justifyContent:"flex-end", marginBottom:"32px", paddingTop:"20px"}}>
-  
-  <div style={{display:"flex", gap:"8px"}}>
-    <button onClick={() => setView("grid")} style={{padding:"8px 14px", background: view==="grid" ? "#4f46e5" : "#fff", color: view==="grid" ? "#fff" : "#374151", border:"1px solid #4f46e5", borderRadius:"8px", cursor:"pointer", display:"flex", alignItems:"center", gap:"6px"}}>
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
-      Grid
-    </button>
-    <button onClick={() => setView("list")} style={{padding:"8px 14px", background: view==="list" ? "#4f46e5" : "#fff", color: view==="list" ? "#fff" : "#374151", border:"1px solid #4f46e5", borderRadius:"8px", cursor:"pointer", display:"flex", alignItems:"center", gap:"6px"}}>
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="2" width="14" height="2.5" rx="1"/><rect x="1" y="6.75" width="14" height="2.5" rx="1"/><rect x="1" y="11.5" width="14" height="2.5" rx="1"/></svg>
-      List
-    </button>
-  </div>
-</div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "32px", paddingTop: "20px" }}>
+
+        <div style={{ display: "flex", gap: "8px" }}>
+          <button onClick={() => setView("grid")} style={{ padding: "8px 14px", background: view === "grid" ? "#4f46e5" : "#fff", color: view === "grid" ? "#fff" : "#374151", border: "1px solid #4f46e5", borderRadius: "8px", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1" /><rect x="9" y="1" width="6" height="6" rx="1" /><rect x="1" y="9" width="6" height="6" rx="1" /><rect x="9" y="9" width="6" height="6" rx="1" /></svg>
+            Grid
+          </button>
+          <button onClick={() => setView("list")} style={{ padding: "8px 14px", background: view === "list" ? "#4f46e5" : "#fff", color: view === "list" ? "#fff" : "#374151", border: "1px solid #4f46e5", borderRadius: "8px", cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="2" width="14" height="2.5" rx="1" /><rect x="1" y="6.75" width="14" height="2.5" rx="1" /><rect x="1" y="11.5" width="14" height="2.5" rx="1" /></svg>
+            List
+          </button>
+        </div>
+      </div>
 
       {/* Grid view */}
       {view === "grid" && (
