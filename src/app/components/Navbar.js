@@ -15,8 +15,9 @@ import {
   Sparkles,
   Mail,
   BookOpen,
+  FileText,
 } from "lucide-react";
-import CvSettingsPanel from "./CvSettingsPanel";
+import CvUpdateModal from "./CvUpdateModal";
 
 const navLinks = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -36,14 +37,21 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showCvUpdate, setShowCvUpdate] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") === "dark";
-    }
-    return false;
-  });
+  const [isDark, setIsDark] = useState(false);
   const settingsRef = useRef(null);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setIsDark(true);
+    } else if (savedTheme === "light") {
+      setIsDark(false);
+    } else {
+      setIsDark(window.matchMedia("(prefers-color-scheme: dark)").matches);
+    }
+  }, []);
 
   useEffect(() => {
     if (isDark) {
@@ -145,14 +153,6 @@ export default function Navbar() {
 
             {/* Actions */}
             <div className="flex items-center gap-1.5 shrink-0">
-              <button
-                onClick={() => setIsDark(!isDark)}
-                aria-label="Toggle theme"
-                className="hidden sm:flex items-center justify-center w-9 h-9 rounded-xl text-slate-500 dark:text-slate-400 hover:text-[#3e0097] dark:hover:text-indigo-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer"
-              >
-                {isDark ? <Moon size={18} /> : <Sun size={18} />}
-              </button>
-
               <div className="relative" ref={settingsRef}>
                 <button
                   onClick={() => setShowSettings(!showSettings)}
@@ -170,56 +170,54 @@ export default function Navbar() {
                 </button>
 
                 {showSettings && (
-                  <div className="absolute right-0 top-12 w-[min(20rem,calc(100vw-2rem))] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-black/40 py-3 z-50 animate-nav-dropdown max-h-[min(80vh,32rem)] overflow-y-auto">
-                    <div className="px-4 pb-3 border-b border-slate-100 dark:border-slate-800">
-                      <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest">
-                        Settings
-                      </p>
-                    </div>
-
-                    <div className="px-4 py-3">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800">
-                            {isDark ? (
-                              <Moon size={15} className="text-indigo-400" />
-                            ) : (
-                              <Sun size={15} className="text-amber-500" />
-                            )}
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium text-slate-800 dark:text-slate-100">
-                              Appearance
-                            </p>
-                            <p className="text-xs text-slate-400">
-                              {isDark ? "Dark mode enabled" : "Light mode enabled"}
-                            </p>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => setIsDark(!isDark)}
-                          className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus:outline-none cursor-pointer ${
-                            isDark ? "bg-indigo-600" : "bg-slate-200 dark:bg-slate-700"
-                          }`}
-                        >
-                          <span
-                            className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-300 ${
-                              isDark ? "translate-x-5" : "translate-x-0"
-                            }`}
-                          />
-                        </button>
+                  <div className="absolute right-0 top-12 w-60 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-black/40 py-2 z-50 animate-nav-dropdown">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowSettings(false);
+                        setShowCvUpdate(true);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                    >
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950/50">
+                        <FileText size={15} className="text-indigo-600 dark:text-indigo-400" />
                       </div>
-                    </div>
+                      Update CV
+                    </button>
 
-                    <CvSettingsPanel />
+                    <div className="mx-3 border-t border-slate-100 dark:border-slate-800" />
 
-                    <div className="px-4 border-t border-slate-100 dark:border-slate-800 pt-2 mt-1 sm:hidden">
+                    <div className="flex items-center justify-between gap-3 px-4 py-3">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 shrink-0">
+                          {isDark ? (
+                            <Moon size={15} className="text-indigo-400" />
+                          ) : (
+                            <Sun size={15} className="text-amber-500" />
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-slate-800 dark:text-slate-100">
+                            {isDark ? "Dark mode" : "Light mode"}
+                          </p>
+                          <p className="text-xs text-slate-400 truncate">
+                            {isDark ? "Switch to light" : "Switch to dark"}
+                          </p>
+                        </div>
+                      </div>
                       <button
+                        type="button"
                         onClick={() => setIsDark(!isDark)}
-                        className="w-full flex items-center justify-between py-2.5 px-2 rounded-lg text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
+                        aria-label="Toggle theme"
+                        className={`relative w-11 h-6 rounded-full transition-colors duration-300 focus:outline-none cursor-pointer shrink-0 ${
+                          isDark ? "bg-indigo-600" : "bg-slate-200 dark:bg-slate-700"
+                        }`}
                       >
-                        <span>{isDark ? "Dark mode" : "Light mode"}</span>
-                        <span className="text-xs text-slate-400">{isDark ? "On" : "Off"}</span>
+                        <span
+                          className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-300 ${
+                            isDark ? "translate-x-5" : "translate-x-0"
+                          }`}
+                        />
                       </button>
                     </div>
                   </div>
@@ -302,34 +300,20 @@ export default function Navbar() {
               })}
             </div>
 
-            <div className="p-3 border-t border-slate-100 dark:border-slate-800 space-y-3">
-              <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-3">
-                <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-3">
-                  Settings
-                </p>
-                <CvSettingsPanel compact />
-              </div>
-
-              <div className="flex items-center gap-2">
-              <button
-                onClick={() => setIsDark(!isDark)}
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-              >
-                {isDark ? <Moon size={16} /> : <Sun size={16} />}
-                {isDark ? "Dark" : "Light"} mode
-              </button>
+            <div className="p-3 border-t border-slate-100 dark:border-slate-800">
               <Link
                 href="/contact"
                 onClick={() => setIsOpen(false)}
-                className="flex-1 flex items-center justify-center py-2.5 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white text-sm font-semibold shadow-sm"
+                className="w-full flex items-center justify-center py-2.5 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white text-sm font-semibold shadow-sm"
               >
                 Hire me
               </Link>
-              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <CvUpdateModal open={showCvUpdate} onClose={() => setShowCvUpdate(false)} />
     </>
   );
 }
