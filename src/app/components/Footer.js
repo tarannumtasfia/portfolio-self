@@ -15,10 +15,10 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { href: "https://linkedin.com/in/tasfiatarannum", label: "LinkedIn", icon: "/linkedin-icon.png", size: 22 },
-  { href: "https://github.com/tarannumtasfia", label: "GitHub", icon: "/github-icon.png", size: 20 },
-  { href: "https://leetcode.com/u/tasfiatarannum/", label: "LeetCode", icon: "/leetcode-icon.png", size: 20 },
-  { label: "CV", icon: "/cv-icon.png", size: 22, cv: true },
+  { href: "https://linkedin.com/in/tasfiatarannum", label: "LinkedIn", icon: "/linkedin-icon.png", size: 28 },
+  { href: "https://github.com/tarannumtasfia", label: "GitHub", icon: "/github-icon.png", size: 26 },
+  { href: "https://leetcode.com/u/tasfiatarannum/", label: "LeetCode", icon: "/leetcode-icon.png", size: 26 },
+  { label: "CV", icon: "/cv-icon.png", size: 28, cv: true },
 ];
 
 export default function Footer() {
@@ -27,7 +27,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="relative mt-auto border-t border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md transition-colors duration-300">
+      <footer className="relative border-t border-slate-200/80 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md transition-colors duration-300">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#3e0097]/50 to-transparent" />
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
@@ -67,7 +67,7 @@ export default function Footer() {
               </div>
             </nav>
 
-            <div className="flex items-center justify-center sm:justify-end gap-2.5 shrink-0">
+            <div className="flex flex-nowrap items-center justify-center sm:justify-end gap-2 shrink-0">
               {socialLinks.map(({ href, label, icon, size, cv }) =>
                 cv ? (
                   <button
@@ -76,7 +76,7 @@ export default function Footer() {
                     onClick={() => setShowCv(true)}
                     aria-label={label}
                     title={label}
-                    className="flex items-center justify-center w-11 h-11 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-all cursor-pointer"
+                    className="flex shrink-0 items-center justify-center w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-all cursor-pointer"
                   >
                     <img src={icon} alt="" style={{ width: size, height: size }} className="object-contain" />
                   </button>
@@ -88,7 +88,7 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     aria-label={label}
                     title={label}
-                    className="flex items-center justify-center w-11 h-11 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-all"
+                    className="flex shrink-0 items-center justify-center w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-all"
                   >
                     <img src={icon} alt="" style={{ width: size, height: size }} className="object-contain" />
                   </a>
@@ -97,9 +97,9 @@ export default function Footer() {
               <button
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 aria-label="Back to top"
-                className="flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-[#3e0097] to-indigo-600 text-white hover:opacity-90 transition-opacity cursor-pointer shadow-sm"
+                className="flex shrink-0 items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-[#3e0097] to-indigo-600 text-white hover:opacity-90 transition-opacity cursor-pointer shadow-sm"
               >
-                <ArrowUp size={16} />
+                <ArrowUp size={18} />
               </button>
             </div>
           </div>
