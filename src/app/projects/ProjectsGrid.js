@@ -79,14 +79,9 @@ const projects = [
   },
 ];
 
-function Pagination({ page, totalPages, onPageChange, start, end, total }) {
+function PaginationControls({ page, totalPages, onPageChange }) {
   return (
-    <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-      <p className="text-[11px] text-slate-500 dark:text-slate-400">
-        {start}–{end} of {total}
-      </p>
-
-      <div className="inline-flex items-center gap-0.5 p-0.5 rounded-lg bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 w-fit">
+    <div className="inline-flex items-center gap-0.5 p-0.5 rounded-lg bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 w-fit">
         <button
           type="button"
           onClick={() => onPageChange(page - 1)}
@@ -124,17 +119,34 @@ function Pagination({ page, totalPages, onPageChange, start, end, total }) {
           <ChevronRight size={15} />
         </button>
       </div>
+  );
+}
+
+function ProjectsToolbar({ page, totalPages, onPageChange, total, view, setView }) {
+  return (
+    <div className="mb-6 grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] items-center gap-3">
+      <p className="text-[11px] text-slate-500 dark:text-slate-400 justify-self-start text-center sm:text-left">
+        Page {page} of {totalPages} · {total} projects
+      </p>
+
+      <div className="justify-self-center">
+        <PaginationControls page={page} totalPages={totalPages} onPageChange={onPageChange} />
+      </div>
+
+      <div className="justify-self-end flex justify-end w-full sm:w-auto">
+        <ViewToggle view={view} setView={setView} />
+      </div>
     </div>
   );
 }
 
 function ViewToggle({ view, setView }) {
   return (
-    <div className="inline-flex w-full sm:w-auto items-center p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
+    <div className="inline-flex w-auto items-center p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
       <button
         type="button"
         onClick={() => setView("grid")}
-        className={`inline-flex flex-1 sm:flex-none items-center justify-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+        className={`inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
           view === "grid"
             ? "bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white shadow-sm shadow-indigo-500/25"
             : "text-slate-600 dark:text-slate-300 hover:text-[#3e0097] dark:hover:text-indigo-300"
@@ -146,7 +158,7 @@ function ViewToggle({ view, setView }) {
       <button
         type="button"
         onClick={() => setView("list")}
-        className={`inline-flex flex-1 sm:flex-none items-center justify-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+        className={`inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
           view === "list"
             ? "bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white shadow-sm shadow-indigo-500/25"
             : "text-slate-600 dark:text-slate-300 hover:text-[#3e0097] dark:hover:text-indigo-300"
@@ -300,7 +312,6 @@ export default function ProjectsGrid() {
   }, [page]);
 
   const startIndex = (page - 1) * PROJECTS_PER_PAGE + 1;
-  const endIndex = Math.min(page * PROJECTS_PER_PAGE, projects.length);
 
   function goToPage(nextPage) {
     const clamped = Math.max(1, Math.min(nextPage, totalPages));
@@ -312,29 +323,26 @@ export default function ProjectsGrid() {
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6 mb-8 sm:mb-10">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-2">
-              Portfolio
-            </p>
-            <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
-              Projects
-            </h1>
-            <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-xl mx-auto description-text">
-              A collection of {projects.length} applications — from Kanban tools to real-time
-              trackers. Switch views or open a live demo.
-            </p>
-          </div>
-          <ViewToggle view={view} setView={setView} />
+        <header className="mb-8 sm:mb-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-2">
+            Portfolio
+          </p>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
+            Projects
+          </h1>
+          <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-xl description-text">
+            A collection of {projects.length} applications — from Kanban tools to real-time
+            trackers. Switch views or open a live demo.
+          </p>
         </header>
 
-        <Pagination
+        <ProjectsToolbar
           page={page}
           totalPages={totalPages}
           onPageChange={goToPage}
-          start={startIndex}
-          end={endIndex}
           total={projects.length}
+          view={view}
+          setView={setView}
         />
 
         {view === "grid" ? (
