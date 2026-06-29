@@ -1,73 +1,72 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight, ExternalLink, Mail } from "lucide-react";
+import PageLoader from "../components/PageLoader";
 
-const contactRows = [
-  {
-    label: "Email",
-    value: "tasfiatarannum@yahoo.com",
-    href: "mailto:tasfiatarannum@yahoo.com",
-    imgSrc: "/mail-icon.png",
-    accent: "from-indigo-500/15 to-violet-500/15 dark:from-indigo-500/25 dark:to-violet-500/25",
-    ring: "ring-indigo-200/60 dark:ring-indigo-800/60",
-  },
-  {
-    label: "Phone",
-    value: "+880 1701 442277",
-    href: "tel:+8801701442277",
-    imgSrc: "/call-icon.png",
-    accent: "from-emerald-500/15 to-teal-500/15 dark:from-emerald-500/25 dark:to-teal-500/25",
-    ring: "ring-emerald-200/60 dark:ring-emerald-800/60",
-  },
-  {
-    label: "LinkedIn",
-    value: "linkedin.com/in/tasfiatarannum",
-    href: "https://linkedin.com/in/tasfiatarannum",
-    imgSrc: "/linkedin-icon.png",
-    external: true,
-    accent: "from-sky-500/15 to-blue-500/15 dark:from-sky-500/25 dark:to-blue-500/25",
-    ring: "ring-sky-200/60 dark:ring-sky-800/60",
-  },
-  {
-    label: "Address",
-    value: "Block-A, Aftabnagar, Rampura, Dhaka, Bangladesh",
-    href: "https://www.google.com/maps?q=bti+Chorus,+Dhaka,+Bangladesh",
-    imgSrc: "/location-icon.png",
-    external: true,
-    accent: "from-rose-500/15 to-orange-500/15 dark:from-rose-500/25 dark:to-orange-500/25",
-    ring: "ring-rose-200/60 dark:ring-rose-800/60",
-  },
-  {
-    label: "Website",
-    value: "portfolio-self-alpha-ten.vercel.app",
-    href: "https://portfolio-self-alpha-ten.vercel.app",
-    imgSrc: "/globe-icon.png",
-    external: true,
-    accent: "from-violet-500/15 to-purple-500/15 dark:from-violet-500/25 dark:to-purple-500/25",
-    ring: "ring-violet-200/60 dark:ring-violet-800/60",
-  },
-  {
-    label: "Blog",
-    value: "medium.com/@tasfiatarannum",
-    href: "https://medium.com/@tasfiatarannum",
-    imgSrc: "/book-icon.png",
-    external: true,
-    accent: "from-amber-500/15 to-yellow-500/15 dark:from-amber-500/25 dark:to-yellow-500/25",
-    ring: "ring-amber-200/60 dark:ring-amber-800/60",
-  },
-];
-
-const socialIcons = [
-  { href: "https://linkedin.com/in/tasfiatarannum", src: "/linkedin-icon.png", label: "LinkedIn", size: 24 },
-  { href: "https://github.com/tarannumtasfia", src: "/github-icon.png", label: "GitHub", size: 22 },
-  { href: "https://leetcode.com/u/tasfiatarannum/", src: "/leetcode-icon.png", label: "LeetCode", size: 22 },
-  { href: "/map", src: "/map-icon.png", label: "Location", size: 22, internal: true },
-];
+function ContactInfoSkeleton() {
+  return (
+    <div className="w-full max-w-lg animate-pulse">
+      <div className="h-[min(90vh,800px)] rounded-[1.75rem] bg-white/60 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800" />
+    </div>
+  );
+}
 
 export default function ContactInfo() {
+  const [contact, setContact] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadContact() {
+      try {
+        const response = await fetch("/api/contact");
+        if (!response.ok) throw new Error("Failed to load contact");
+
+        const data = await response.json();
+        if (!cancelled) setContact(data);
+      } catch {
+        if (!cancelled) setError("Could not load contact data.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    loadContact();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (loading) {
+    return (
+      <main className="relative min-h-screen flex items-start sm:items-center justify-center px-3 sm:px-4 pt-24 pb-20 sm:py-28 overflow-hidden transition-colors duration-300 bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
+        <div className="opacity-50 pointer-events-none select-none">
+          <ContactInfoSkeleton />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <PageLoader label="Loading contact..." icon={Mail} />
+        </div>
+      </main>
+    );
+  }
+
+  if (error || !contact) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4">
+        <p className="text-slate-600 dark:text-slate-400">{error || "Contact unavailable."}</p>
+      </main>
+    );
+  }
+
+  const { profile, header, bio, contactRows, cta, social } = contact;
+
   return (
-    <main className="relative min-h-screen flex items-center justify-center px-3 sm:px-4 py-24 sm:py-28 overflow-hidden transition-colors duration-300 bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
+    <main className="relative min-h-screen flex items-start sm:items-center justify-center px-3 sm:px-4 pt-24 pb-20 sm:py-28 overflow-hidden transition-colors duration-300 bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-32 -right-32 w-96 h-96 rounded-full bg-purple-400/20 dark:bg-purple-600/10 blur-3xl"
@@ -84,7 +83,6 @@ export default function ContactInfo() {
       <div className="relative w-full max-w-lg">
         <div className="rounded-[1.75rem] p-[1px] bg-gradient-to-br from-[#3e0097] via-indigo-500 to-violet-400 shadow-2xl shadow-indigo-500/20 dark:shadow-indigo-950/50">
           <div className="rounded-[calc(1.75rem-1px)] overflow-hidden bg-white dark:bg-slate-900">
-            {/* Header banner */}
             <div className="relative px-6 sm:px-8 pt-8 sm:pt-9 pb-24 sm:pb-28 text-center bg-gradient-to-br from-[#3e0097] via-indigo-700 to-violet-500 overflow-hidden">
               <div
                 aria-hidden
@@ -105,13 +103,13 @@ export default function ContactInfo() {
               />
 
               <p className="relative text-[11px] font-semibold uppercase tracking-[0.2em] text-indigo-200/90">
-                Get in touch
+                {header.eyebrow}
               </p>
               <h1 className="relative mt-2 text-2xl sm:text-[1.65rem] font-bold text-white tracking-tight">
-                Contact Me
+                {header.title}
               </h1>
               <p className="relative mt-2 text-sm text-white/75 max-w-xs mx-auto description-text">
-                Let&apos;s connect — I&apos;d love to hear from you.
+                {header.description}
               </p>
 
               <svg
@@ -127,8 +125,7 @@ export default function ContactInfo() {
               </svg>
             </div>
 
-            {/* Profile */}
-            <div className="relative flex flex-col items-center px-8 pb-1">
+            <div className="relative flex flex-col items-center px-4 sm:px-8 pb-1">
               <div className="relative -mt-[4.5rem] sm:-mt-[5.5rem] z-10">
                 <div className="relative mx-auto w-fit group">
                   <div
@@ -140,8 +137,8 @@ export default function ContactInfo() {
                     <div className="rounded-full p-[4px] bg-white dark:bg-slate-900">
                       <div className="relative w-36 h-36 sm:w-44 sm:h-44 md:w-48 md:h-48 rounded-full overflow-hidden bg-gradient-to-br from-indigo-100 to-violet-100 dark:from-slate-800 dark:to-indigo-950">
                         <img
-                          src="/portfolio_img.jpg"
-                          alt="Tasfia Tarannum"
+                          src={profile.image}
+                          alt={profile.imageAlt}
                           className="w-full h-full object-cover object-[center_18%] scale-[1.2] group-hover:scale-[1.28] transition-transform duration-500 ease-out"
                         />
                       </div>
@@ -151,18 +148,17 @@ export default function ContactInfo() {
               </div>
 
               <h2 className="mt-5 text-xl font-bold text-slate-900 dark:text-white">
-                Tasfia Tarannum
+                {profile.name}
               </h2>
               <p className="mt-1 text-sm font-semibold text-[#3e0097] dark:text-indigo-300">
-                Junior Software Engineer
+                {profile.title}
               </p>
 
               <p className="mt-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed description-text">
-                Reach out for job opportunities, collaborations, or a friendly hello.
+                {bio}
               </p>
             </div>
 
-            {/* Contact rows */}
             <div className="mt-6 px-4 sm:px-6 space-y-2.5">
               {contactRows.map(({ label, value, href, imgSrc, external, accent, ring }) => (
                 <a
@@ -195,22 +191,21 @@ export default function ContactInfo() {
               ))}
             </div>
 
-            {/* CTA + social */}
             <div className="px-6 pb-8 pt-5 mt-2">
               <Link
-                href="/contact"
+                href={cta.href}
                 className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl text-white text-sm font-semibold shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5 transition-all bg-gradient-to-r from-[#3e0097] to-indigo-600"
               >
-                Send me a message
+                {cta.label}
                 <ArrowRight size={16} />
               </Link>
 
               <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800">
                 <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500 text-center mb-3">
-                  Connect
+                  {social.title}
                 </p>
                 <div className="flex flex-wrap items-center justify-center gap-2.5">
-                  {socialIcons.map(({ href, src, label, size, internal }) =>
+                  {social.icons.map(({ href, src, label, size, internal }) =>
                     internal ? (
                       <Link
                         key={label}

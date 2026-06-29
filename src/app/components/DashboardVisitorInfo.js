@@ -85,7 +85,7 @@ function InfoItem({ icon: Icon, label, value, loading, mono = false, iconClass =
       <div className="min-w-0 flex-1">
         <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 truncate">{label}</p>
         <p
-          className={`text-xs font-medium text-slate-800 dark:text-slate-100 truncate ${mono ? "font-mono" : ""}`}
+          className={`text-xs font-medium text-slate-800 dark:text-slate-100 break-words sm:truncate ${mono ? "font-mono" : ""}`}
           title={!loading && value ? value : undefined}
         >
           {loading ? "Detecting..." : value || "Unavailable"}
