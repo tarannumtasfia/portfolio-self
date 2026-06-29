@@ -8,31 +8,12 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-const experiences = [
-  {
-    id: "fpt-is",
-    role: "Junior Software Engineer",
-    company: "FPT IS",
-    type: "Full-time",
-    period: "Apr 2025 — Present",
-    startMonth: 4,
-    startYear: 2025,
-    duration: "Current role",
-    location: "Banani, Dhaka, Bangladesh",
-    workMode: "On-site",
-    logo: "/fpt-is-logo.png",
-    companyUrl: "https://fpt-is.com/en/",
-    description:
-      "I contribute to web development using JavaScript, Next.js, and Node.js, focusing on performance and user experience. Passionate about learning and growing as a full-stack developer.",
-    highlights: [
-      "Develop and maintain web applications with modern JavaScript frameworks",
-      "Collaborate on performance-focused, user-centered product features",
-      "Work with Next.js and Node.js in a professional engineering environment",
-      "Continuously improve full-stack skills through real-world project delivery",
-    ],
-    technologies: ["JavaScript", "Next.js", "Node.js", "React", "Express.js"],
-  },
-];
+const STAT_ICONS = {
+  Briefcase,
+  Calendar,
+  Building2,
+  MapPin,
+};
 
 const MONTH_NAMES = [
   "Jan",
@@ -65,7 +46,7 @@ function formatYearsAndMonths(startYear, startMonth) {
   return `${years} yr ${months} mo`;
 }
 
-function getTotalExperience() {
+function getTotalExperience(experiences) {
   const earliest = experiences.reduce((current, job) => {
     if (!job.startYear || !job.startMonth) return current;
     const jobStart = job.startYear * 12 + job.startMonth;
@@ -83,44 +64,54 @@ function getTotalExperience() {
   };
 }
 
-const experienceSummary = getTotalExperience();
+function resolveStatValue(stat, experiences) {
+  if (stat.value) return { value: stat.value, detail: stat.detail || "" };
 
-const stats = [
-  { label: "Roles", value: "1", icon: Briefcase },
-  { label: "Experience", value: experienceSummary.value, detail: experienceSummary.detail, icon: Calendar },
-  { label: "Work mode", value: "On-site", icon: Building2 },
-  { label: "Location", value: "Dhaka", icon: MapPin },
-];
+  if (stat.key === "roles") {
+    return { value: String(experiences.length), detail: "" };
+  }
 
-export default function ExperienceSection() {
+  if (stat.key === "experience") {
+    return getTotalExperience(experiences);
+  }
+
+  return { value: "—", detail: "" };
+}
+
+export default function ExperienceSection({ data }) {
+  const { header, stats, experiences, growthMessage, relatedLinks } = data;
+  const resolvedStats = stats.map((stat) => ({
+    ...stat,
+    ...resolveStatValue(stat, experiences),
+    icon: STAT_ICONS[stat.icon] || Briefcase,
+  }));
+
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <header className="mb-10">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-2">
-            Career
+            {header.eyebrow}
           </p>
           <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            Experience
+            {header.title}
           </h1>
-          <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto description-text">
-            My professional journey — roles, responsibilities, and the technologies
-            I work with day to day.
+          <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto description-text text-center">
+            {header.description}
           </p>
         </header>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {stats.map(({ label, value, detail, icon: Icon }) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+          {resolvedStats.map(({ label, value, detail, icon: Icon }) => (
             <div
               key={label}
-              className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-sm"
+              className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-sm min-w-0"
             >
-              <div className="flex items-center gap-3">
-                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 shrink-0">
                   <Icon size={17} />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-lg font-semibold text-slate-900 dark:text-white">{value}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
                   {detail && (
@@ -134,7 +125,6 @@ export default function ExperienceSection() {
           ))}
         </div>
 
-        {/* Timeline */}
         <div className="relative">
           <div
             aria-hidden
@@ -244,29 +234,29 @@ export default function ExperienceSection() {
                         </div>
 
                         <div className="mt-6 flex flex-wrap gap-3">
-                          <Link
-                            href="/projects"
-                            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#3e0097] dark:text-indigo-400 hover:underline"
-                          >
-                            View related projects
-                            <ArrowRight size={14} />
-                          </Link>
-                          <Link
-                            href="/skills"
-                            className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
-                          >
-                            See all skills
-                            <ArrowRight size={14} />
-                          </Link>
+                          {relatedLinks.map((link) => (
+                            <Link
+                              key={link.href}
+                              href={link.href}
+                              className={
+                                link.primary
+                                  ? "inline-flex items-center gap-1.5 text-sm font-semibold text-[#3e0097] dark:text-indigo-400 hover:underline"
+                                  : "inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
+                              }
+                            >
+                              {link.label}
+                              <ArrowRight size={14} />
+                            </Link>
+                          ))}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {index === 0 && experiences.length === 1 && (
+                {index === 0 && experiences.length === 1 && growthMessage && (
                   <p className="mt-4 text-center sm:text-left text-xs text-slate-400 dark:text-slate-500 sm:pl-0">
-                    More roles will appear here as my career grows.
+                    {growthMessage}
                   </p>
                 )}
               </article>

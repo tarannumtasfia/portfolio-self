@@ -1,0 +1,102 @@
+{
+  "profile": {
+    "name": "Tasfia Tarannum",
+    "title": "Junior Software Engineer",
+    "image": "/portfolio_img.jpg",
+    "imageAlt": "Tasfia Tarannum"
+  },
+  "header": {
+    "eyebrow": "Get in touch",
+    "title": "Contact Me",
+    "description": "Let's connect — I'd love to hear from you."
+  },
+  "bio": "Reach out for job opportunities, collaborations, or a friendly hello.",
+  "contactRows": [
+    {
+      "label": "Email",
+      "value": "tasfiatarannum@yahoo.com",
+      "href": "mailto:tasfiatarannum@yahoo.com",
+      "imgSrc": "/mail-icon.png",
+      "accent": "from-indigo-500/15 to-violet-500/15 dark:from-indigo-500/25 dark:to-violet-500/25",
+      "ring": "ring-indigo-200/60 dark:ring-indigo-800/60"
+    },
+    {
+      "label": "Phone",
+      "value": "+880 1701 442277",
+      "href": "tel:+8801701442277",
+      "imgSrc": "/call-icon.png",
+      "accent": "from-emerald-500/15 to-teal-500/15 dark:from-emerald-500/25 dark:to-teal-500/25",
+      "ring": "ring-emerald-200/60 dark:ring-emerald-800/60"
+    },
+    {
+      "label": "LinkedIn",
+      "value": "linkedin.com/in/tasfiatarannum",
+      "href": "https://linkedin.com/in/tasfiatarannum",
+      "imgSrc": "/linkedin-icon.png",
+      "external": true,
+      "accent": "from-sky-500/15 to-blue-500/15 dark:from-sky-500/25 dark:to-blue-500/25",
+      "ring": "ring-sky-200/60 dark:ring-sky-800/60"
+    },
+    {
+      "label": "Address",
+      "value": "Block-A, Aftabnagar, Rampura, Dhaka, Bangladesh",
+      "href": "https://www.google.com/maps?q=bti+Chorus,+Dhaka,+Bangladesh",
+      "imgSrc": "/location-icon.png",
+      "external": true,
+      "accent": "from-rose-500/15 to-orange-500/15 dark:from-rose-500/25 dark:to-orange-500/25",
+      "ring": "ring-rose-200/60 dark:ring-rose-800/60"
+    },
+    {
+      "label": "Website",
+      "value": "portfolio-self-alpha-ten.vercel.app",
+      "href": "https://portfolio-self-alpha-ten.vercel.app",
+      "imgSrc": "/globe-icon.png",
+      "external": true,
+      "accent": "from-violet-500/15 to-purple-500/15 dark:from-violet-500/25 dark:to-purple-500/25",
+      "ring": "ring-violet-200/60 dark:ring-violet-800/60"
+    },
+    {
+      "label": "Blog",
+      "value": "medium.com/@tasfiatarannum",
+      "href": "https://medium.com/@tasfiatarannum",
+      "imgSrc": "/book-icon.png",
+      "external": true,
+      "accent": "from-amber-500/15 to-yellow-500/15 dark:from-amber-500/25 dark:to-yellow-500/25",
+      "ring": "ring-amber-200/60 dark:ring-amber-800/60"
+    }
+  ],
+  "cta": {
+    "href": "/contact",
+    "label": "Send me a message"
+  },
+  "social": {
+    "title": "Connect",
+    "icons": [
+      {
+        "href": "https://linkedin.com/in/tasfiatarannum",
+        "src": "/linkedin-icon.png",
+        "label": "LinkedIn",
+        "size": 24
+      },
+      {
+        "href": "https://github.com/tarannumtasfia",
+        "src": "/github-icon.png",
+        "label": "GitHub",
+        "size": 22
+      },
+      {
+        "href": "https://leetcode.com/u/tasfiatarannum/",
+        "src": "/leetcode-icon.png",
+        "label": "LeetCode",
+        "size": 22
+      },
+      {
+        "href": "/map",
+        "src": "/map-icon.png",
+        "label": "Location",
+        "size": 22,
+        "internal": true
+      }
+    ]
+  }
+}

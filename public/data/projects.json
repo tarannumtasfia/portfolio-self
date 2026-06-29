@@ -1,0 +1,70 @@
+{
+  "header": {
+    "eyebrow": "Portfolio",
+    "title": "Projects",
+    "description": "from Kanban tools to real-time trackers. Switch views or open a live demo."
+  },
+  "projectsPerPage": 4,
+  "projects": [
+    {
+      "id": "todo",
+      "title": "To-Do List",
+      "role": "Task Manager App",
+      "tags": ["React", "Kanban", "Productivity"],
+      "description": "A Kanban board for managing tasks with drag-and-drop workflows.",
+      "iframeSrc": "https://kanban-board-sigma-sepia.vercel.app/",
+      "image": "/projects/todo.png",
+      "accent": "from-orange-400 to-amber-500",
+      "accentSoft": "from-orange-500/10 to-amber-500/10 dark:from-orange-500/20 dark:to-amber-500/20",
+      "accentText": "text-orange-600 dark:text-orange-400"
+    },
+    {
+      "id": "movie",
+      "title": "Movie Website",
+      "role": "Movie Search App",
+      "tags": ["React", "API", "Movies"],
+      "description": "Search, browse, and manage movies with a clean React interface.",
+      "iframeSrc": "https://movie-app-ashen-iota-35.vercel.app/",
+      "image": "/projects/movie.png",
+      "accent": "from-emerald-400 to-teal-500",
+      "accentSoft": "from-emerald-500/10 to-teal-500/10 dark:from-emerald-500/20 dark:to-teal-500/20",
+      "accentText": "text-emerald-600 dark:text-emerald-400"
+    },
+    {
+      "id": "eschool",
+      "title": "E-School",
+      "role": "Educational Landing Page",
+      "tags": ["HTML", "CSS", "Bootstrap"],
+      "description": "A responsive educational landing page built with HTML, CSS, and Bootstrap.",
+      "iframeSrc": "https://tarannumtasfia.github.io/e-school/",
+      "image": "/projects/eschool.png",
+      "accent": "from-sky-400 to-blue-500",
+      "accentSoft": "from-sky-500/10 to-blue-500/10 dark:from-sky-500/20 dark:to-blue-500/20",
+      "accentText": "text-sky-600 dark:text-sky-400"
+    },
+    {
+      "id": "crudapp",
+      "title": "CRUD App",
+      "role": "User Management System",
+      "tags": ["React", "MongoDB", "Express", "Node.js"],
+      "description": "Full-stack user management with registration, login, and CRUD operations.",
+      "iframeSrc": "https://crud-frontend-iota-one.vercel.app/",
+      "image": "/projects/crudapp.png",
+      "accent": "from-violet-400 to-purple-600",
+      "accentSoft": "from-violet-500/10 to-purple-500/10 dark:from-violet-500/20 dark:to-purple-500/20",
+      "accentText": "text-violet-600 dark:text-violet-400"
+    },
+    {
+      "id": "courier",
+      "title": "Courier Tracker",
+      "role": "Real-Time Package Tracker",
+      "tags": ["Next.js", "Socket.IO", "MongoDB", "Tailwind"],
+      "description": "Real-time package tracking with alerts and drill-down views for dispatchers.",
+      "iframeSrc": "https://courier-tracker-frontend-eosin.vercel.app/",
+      "image": "/projects/courier.png",
+      "accent": "from-amber-400 to-yellow-500",
+      "accentSoft": "from-amber-500/10 to-yellow-500/10 dark:from-amber-500/20 dark:to-yellow-500/20",
+      "accentText": "text-amber-600 dark:text-amber-400"
+    }
+  ]
+}

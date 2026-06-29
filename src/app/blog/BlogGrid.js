@@ -10,8 +10,30 @@ import {
   ChevronRight,
   LayoutGrid,
   List,
+  BookOpen,
 } from "lucide-react";
-import { blogPosts, POSTS_PER_PAGE } from "./blogPosts";
+import PageLoader from "../components/PageLoader";
+
+function BlogSkeleton() {
+  return (
+    <div className="animate-pulse">
+      <div className="mb-6 sm:mb-8 space-y-3">
+        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-20" />
+        <div className="h-8 bg-slate-200 dark:bg-slate-800 rounded w-24" />
+        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-full max-w-xl" />
+      </div>
+      <div className="h-10 bg-slate-200 dark:bg-slate-800 rounded-xl w-full max-w-md mb-6" />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {[1, 2, 3].map((n) => (
+          <div
+            key={n}
+            className="h-80 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function PaginationControls({ page, totalPages, onPageChange }) {
   return (
@@ -21,7 +43,7 @@ function PaginationControls({ page, totalPages, onPageChange }) {
           onClick={() => onPageChange(page - 1)}
           disabled={page <= 1}
           aria-label="Previous page"
-          className="flex items-center justify-center w-7 h-7 rounded-md text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
+          className="flex items-center justify-center min-w-11 min-h-11 w-11 h-11 rounded-md text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
         >
           <ChevronLeft size={15} />
         </button>
@@ -33,7 +55,7 @@ function PaginationControls({ page, totalPages, onPageChange }) {
             onClick={() => onPageChange(pageNum)}
             aria-label={`Page ${pageNum}`}
             aria-current={pageNum === page ? "page" : undefined}
-            className={`min-w-[1.75rem] h-7 px-1.5 rounded-md text-xs font-medium transition-all cursor-pointer ${
+            className={`min-w-11 min-h-11 h-11 px-2 rounded-md text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center ${
               pageNum === page
                 ? "bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white shadow-sm"
                 : "text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700"
@@ -48,7 +70,7 @@ function PaginationControls({ page, totalPages, onPageChange }) {
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages}
           aria-label="Next page"
-          className="flex items-center justify-center w-7 h-7 rounded-md text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
+          className="flex items-center justify-center min-w-11 min-h-11 w-11 h-11 rounded-md text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
         >
           <ChevronRight size={15} />
         </button>
@@ -58,16 +80,16 @@ function PaginationControls({ page, totalPages, onPageChange }) {
 
 function BlogToolbar({ page, totalPages, onPageChange, total, view, setView }) {
   return (
-    <div className="mb-6 grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] items-center gap-3">
-      <p className="text-[11px] text-slate-500 dark:text-slate-400 justify-self-start text-center sm:text-left">
+    <div className="mb-6 flex flex-col items-center gap-3 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+      <p className="text-[11px] text-slate-500 dark:text-slate-400 text-center sm:text-left sm:justify-self-start order-2 sm:order-none">
         Page {page} of {totalPages} · {total} posts
       </p>
 
-      <div className="justify-self-center">
+      <div className="justify-self-center order-1 sm:order-none w-full flex justify-center overflow-x-auto">
         <PaginationControls page={page} totalPages={totalPages} onPageChange={onPageChange} />
       </div>
 
-      <div className="justify-self-end flex justify-end w-full sm:w-auto">
+      <div className="justify-self-end flex justify-center sm:justify-end w-full sm:w-auto order-3 sm:order-none">
         <ViewToggle view={view} setView={setView} />
       </div>
     </div>
@@ -80,7 +102,7 @@ function ViewToggle({ view, setView }) {
       <button
         type="button"
         onClick={() => setView("grid")}
-        className={`inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+        className={`inline-flex items-center justify-center gap-2 px-3.5 py-2.5 min-h-11 rounded-lg text-sm font-medium transition-all cursor-pointer ${
           view === "grid"
             ? "bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white shadow-sm shadow-indigo-500/25"
             : "text-slate-600 dark:text-slate-300 hover:text-[#3e0097] dark:hover:text-indigo-300"
@@ -92,7 +114,7 @@ function ViewToggle({ view, setView }) {
       <button
         type="button"
         onClick={() => setView("list")}
-        className={`inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+        className={`inline-flex items-center justify-center gap-2 px-3.5 py-2.5 min-h-11 rounded-lg text-sm font-medium transition-all cursor-pointer ${
           view === "list"
             ? "bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white shadow-sm shadow-indigo-500/25"
             : "text-slate-600 dark:text-slate-300 hover:text-[#3e0097] dark:hover:text-indigo-300"
@@ -230,24 +252,56 @@ function ListCard({ post, index }) {
 
 export default function BlogGrid() {
   const [view, setView] = useState("grid");
+  const [blogData, setBlogData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const searchParams = useSearchParams();
   const router = useRouter();
-  const initialPage = Math.max(1, parseInt(searchParams.get("page") || "1", 10) || 1);
-
-  const totalPages = Math.max(1, Math.ceil(blogPosts.length / POSTS_PER_PAGE));
-  const [page, setPage] = useState(Math.min(initialPage, totalPages));
 
   useEffect(() => {
+    let cancelled = false;
+
+    async function loadBlog() {
+      try {
+        const response = await fetch("/api/blog");
+        if (!response.ok) throw new Error("Failed to load blog");
+
+        const data = await response.json();
+        if (!cancelled) setBlogData(data);
+      } catch {
+        if (!cancelled) setError("Could not load blog data.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    loadBlog();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const posts = blogData?.posts ?? [];
+  const postsPerPage = blogData?.postsPerPage ?? 3;
+  const header = blogData?.header;
+  const mediumLink = blogData?.mediumLink;
+
+  const totalPages = Math.max(1, Math.ceil(posts.length / postsPerPage));
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    if (!blogData) return;
     const urlPage = Math.max(1, parseInt(searchParams.get("page") || "1", 10) || 1);
     setPage(Math.min(urlPage, totalPages));
-  }, [searchParams, totalPages]);
+  }, [searchParams, totalPages, blogData]);
 
   const visiblePosts = useMemo(() => {
-    const start = (page - 1) * POSTS_PER_PAGE;
-    return blogPosts.slice(start, start + POSTS_PER_PAGE);
-  }, [page]);
+    const start = (page - 1) * postsPerPage;
+    return posts.slice(start, start + postsPerPage);
+  }, [page, posts, postsPerPage]);
 
-  const startIndex = (page - 1) * POSTS_PER_PAGE + 1;
+  const startIndex = (page - 1) * postsPerPage + 1;
 
   function goToPage(nextPage) {
     const clamped = Math.max(1, Math.min(nextPage, totalPages));
@@ -256,26 +310,49 @@ export default function BlogGrid() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  if (loading) {
+    return (
+      <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-12 transition-colors duration-300">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 opacity-50 pointer-events-none select-none">
+          <BlogSkeleton />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center pt-24">
+          <PageLoader label="Loading blog..." icon={BookOpen} />
+        </div>
+      </main>
+    );
+  }
+
+  if (error || !blogData) {
+    return (
+      <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-12">
+        <div className="max-w-6xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
+          {error || "Blog unavailable."}
+        </div>
+      </main>
+    );
+  }
+
   return (
-    <>
-      <header className="mb-6 sm:mb-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-1">
-          Writing
-        </p>
-        <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
-          Blog
-        </h1>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 max-w-xl description-text">
-          Articles on SQL, Node.js, software design, and cloud deployment — published on Medium.
-          Switch views or open an article.
-        </p>
-      </header>
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-12 transition-colors duration-300">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <header className="mb-6 sm:mb-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-1">
+            {header.eyebrow}
+          </p>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
+            {header.title}
+          </h1>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 max-w-xl description-text text-center">
+            {header.description}
+          </p>
+        </header>
 
       <BlogToolbar
         page={page}
         totalPages={totalPages}
         onPageChange={goToPage}
-        total={blogPosts.length}
+        total={posts.length}
         view={view}
         setView={setView}
       />
@@ -294,18 +371,19 @@ export default function BlogGrid() {
         </div>
       )}
 
-      <div className="mt-8 text-center">
-        <a
-          href="https://medium.com/@tasfiatarannum"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 hover:from-[#32007a] hover:to-indigo-700 text-white text-sm font-semibold px-5 py-2.5 shadow-sm transition-all"
-        >
-          <img src="/book-icon.png" alt="" className="w-4 h-4 brightness-0 invert" />
-          View all posts on Medium
-          <ExternalLink size={14} />
-        </a>
+        <div className="mt-8 text-center">
+          <a
+            href={mediumLink.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 hover:from-[#32007a] hover:to-indigo-700 text-white text-sm font-semibold px-5 py-2.5 shadow-sm transition-all"
+          >
+            <img src={mediumLink.icon} alt="" className="w-4 h-4 brightness-0 invert" />
+            {mediumLink.label}
+            <ExternalLink size={14} />
+          </a>
+        </div>
       </div>
-    </>
+    </main>
   );
 }

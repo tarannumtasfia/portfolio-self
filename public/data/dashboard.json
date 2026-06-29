@@ -1,0 +1,103 @@
+{
+  "profile": {
+    "name": "Tasfia Tarannum",
+    "title": "Junior Software Engineer",
+    "image": "/portfolio_img.jpg",
+    "imageAlt": "Tasfia Tarannum",
+    "statusLabel": "Open to opportunities",
+    "company": {
+      "name": "FPT IS",
+      "url": "https://fpt-is.com/en/"
+    },
+    "location": "Banani, Dhaka, Bangladesh",
+    "workCta": {
+      "label": "Work with me",
+      "href": "/contact"
+    },
+    "introCta": {
+      "label": "Watch intro"
+    }
+  },
+  "introVideo": {
+    "url": "https://player.vimeo.com/video/1180078365?autoplay=1&autopause=0&title=0&byline=0&portrait=0&playsinline=1&transparent=0",
+    "title": "Intro video",
+    "subtitle": "Tasfia Tarannum — Junior Software Engineer"
+  },
+  "about": {
+    "title": "About",
+    "text": "I'm a Junior Software Engineer based in Bangladesh, currently working with modern technologies like React, Next.js, Python, Django, and Node.js (Express.js). I am passionate about building clean, efficient, and user-focused web applications. My goal is to continuously grow as a developer and contribute meaningfully to impactful projects through creativity, collaboration, and problem-solving."
+  },
+  "techStack": {
+    "title": "Core technologies",
+    "items": ["React", "Next.js", "Node.js", "Express.js", "Python", "Django", "PostgreSQL"]
+  },
+  "quickAccess": {
+    "title": "Quick access",
+    "viewAllLabel": "View all",
+    "viewAllHref": "/projects"
+  },
+  "quickLinks": [
+    {
+      "href": "/projects",
+      "label": "Projects",
+      "description": "5 live applications & demos",
+      "icon": "FolderKanban",
+      "accent": "from-violet-500/10 to-indigo-500/10 dark:from-violet-500/20 dark:to-indigo-500/20"
+    },
+    {
+      "href": "/experience",
+      "label": "Experience",
+      "description": "Work history & roles",
+      "icon": "Briefcase",
+      "accent": "from-blue-500/10 to-cyan-500/10 dark:from-blue-500/20 dark:to-cyan-500/20"
+    },
+    {
+      "href": "/skills",
+      "label": "Skills",
+      "description": "Frontend, backend & tools",
+      "icon": "Sparkles",
+      "accent": "from-emerald-500/10 to-teal-500/10 dark:from-emerald-500/20 dark:to-teal-500/20"
+    },
+    {
+      "href": "/contact-info",
+      "label": "Contact",
+      "description": "Get in touch directly",
+      "icon": "Mail",
+      "accent": "from-amber-500/10 to-orange-500/10 dark:from-amber-500/20 dark:to-orange-500/20"
+    }
+  ],
+  "socialLinks": [
+    {
+      "href": "https://linkedin.com/in/tasfiatarannum",
+      "label": "LinkedIn",
+      "icon": "/linkedin-icon.png",
+      "size": 28
+    },
+    {
+      "href": "https://github.com/tarannumtasfia",
+      "label": "GitHub",
+      "icon": "/github-icon.png",
+      "size": 26
+    },
+    {
+      "href": "https://leetcode.com/u/tasfiatarannum/",
+      "label": "LeetCode",
+      "icon": "/leetcode-icon.png",
+      "size": 26
+    },
+    {
+      "href": "/map",
+      "label": "Location",
+      "icon": "/map-icon.png",
+      "size": 26,
+      "internal": true
+    },
+    {
+      "href": "/tasfia_cv.pdf",
+      "label": "View CV",
+      "icon": "/cv-icon.png",
+      "size": 28,
+      "cv": true
+    }
+  ]
+}

@@ -15,104 +15,15 @@ import {
   Zap,
 } from "lucide-react";
 
-const featuredHighlights = [
-  {
-    id: "algorithms",
-    stat: "250+",
-    statLabel: "Problems Solved",
-    title: "Algorithms & DSA",
-    description:
-      "250+ LeetCode problems — arrays, trees, graphs, DP, and interview-ready problem solving.",
-    tags: ["Arrays", "Trees", "Graphs", "DP"],
-    href: "https://leetcode.com/u/tasfiatarannum/",
-    linkLabel: "View LeetCode profile",
-    icon: Trophy,
-    accent: "from-amber-400 via-orange-500 to-yellow-500",
-    accentSoft:
-      "from-amber-500/15 via-orange-500/10 to-yellow-500/15 dark:from-amber-500/25 dark:via-orange-500/15 dark:to-yellow-500/25",
-    glow: "shadow-amber-500/20 dark:shadow-amber-900/30",
-    linkAccent: "text-amber-700 dark:text-amber-400",
-  },
-  {
-    id: "sql",
-    stat: "SQL",
-    statLabel: "Database Expertise",
-    title: "SQL & Data Management",
-    description:
-      "SQL queries, T-SQL, job data handling, and schema comparison for real-world data work.",
-    tags: ["SQL Queries", "T-SQL", "Schema Comparison", "Job Data"],
-    icon: Database,
-    accent: "from-emerald-400 via-teal-500 to-cyan-500",
-    accentSoft:
-      "from-emerald-500/15 via-teal-500/10 to-cyan-500/15 dark:from-emerald-500/25 dark:via-teal-500/15 dark:to-cyan-500/25",
-    glow: "shadow-emerald-500/20 dark:shadow-emerald-900/30",
-  },
-  {
-    id: "csharp",
-    stat: "C#",
-    statLabel: "Language Skill",
-    title: "C# Programming",
-    description: "C# with OOP — structured code, strong typing, and .NET fundamentals.",
-    tags: ["C#", "OOP", "LINQ", ".NET"],
-    icon: Binary,
-    accent: "from-violet-500 via-purple-600 to-indigo-600",
-    accentSoft:
-      "from-violet-500/15 via-purple-500/10 to-indigo-500/15 dark:from-violet-500/25 dark:via-purple-500/15 dark:to-indigo-500/25",
-    glow: "shadow-violet-500/20 dark:shadow-violet-900/30",
-  },
-  {
-    id: "react",
-    stat: "React",
-    statLabel: "UI Library",
-    title: "React.js",
-    description: "Interactive UIs with React — components, hooks, and reusable patterns.",
-    tags: ["Components", "Hooks", "JSX", "SPA"],
-    icon: Code2,
-    accent: "from-cyan-400 via-sky-500 to-blue-500",
-    accentSoft:
-      "from-cyan-500/15 via-sky-500/10 to-blue-500/15 dark:from-cyan-500/25 dark:via-sky-500/15 dark:to-blue-500/25",
-    glow: "shadow-cyan-500/20 dark:shadow-cyan-900/30",
-  },
-  {
-    id: "nextjs",
-    stat: "Next.js",
-    statLabel: "React Framework",
-    title: "Next.js",
-    description: "Next.js for SSR, routing, API routes, and production-ready React apps.",
-    tags: ["App Router", "SSR", "API Routes", "SEO"],
-    icon: Layers,
-    accent: "from-slate-700 via-slate-800 to-black",
-    accentSoft:
-      "from-slate-500/15 via-slate-600/10 to-slate-700/15 dark:from-slate-500/25 dark:via-slate-600/15 dark:to-slate-700/25",
-    glow: "shadow-slate-500/20 dark:shadow-black/40",
-  },
-  {
-    id: "django",
-    stat: "Django",
-    statLabel: "Python Framework",
-    title: "Python & Django",
-    description: "Python & Django — ORM, MVT architecture, and backend web apps.",
-    tags: ["Python", "Django", "ORM", "REST APIs"],
-    icon: Server,
-    accent: "from-green-600 via-emerald-600 to-teal-700",
-    accentSoft:
-      "from-green-500/15 via-emerald-500/10 to-teal-500/15 dark:from-green-500/25 dark:via-emerald-500/15 dark:to-teal-500/25",
-    glow: "shadow-green-500/20 dark:shadow-green-900/30",
-  },
-  {
-    id: "express",
-    stat: "Express",
-    statLabel: "Node.js Backend",
-    title: "Express.js",
-    description: "Express.js REST APIs — middleware, routing, and Node.js backends.",
-    tags: ["REST APIs", "Middleware", "Routing", "Node.js"],
-    icon: Zap,
-    accent: "from-gray-500 via-gray-600 to-gray-800",
-    accentSoft:
-      "from-gray-500/15 via-gray-600/10 to-gray-700/15 dark:from-gray-500/25 dark:via-gray-600/15 dark:to-gray-700/25",
-    glow: "shadow-gray-500/20 dark:shadow-gray-900/30",
-  },
-];
+const HIGHLIGHT_ICONS = {
+  Trophy,
+  Database,
+  Binary,
+  Code2,
+  Layers,
+  Server,
+  Zap,
+};
 
 function HighlightCard({
   stat,
@@ -191,9 +102,14 @@ function getVisibleCount(width) {
   return 3;
 }
 
-export default function StandoutCarousel() {
+export default function StandoutCarousel({ title = "Standout strengths", items = [] }) {
+  const featuredHighlights = items.map((item) => ({
+    ...item,
+    icon: HIGHLIGHT_ICONS[item.icon] || Sparkles,
+  }));
+
   const [index, setIndex] = useState(0);
-  const [visible, setVisible] = useState(3);
+  const [visible, setVisible] = useState(1);
 
   useEffect(() => {
     const update = () => setVisible(getVisibleCount(window.innerWidth));
@@ -225,7 +141,7 @@ export default function StandoutCarousel() {
         <div className="flex items-center gap-2">
           <Sparkles size={16} className="text-indigo-600 dark:text-indigo-400" />
           <h2 className="text-base font-semibold text-slate-900 dark:text-white">
-            Standout strengths
+            {title}
           </h2>
         </div>
 
@@ -235,7 +151,7 @@ export default function StandoutCarousel() {
             onClick={goPrev}
             disabled={!canPrev}
             aria-label="Previous skills"
-            className="flex items-center justify-center w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-indigo-300 dark:hover:border-indigo-600 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
+            className="flex items-center justify-center min-w-11 min-h-11 w-11 h-11 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-indigo-300 dark:hover:border-indigo-600 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
           >
             <ChevronLeft size={18} />
           </button>
@@ -244,7 +160,7 @@ export default function StandoutCarousel() {
             onClick={goNext}
             disabled={!canNext}
             aria-label="Next skills"
-            className="flex items-center justify-center w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-indigo-300 dark:hover:border-indigo-600 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
+            className="flex items-center justify-center min-w-11 min-h-11 w-11 h-11 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:border-indigo-300 dark:hover:border-indigo-600 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
           >
             <ChevronRight size={18} />
           </button>
@@ -296,12 +212,20 @@ export default function StandoutCarousel() {
               type="button"
               onClick={() => setIndex(dotIndex)}
               aria-label={`Go to slide ${dotIndex + 1}`}
-              className={`h-2 rounded-full transition-all cursor-pointer ${
+              className={`flex items-center justify-center min-w-8 min-h-8 rounded-full transition-all cursor-pointer p-2 ${
                 dotIndex === index
-                  ? "w-6 bg-gradient-to-r from-[#3e0097] to-indigo-600"
-                  : "w-2 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600"
+                  ? "bg-transparent"
+                  : "bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
-            />
+            >
+              <span
+                className={`block rounded-full transition-all ${
+                  dotIndex === index
+                    ? "w-6 h-2 bg-gradient-to-r from-[#3e0097] to-indigo-600"
+                    : "w-2 h-2 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600"
+                }`}
+              />
+            </button>
           ))}
         </div>
       </div>

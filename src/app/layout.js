@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { CvProvider } from './components/CvProvider';
+import { SiteNavProvider } from './components/SiteNavProvider';
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -23,6 +24,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }) {
@@ -32,11 +34,13 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       > 
         <CvProvider>
-          <Navbar />
+          <SiteNavProvider>
+            <Navbar />
 
-          <div>{children}</div>
+            <div>{children}</div>
 
-          <Footer />
+            <Footer />
+          </SiteNavProvider>
         </CvProvider>
         <Script id="tawk-api-init" strategy="beforeInteractive">
           {`(function(){if(window.__tawkInitDone)return;window.__tawkInitDone=1;var n=function(){};window.Tawk_API=window.Tawk_API||{};["onBeforeLoad","onStatusChange","onLoad","onChatStarted","onChatEnded","onChatMaximized","onChatMinimized","onOffline","onOnline"].forEach(function(k){if(typeof window.Tawk_API[k]!=="function")window.Tawk_API[k]=n});if(!window.__tawkConsolePatched){window.__tawkConsolePatched=1;var ce=console.error;console.error=function(){if(arguments.length===1&&arguments[0]===true)return;return ce.apply(console,arguments)}}})();`}

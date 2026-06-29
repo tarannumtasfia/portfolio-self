@@ -1,0 +1,42 @@
+{
+  "header": {
+    "eyebrow": "Career",
+    "title": "Experience",
+    "description": "My professional journey — roles, responsibilities, and the technologies I work with day to day."
+  },
+  "stats": [
+    { "key": "roles", "label": "Roles", "icon": "Briefcase" },
+    { "key": "experience", "label": "Experience", "icon": "Calendar" },
+    { "key": "workMode", "label": "Work mode", "icon": "Building2", "value": "On-site" },
+    { "key": "location", "label": "Location", "icon": "MapPin", "value": "Dhaka" }
+  ],
+  "experiences": [
+    {
+      "id": "fpt-is",
+      "role": "Junior Software Engineer",
+      "company": "FPT IS",
+      "type": "Full-time",
+      "period": "Apr 2025 — Present",
+      "startMonth": 4,
+      "startYear": 2025,
+      "duration": "Current role",
+      "location": "Banani, Dhaka, Bangladesh",
+      "workMode": "On-site",
+      "logo": "/fpt-is-logo.png",
+      "companyUrl": "https://fpt-is.com/en/",
+      "description": "I contribute to web development using JavaScript, Next.js, and Node.js, focusing on performance and user experience. Passionate about learning and growing as a full-stack developer.",
+      "highlights": [
+        "Develop and maintain web applications with modern JavaScript frameworks",
+        "Collaborate on performance-focused, user-centered product features",
+        "Work with Next.js and Node.js in a professional engineering environment",
+        "Continuously improve full-stack skills through real-world project delivery"
+      ],
+      "technologies": ["JavaScript", "Next.js", "Node.js", "React", "Express.js"]
+    }
+  ],
+  "growthMessage": "More roles will appear here as my career grows.",
+  "relatedLinks": [
+    { "href": "/projects", "label": "View related projects", "primary": true },
+    { "href": "/skills", "label": "See all skills", "primary": false }
+  ]
+}

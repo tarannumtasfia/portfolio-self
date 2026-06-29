@@ -1,0 +1,53 @@
+{
+  "profile": {
+    "name": "Tasfia Tarannum",
+    "title": "Junior Software Engineer",
+    "image": "/portfolio_img.jpg",
+    "imageAlt": "Tasfia Tarannum"
+  },
+  "leftPanel": {
+    "eyebrow": "Work together",
+    "title": "Hire",
+    "titleHighlight": "Me",
+    "description": "Have a role, project, or collaboration in mind? Send a message — I'd love to connect.",
+    "perks": [
+      "Clean, modern UI development",
+      "React, Next.js & Node.js stack",
+      "Reliable communication"
+    ],
+    "techTags": ["React", "Next.js", "Node.js", "Python", "Django", "MongoDB"]
+  },
+  "formPanel": {
+    "title": "Send a message",
+    "subtitle": "Tell me about your opportunity — I'll reply soon.",
+    "iframeSrc": "https://contact-form-iota-opal.vercel.app/",
+    "highlights": [
+      {
+        "icon": "Briefcase",
+        "label": "Open to work",
+        "text": "Full-time & freelance roles",
+        "accent": "from-violet-500/20 to-indigo-500/20 dark:from-violet-500/30 dark:to-indigo-500/30"
+      },
+      {
+        "icon": "Clock",
+        "label": "Fast response",
+        "text": "Reply within 24–48 hours",
+        "accent": "from-emerald-500/20 to-teal-500/20 dark:from-emerald-500/30 dark:to-teal-500/30"
+      },
+      {
+        "icon": "Zap",
+        "label": "What I build",
+        "text": "Web apps, APIs & full-stack products",
+        "accent": "from-amber-500/20 to-orange-500/20 dark:from-amber-500/30 dark:to-orange-500/30"
+      }
+    ],
+    "email": {
+      "label": "Prefer email?",
+      "address": "tasfiatarannum@yahoo.com"
+    },
+    "contactCardLink": {
+      "href": "/contact-info",
+      "label": "View contact card"
+    }
+  }
+}

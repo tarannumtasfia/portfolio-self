@@ -18,15 +18,16 @@ import {
   FileText,
 } from "lucide-react";
 import CvUpdateModal from "./CvUpdateModal";
+import { useSiteNav } from "./SiteNavProvider";
 
-const navLinks = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/skills", label: "Skills", icon: Sparkles },
-  { href: "/experience", label: "Experience", icon: Briefcase },
-  { href: "/projects", label: "Projects", icon: FolderKanban },
-  { href: "/blog", label: "Blog", icon: BookOpen },
-  { href: "/contact-info", label: "Contact", icon: Mail },
-];
+const NAV_ICONS = {
+  LayoutDashboard,
+  Briefcase,
+  FolderKanban,
+  Sparkles,
+  Mail,
+  BookOpen,
+};
 
 function isLinkActive(pathname, href) {
   if (href === "/") return pathname === "/";
@@ -35,6 +36,7 @@ function isLinkActive(pathname, href) {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { data, loading } = useSiteNav();
   const [isOpen, setIsOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showCvUpdate, setShowCvUpdate] = useState(false);
@@ -93,6 +95,11 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
+  const navLinks = (data?.navLinks ?? []).map((link) => ({
+    ...link,
+    icon: NAV_ICONS[link.icon] || LayoutDashboard,
+  }));
+
   return (
     <>
       <nav
@@ -106,30 +113,63 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 gap-4">
             {/* Brand */}
             <Link
-              href="/"
+              href={data?.brand?.homeHref ?? "/"}
               className="flex items-center gap-3 min-w-0 group shrink-0 rounded-2xl py-1 pr-3 -ml-1 hover:bg-slate-100/80 dark:hover:bg-slate-800/40 transition-colors duration-300"
             >
               <div className="relative shrink-0 overflow-visible">
                 <img
-                  src="/logo.png"
-                  alt="Tasfia Tarannum"
+                  src={data?.brand?.logo ?? "/logo.png"}
+                  alt={data?.brand?.logoAlt ?? "Tasfia Tarannum"}
                   className="h-12 w-auto max-h-12 object-contain object-center bg-transparent mix-blend-multiply dark:mix-blend-lighten dark:opacity-95 origin-center transition-transform duration-300 ease-out group-hover:scale-[1.18]"
                 />
               </div>
 
               <div className="hidden sm:flex flex-col leading-[1.2] min-w-0">
                 <span className="text-sm font-bold tracking-tight text-slate-900 dark:text-white truncate group-hover:text-[#3e0097] dark:group-hover:text-indigo-300 transition-colors">
-                  Tasfia Tarannum
+                  {data?.brand?.name ?? "Tasfia Tarannum"}
                 </span>
                 <span className="text-[10px] sm:text-[11px] font-medium text-indigo-600/90 dark:text-indigo-400/90 truncate">
-                  Junior Software Engineer
+                  {data?.brand?.title ?? "Junior Software Engineer"}
                 </span>
               </div>
             </Link>
 
-            {/* Desktop nav — pill group */}
-            <div className="hidden lg:flex items-center p-1 rounded-2xl bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
-              {navLinks.map(({ href, label, icon: Icon }) => {
+            {/* Tablet nav — icons only */}
+            <div className="hidden lg:flex xl:hidden items-center p-1 rounded-2xl bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 min-h-[2.75rem] min-w-0 overflow-x-auto">
+              {!loading &&
+                navLinks.map(({ href, label, icon: Icon }) => {
+                  const active = isLinkActive(pathname, href);
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      title={label}
+                      aria-label={label}
+                      className={`relative flex items-center justify-center w-11 h-11 rounded-xl transition-all duration-200 shrink-0 ${
+                        active
+                          ? "text-white shadow-sm"
+                          : "text-slate-600 dark:text-slate-300 hover:text-[#3e0097] dark:hover:text-indigo-300 hover:bg-white/70 dark:hover:bg-slate-700/50"
+                      }`}
+                    >
+                      {active && (
+                        <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 shadow-md shadow-indigo-500/25" />
+                      )}
+                      <Icon size={17} className={`relative z-10 ${active ? "text-white" : ""}`} />
+                    </Link>
+                  );
+                })}
+            </div>
+
+            {/* Desktop nav — full labels */}
+            <div className="hidden xl:flex items-center p-1 rounded-2xl bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 min-h-[2.75rem] min-w-0">
+              {loading ? (
+                <div className="flex items-center gap-2 px-3 animate-pulse">
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div key={i} className="h-8 w-20 rounded-xl bg-slate-200 dark:bg-slate-700" />
+                  ))}
+                </div>
+              ) : (
+                navLinks.map(({ href, label, icon: Icon }) => {
                 const active = isLinkActive(pathname, href);
                 return (
                   <Link
@@ -148,7 +188,8 @@ export default function Navbar() {
                     <span className="relative z-10">{label}</span>
                   </Link>
                 );
-              })}
+              })
+              )}
             </div>
 
             {/* Actions */}
@@ -157,7 +198,7 @@ export default function Navbar() {
                 <button
                   onClick={() => setShowSettings(!showSettings)}
                   aria-label="Settings"
-                  className={`flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 cursor-pointer ${
+                  className={`flex items-center justify-center w-11 h-11 rounded-xl transition-all duration-200 cursor-pointer ${
                     showSettings
                       ? "bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400"
                       : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-indigo-600 dark:hover:text-indigo-400"
@@ -225,16 +266,16 @@ export default function Navbar() {
               </div>
 
               <Link
-                href="/contact"
+                href={data?.hireCta?.href ?? "/contact"}
                 className="hidden md:inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 hover:from-[#32007a] hover:to-indigo-700 text-white text-sm font-semibold px-4 py-2 shadow-sm shadow-indigo-500/20 transition-all"
               >
-                Hire me
+                {data?.hireCta?.label ?? "Hire me"}
               </Link>
 
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label="Toggle menu"
-                className="lg:hidden flex items-center justify-center w-9 h-9 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                className="xl:hidden flex items-center justify-center w-11 h-11 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 {isOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
@@ -245,7 +286,7 @@ export default function Navbar() {
 
       {/* Mobile menu overlay */}
       <div
-        className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 xl:hidden transition-opacity duration-300 ${
           isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
@@ -262,12 +303,19 @@ export default function Navbar() {
           <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-2xl shadow-slate-300/30 dark:shadow-black/50 overflow-hidden">
             <div className="px-4 py-4 border-b border-slate-100 dark:border-slate-800">
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">
-                Navigation
+                {data?.mobileMenu?.title ?? "Navigation"}
               </p>
             </div>
 
             <div className="p-3 space-y-1">
-              {navLinks.map(({ href, label, icon: Icon }) => {
+              {loading ? (
+                <div className="space-y-2 animate-pulse p-1">
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div key={i} className="h-12 rounded-xl bg-slate-100 dark:bg-slate-800" />
+                  ))}
+                </div>
+              ) : (
+                navLinks.map(({ href, label, icon: Icon }) => {
                 const active = isLinkActive(pathname, href);
                 return (
                   <Link
@@ -292,21 +340,22 @@ export default function Navbar() {
                     <span className="font-medium">{label}</span>
                     {active && (
                       <span className="ml-auto text-[10px] font-semibold uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded-full">
-                        Active
+                        {data?.mobileMenu?.activeLabel ?? "Active"}
                       </span>
                     )}
                   </Link>
                 );
-              })}
+              })
+              )}
             </div>
 
             <div className="p-3 border-t border-slate-100 dark:border-slate-800">
               <Link
-                href="/contact"
+                href={data?.hireCta?.href ?? "/contact"}
                 onClick={() => setIsOpen(false)}
                 className="w-full flex items-center justify-center py-2.5 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white text-sm font-semibold shadow-sm"
               >
-                Hire me
+                {data?.hireCta?.label ?? "Hire me"}
               </Link>
             </div>
           </div>

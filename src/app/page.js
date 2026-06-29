@@ -12,86 +12,82 @@ import {
   Mail,
   ExternalLink,
   Play,
+  LayoutDashboard,
 } from "lucide-react";
-
-const INTRO_VIDEO_URL =
-  "https://player.vimeo.com/video/1180078365?autoplay=1&autopause=0&title=0&byline=0&portrait=0&playsinline=1&transparent=0";
 
 import CvViewerModal from "./components/CvViewerModal";
 import DashboardVisitorInfo from "./components/DashboardVisitorInfo";
+import PageLoader from "./components/PageLoader";
 
-const techStack = ["React", "Next.js", "Node.js", "Express.js", "Python", "Django", "PostgreSQL"];
+const QUICK_LINK_ICONS = {
+  FolderKanban,
+  Briefcase,
+  Sparkles,
+  Mail,
+};
 
-const quickLinks = [
-  {
-    href: "/projects",
-    label: "Projects",
-    description: "5 live applications & demos",
-    icon: FolderKanban,
-    accent: "from-violet-500/10 to-indigo-500/10 dark:from-violet-500/20 dark:to-indigo-500/20",
-  },
-  {
-    href: "/experience",
-    label: "Experience",
-    description: "Work history & roles",
-    icon: Briefcase,
-    accent: "from-blue-500/10 to-cyan-500/10 dark:from-blue-500/20 dark:to-cyan-500/20",
-  },
-  {
-    href: "/skills",
-    label: "Skills",
-    description: "Frontend, backend & tools",
-    icon: Sparkles,
-    accent: "from-emerald-500/10 to-teal-500/10 dark:from-emerald-500/20 dark:to-teal-500/20",
-  },
-  {
-    href: "/contact-info",
-    label: "Contact",
-    description: "Get in touch directly",
-    icon: Mail,
-    accent: "from-amber-500/10 to-orange-500/10 dark:from-amber-500/20 dark:to-orange-500/20",
-  },
-];
-
-const socialLinks = [
-  {
-    href: "https://linkedin.com/in/tasfiatarannum",
-    label: "LinkedIn",
-    icon: "/linkedin-icon.png",
-    size: 28,
-  },
-  {
-    href: "https://github.com/tarannumtasfia",
-    label: "GitHub",
-    icon: "/github-icon.png",
-    size: 26,
-  },
-  {
-    href: "https://leetcode.com/u/tasfiatarannum/",
-    label: "LeetCode",
-    icon: "/leetcode-icon.png",
-    size: 26,
-  },
-  {
-    href: "/map",
-    label: "Location",
-    icon: "/map-icon.png",
-    size: 26,
-    internal: true,
-  },
-  {
-    href: "/tasfia_cv.pdf",
-    label: "View CV",
-    icon: "/cv-icon.png",
-    size: 28,
-    cv: true,
-  },
-];
+function DashboardSkeleton() {
+  return (
+    <div className="animate-pulse">
+      <div className="grid lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden">
+            <div className="aspect-[5/4] bg-slate-200 dark:bg-slate-800" />
+            <div className="p-6 space-y-4">
+              <div className="h-5 bg-slate-200 dark:bg-slate-800 rounded w-2/3 mx-auto" />
+              <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-1/2 mx-auto" />
+              <div className="h-10 bg-slate-200 dark:bg-slate-800 rounded-xl" />
+              <div className="h-10 bg-slate-200 dark:bg-slate-800 rounded-xl" />
+            </div>
+          </div>
+        </div>
+        <div className="lg:col-span-8 space-y-6">
+          <div className="h-48 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl" />
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="h-28 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl"
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
+  const [dashboard, setDashboard] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [showVideo, setShowVideo] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [showCv, setShowCv] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadDashboard() {
+      try {
+        const response = await fetch("/api/dashboard");
+        if (!response.ok) throw new Error("Failed to load dashboard");
+
+        const data = await response.json();
+        if (!cancelled) setDashboard(data);
+      } catch {
+        if (!cancelled) setError("Could not load dashboard data.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    loadDashboard();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleClose = () => {
     setShowVideo(false);
@@ -116,17 +112,42 @@ export default function Home() {
     };
   }, [showVideo]);
 
+  if (loading) {
+    return (
+      <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-4 transition-colors duration-300">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 opacity-50 pointer-events-none select-none">
+          <DashboardSkeleton />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center pt-24">
+          <PageLoader label="Loading dashboard..." icon={LayoutDashboard} />
+        </div>
+      </main>
+    );
+  }
+
+  if (error || !dashboard) {
+    return (
+      <main className="bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
+        <div className="max-w-6xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
+          {error || "Dashboard unavailable."}
+        </div>
+      </main>
+    );
+  }
+
+  const { profile, introVideo, about, techStack, quickAccess, quickLinks, socialLinks } =
+    dashboard;
+
   return (
     <main className="bg-slate-50 dark:bg-slate-950 pt-24 pb-4 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-6 lg:items-stretch">
-          {/* Profile sidebar */}
           <aside className="lg:col-span-4 lg:self-start">
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden w-full">
               <div className="group relative w-full aspect-[5/4] overflow-hidden">
                 <img
-                  src="/portfolio_img.jpg"
-                  alt="Tasfia Tarannum"
+                  src={profile.image}
+                  alt={profile.imageAlt}
                   className="absolute inset-0 w-full h-full object-cover object-[center_15%] transition-transform duration-500 ease-out group-hover:scale-125"
                 />
                 <div
@@ -138,46 +159,52 @@ export default function Home() {
               <div className="px-5 sm:px-6 pb-6 pt-5">
                 <div className="text-center">
                   <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
-                    Tasfia Tarannum
+                    {profile.name}
                   </h2>
                   <p className="mt-1 text-sm font-medium text-[#3e0097] dark:text-indigo-300">
-                    Junior Software Engineer
+                    {profile.title}
                   </p>
 
-                  <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Open to opportunities
-                  </div>
+                  {profile.statusLabel && (
+                    <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 text-xs font-medium text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      {profile.statusLabel}
+                    </div>
+                  )}
                 </div>
 
                 <div className="mt-5 space-y-2.5 text-sm text-slate-600 dark:text-slate-400">
-                  <div className="flex items-center gap-2.5">
-                    <Briefcase size={15} className="text-slate-400 shrink-0" />
-                    <span>
-                      at{" "}
-                      <a
-                        href="https://fpt-is.com/en/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-medium text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1"
-                      >
-                        FPT IS
-                        <ExternalLink size={12} />
-                      </a>
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <MapPin size={15} className="text-slate-400 shrink-0" />
-                    <span>Banani, Dhaka, Bangladesh</span>
-                  </div>
+                  {profile.company && (
+                    <div className="flex items-center gap-2.5">
+                      <Briefcase size={15} className="text-slate-400 shrink-0" />
+                      <span>
+                        at{" "}
+                        <a
+                          href={profile.company.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-medium text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1"
+                        >
+                          {profile.company.name}
+                          <ExternalLink size={12} />
+                        </a>
+                      </span>
+                    </div>
+                  )}
+                  {profile.location && (
+                    <div className="flex items-center gap-2.5">
+                      <MapPin size={15} className="text-slate-400 shrink-0" />
+                      <span>{profile.location}</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="mt-5 flex flex-col sm:flex-row lg:flex-col gap-3">
                   <Link
-                    href="/contact"
+                    href={profile.workCta.href}
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#3e0097] hover:bg-[#32007a] text-white text-sm font-semibold min-h-11 py-2.5 px-4 transition-colors shadow-sm"
                   >
-                    Work with me
+                    {profile.workCta.label}
                     <ArrowRight size={16} />
                   </Link>
                   <button
@@ -188,12 +215,12 @@ export default function Home() {
                     <span className="flex items-center justify-center w-6 h-6 rounded-full bg-indigo-600 text-white group-hover:scale-110 transition-transform">
                       <Play size={12} className="ml-0.5" fill="currentColor" />
                     </span>
-                    Watch intro
+                    {profile.introCta.label}
                   </button>
                 </div>
 
                 <div className="mt-5">
-                  <div className="flex flex-nowrap justify-center items-center gap-2">
+                  <div className="flex flex-wrap justify-center items-center gap-2">
                     {socialLinks.map(({ href, label, icon, size, internal, download, cv }) =>
                       cv ? (
                         <button
@@ -237,26 +264,21 @@ export default function Home() {
             </div>
           </aside>
 
-          {/* Main content */}
           <div className="lg:col-span-8 flex flex-col gap-6 h-full">
             <section className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl shadow-sm p-6 sm:p-8 text-center shrink-0">
               <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">
-                About
+                {about.title}
               </h2>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-[15px] text-justify">
-                I&apos;m a Junior Software Engineer based in Bangladesh, currently working with
-                modern technologies like React, Next.js, Python, Django, and Node.js (Express.js).
-                I am passionate about building clean, efficient, and user-focused web applications.
-                My goal is to continuously grow as a developer and contribute meaningfully to
-                impactful projects through creativity, collaboration, and problem-solving.
+                {about.text}
               </p>
 
               <div className="mt-6">
                 <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">
-                  Core technologies
+                  {techStack.title}
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  {techStack.map((tech) => (
+                  {techStack.items.map((tech) => (
                     <span
                       key={tech}
                       className="inline-flex items-center rounded-lg bg-slate-100 dark:bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700"
@@ -271,46 +293,50 @@ export default function Home() {
             <section className="flex-1 flex flex-col min-h-0">
               <div className="flex items-center justify-between mb-4 shrink-0">
                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                  Quick access
+                  {quickAccess.title}
                 </h2>
                 <Link
-                  href="/projects"
+                  href={quickAccess.viewAllHref}
                   className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center gap-1"
                 >
-                  View all
+                  {quickAccess.viewAllLabel}
                   <ArrowRight size={14} />
                 </Link>
               </div>
 
               <div className="grid sm:grid-cols-2 gap-4 flex-1 auto-rows-fr">
-                {quickLinks.map(({ href, label, description, icon: Icon, accent }) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-200 h-full min-h-[5.5rem]"
-                  >
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-br ${accent} opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
-                    />
-                    <div className="relative flex items-start gap-4 h-full">
-                      <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 shrink-0">
-                        <Icon size={18} />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="font-semibold text-slate-900 dark:text-white group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition-colors">
-                          {label}
-                        </p>
-                        <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400 description-text">
-                          {description}
-                        </p>
-                      </div>
-                      <ArrowRight
-                        size={16}
-                        className="text-slate-300 dark:text-slate-600 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all shrink-0 mt-1"
+                {quickLinks.map(({ href, label, description, icon, accent }) => {
+                  const Icon = QUICK_LINK_ICONS[icon] || Sparkles;
+
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      className="group relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-200 h-full min-h-[5.5rem]"
+                    >
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${accent} opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
                       />
-                    </div>
-                  </Link>
-                ))}
+                      <div className="relative flex items-start gap-4 h-full">
+                        <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 shrink-0">
+                          <Icon size={18} />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-semibold text-slate-900 dark:text-white group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition-colors">
+                            {label}
+                          </p>
+                          <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400 description-text">
+                            {description}
+                          </p>
+                        </div>
+                        <ArrowRight
+                          size={16}
+                          className="text-slate-300 dark:text-slate-600 group-hover:text-indigo-500 group-hover:translate-x-0.5 transition-all shrink-0 mt-1"
+                        />
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
             </section>
           </div>
@@ -345,9 +371,9 @@ export default function Home() {
                       <Play size={16} className="ml-0.5" fill="currentColor" />
                     </div>
                     <div className="min-w-0 text-left">
-                      <p className="text-sm font-semibold text-white truncate">Intro video</p>
+                      <p className="text-sm font-semibold text-white truncate">{introVideo.title}</p>
                       <p className="text-xs text-indigo-200/80 truncate hidden sm:block">
-                        Tasfia Tarannum — Junior Software Engineer
+                        {introVideo.subtitle}
                       </p>
                     </div>
                   </div>
@@ -376,13 +402,13 @@ export default function Home() {
                   )}
 
                   <iframe
-                    src={INTRO_VIDEO_URL}
+                    src={introVideo.url}
                     className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
                       videoLoaded ? "opacity-100" : "opacity-0"
                     }`}
                     allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
                     allowFullScreen
-                    title="Tasfia Tarannum intro video"
+                    title={introVideo.title}
                     onLoad={() => setVideoLoaded(true)}
                   />
                 </div>

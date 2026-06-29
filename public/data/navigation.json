@@ -1,0 +1,56 @@
+{
+  "brand": {
+    "name": "Tasfia Tarannum",
+    "title": "Junior Software Engineer",
+    "logo": "/logo.png",
+    "logoAlt": "Tasfia Tarannum",
+    "homeHref": "/"
+  },
+  "navLinks": [
+    { "href": "/", "label": "Dashboard", "icon": "LayoutDashboard" },
+    { "href": "/skills", "label": "Skills", "icon": "Sparkles" },
+    { "href": "/experience", "label": "Experience", "icon": "Briefcase" },
+    { "href": "/projects", "label": "Projects", "icon": "FolderKanban" },
+    { "href": "/blog", "label": "Blog", "icon": "BookOpen" },
+    { "href": "/contact-info", "label": "Contact", "icon": "Mail" }
+  ],
+  "hireCta": {
+    "href": "/contact",
+    "label": "Hire me"
+  },
+  "mobileMenu": {
+    "title": "Navigation",
+    "activeLabel": "Active"
+  },
+  "footer": {
+    "copyrightName": "Tasfia Tarannum",
+    "builtWithPrefix": "Built with",
+    "builtWithSuffix": "Next.js & Tailwind"
+  },
+  "socialLinks": [
+    {
+      "href": "https://linkedin.com/in/tasfiatarannum",
+      "label": "LinkedIn",
+      "icon": "/linkedin-icon.png",
+      "size": 28
+    },
+    {
+      "href": "https://github.com/tarannumtasfia",
+      "label": "GitHub",
+      "icon": "/github-icon.png",
+      "size": 26
+    },
+    {
+      "href": "https://leetcode.com/u/tasfiatarannum/",
+      "label": "LeetCode",
+      "icon": "/leetcode-icon.png",
+      "size": 26
+    },
+    {
+      "label": "CV",
+      "icon": "/cv-icon.png",
+      "size": 28,
+      "cv": true
+    }
+  ]
+}
