@@ -62,7 +62,7 @@ export default function ExperiencePage() {
           <ExperienceSkeleton />
         </div>
         <div className="absolute inset-0 flex items-center justify-center pt-24">
-          <PageLoader label="Loading experience..." icon={Briefcase} />
+          <PageLoader label={experience?.ui?.loadingLabel || "Loading experience..."} icon={Briefcase} />
         </div>
       </main>
     );
@@ -72,7 +72,7 @@ export default function ExperiencePage() {
     return (
       <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
-          {error || "Experience unavailable."}
+          {error || experience?.ui?.unavailableLabel || "Experience unavailable."}
         </div>
       </main>
     );

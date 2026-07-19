@@ -4,6 +4,22 @@
     "description": "Showcasing full-stack web applications and projects developed using Angular, React, Next.js, ASP.NET Core (C#), Node.js, MongoDB, SQL Server, and modern web technologies."
   },
   "projectsPerPage": 4,
+  "ui": {
+    "loadingLabel": "Loading projects...",
+    "errorLabel": "Could not load projects data.",
+    "unavailableLabel": "Projects unavailable.",
+    "viewDetailsLabel": "View details",
+    "liveDemoLabel": "Live demo",
+    "openLiveDemoLabel": "Open live demo",
+    "backLabel": "Back to Projects",
+    "gridLabel": "Grid",
+    "listLabel": "List",
+    "projectPrefix": "Project",
+    "pageSummary": "Page {page} of {totalPages} · {total} projects",
+    "detailsLoadingLabel": "Loading project...",
+    "detailsErrorLabel": "Could not load project data.",
+    "detailsUnavailableLabel": "Project unavailable."
+  },
   "projects": [
     {
       "id": "dashboard-graphs",

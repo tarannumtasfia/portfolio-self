@@ -16,12 +16,32 @@
     },
     "introCta": {
       "label": "Watch intro"
-    }
+    },
+    "companyPrefix": "at"
   },
   "introVideo": {
     "url": "https://player.vimeo.com/video/1180078365?autoplay=1&autopause=0&title=0&byline=0&portrait=0&playsinline=1&transparent=0",
     "title": "Intro video",
-    "subtitle": "Tasfia Tarannum — Junior Software Engineer"
+    "subtitle": "Tasfia Tarannum — Junior Software Engineer",
+    "loadingText": "Starting playback...",
+    "closeHint": "Press Esc or click outside to close"
+  },
+  "visitorInfo": {
+    "title": "Your visit summary",
+    "detectingLabel": "Detecting...",
+    "unavailableLabel": "Unavailable",
+    "fields": [
+      { "key": "location", "label": "Location" },
+      { "key": "ip", "label": "IP" },
+      { "key": "browser", "label": "Browser" },
+      { "key": "os", "label": "OS" },
+      { "key": "timezone", "label": "Time zone" }
+    ]
+  },
+  "ui": {
+    "loadingLabel": "Loading dashboard...",
+    "errorLabel": "Could not load dashboard data.",
+    "unavailableLabel": "Dashboard unavailable."
   },
   "about": {
     "title": "About",
@@ -40,7 +60,7 @@
     {
       "href": "/projects",
       "label": "Projects",
-      "description": "5 live applications & demos",
+      "description": "6 live applications & demos",
       "icon": "FolderKanban",
       "accent": "from-violet-500/10 to-indigo-500/10 dark:from-violet-500/20 dark:to-indigo-500/20"
     },

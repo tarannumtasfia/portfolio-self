@@ -36,6 +36,8 @@ export default function ProjectDetails() {
     };
   }, []);
 
+  const ui = projectsData?.ui;
+
   if (loading) {
     return (
       <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-6">
@@ -50,7 +52,7 @@ export default function ProjectDetails() {
     return (
       <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
-          {error || "Project unavailable."}
+          {error || ui?.detailsUnavailableLabel || "Project unavailable."}
         </div>
       </main>
     );
@@ -69,7 +71,7 @@ export default function ProjectDetails() {
             className="inline-flex items-center gap-1.5 w-fit rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:border-indigo-300 dark:hover:border-indigo-600 transition-colors min-h-11"
           >
             <ArrowLeft size={15} />
-            Back to Projects
+            {ui?.backLabel || "Back to Projects"}
           </Link>
 
           <div className="min-w-0 sm:flex-1 sm:px-4 sm:text-center">
@@ -85,7 +87,7 @@ export default function ProjectDetails() {
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-1.5 w-full sm:w-auto rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white text-sm font-semibold px-4 py-2.5 min-h-11 shadow-sm transition-all shrink-0"
           >
-            Open live demo
+            {ui?.openLiveDemoLabel || "Open live demo"}
             <ExternalLink size={14} />
           </a>
         </div>

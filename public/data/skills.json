@@ -137,5 +137,10 @@
   "footerLinks": [
     { "href": "/projects", "label": "Projects", "primary": true },
     { "href": "/experience", "label": "Experience", "primary": false }
-  ]
+  ],
+  "ui": {
+    "loadingLabel": "Loading skills...",
+    "errorLabel": "Could not load skills data.",
+    "unavailableLabel": "Skills unavailable."
+  }
 }

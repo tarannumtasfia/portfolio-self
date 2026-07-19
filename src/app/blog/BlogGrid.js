@@ -78,11 +78,16 @@ function PaginationControls({ page, totalPages, onPageChange }) {
   );
 }
 
-function BlogToolbar({ page, totalPages, onPageChange, total, view, setView }) {
+function BlogToolbar({ page, totalPages, onPageChange, total, view, setView, ui }) {
+  const summary = (ui?.pageSummary || "Page {page} of {totalPages} · {total} posts")
+    .replace("{page}", page)
+    .replace("{totalPages}", totalPages)
+    .replace("{total}", total);
+
   return (
     <div className="mb-6 flex flex-col items-center gap-3 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center">
       <p className="text-[11px] text-slate-500 dark:text-slate-400 text-center sm:text-left sm:justify-self-start order-2 sm:order-none">
-        Page {page} of {totalPages} · {total} posts
+        {summary}
       </p>
 
       <div className="justify-self-center order-1 sm:order-none w-full flex justify-center overflow-x-auto">
@@ -90,13 +95,13 @@ function BlogToolbar({ page, totalPages, onPageChange, total, view, setView }) {
       </div>
 
       <div className="justify-self-end flex justify-center sm:justify-end w-full sm:w-auto order-3 sm:order-none">
-        <ViewToggle view={view} setView={setView} />
+        <ViewToggle view={view} setView={setView} ui={ui} />
       </div>
     </div>
   );
 }
 
-function ViewToggle({ view, setView }) {
+function ViewToggle({ view, setView, ui }) {
   return (
     <div className="inline-flex w-auto items-center p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
       <button
@@ -109,7 +114,7 @@ function ViewToggle({ view, setView }) {
         }`}
       >
         <LayoutGrid size={15} />
-        Grid
+        {ui?.gridLabel || "Grid"}
       </button>
       <button
         type="button"
@@ -121,7 +126,7 @@ function ViewToggle({ view, setView }) {
         }`}
       >
         <List size={15} />
-        List
+        {ui?.listLabel || "List"}
       </button>
     </div>
   );
@@ -142,8 +147,9 @@ function BlogTags({ tags }) {
   );
 }
 
-function GridCard({ post, index }) {
+function GridCard({ post, index, ui }) {
   const { title, description, href, image, date, tags } = post;
+  const readLabel = ui?.readLabel || "Read on Medium";
 
   return (
     <a
@@ -187,7 +193,7 @@ function GridCard({ post, index }) {
         </div>
 
         <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400">
-          Read on Medium
+          {readLabel}
           <ArrowRight size={12} className="group-hover:translate-x-0.5 transition-transform" />
         </span>
       </div>
@@ -195,8 +201,10 @@ function GridCard({ post, index }) {
   );
 }
 
-function ListCard({ post, index }) {
+function ListCard({ post, index, ui }) {
   const { title, description, href, image, date, tags } = post;
+  const readLabel = ui?.readLabel || "Read on Medium";
+  const articlePrefix = ui?.articlePrefix || "Article";
 
   return (
     <a
@@ -220,7 +228,7 @@ function ListCard({ post, index }) {
         <div className="flex flex-col gap-4 p-5 sm:p-6 flex-1 min-w-0 lg:flex-row lg:items-center lg:gap-5">
           <div className="lg:w-52 shrink-0">
             <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 mb-1">
-              Article {String(index + 1).padStart(2, "0")}
+              {articlePrefix} {String(index + 1).padStart(2, "0")}
             </p>
             <div className="flex items-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500 mb-2">
               <Calendar size={12} />
@@ -240,7 +248,7 @@ function ListCard({ post, index }) {
 
           <div className="shrink-0 w-full lg:w-auto">
             <span className="inline-flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white text-sm font-semibold px-4 py-2.5 shadow-sm shadow-indigo-500/20 group-hover:shadow-md transition-all">
-              Read on Medium
+              {readLabel}
               <ExternalLink size={14} />
             </span>
           </div>
@@ -286,6 +294,7 @@ export default function BlogGrid() {
   const postsPerPage = blogData?.postsPerPage ?? 3;
   const header = blogData?.header;
   const mediumLink = blogData?.mediumLink;
+  const ui = blogData?.ui;
 
   const totalPages = Math.max(1, Math.ceil(posts.length / postsPerPage));
   const [page, setPage] = useState(1);
@@ -327,7 +336,7 @@ export default function BlogGrid() {
     return (
       <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-12">
         <div className="max-w-6xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
-          {error || "Blog unavailable."}
+          {error || ui?.unavailableLabel || "Blog unavailable."}
         </div>
       </main>
     );
@@ -350,18 +359,19 @@ export default function BlogGrid() {
         total={posts.length}
         view={view}
         setView={setView}
+        ui={ui}
       />
 
       {view === "grid" ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {visiblePosts.map((post, index) => (
-            <GridCard key={post.id} post={post} index={startIndex - 1 + index} />
+            <GridCard key={post.id} post={post} index={startIndex - 1 + index} ui={ui} />
           ))}
         </div>
       ) : (
         <div className="flex flex-col gap-4">
           {visiblePosts.map((post, index) => (
-            <ListCard key={post.id} post={post} index={startIndex - 1 + index} />
+            <ListCard key={post.id} post={post} index={startIndex - 1 + index} ui={ui} />
           ))}
         </div>
       )}

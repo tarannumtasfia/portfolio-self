@@ -129,13 +129,13 @@ export default function Home() {
     return (
       <main className="bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
-          {error || "Dashboard unavailable."}
+          {error || dashboard?.ui?.unavailableLabel || "Dashboard unavailable."}
         </div>
       </main>
     );
   }
 
-  const { profile, introVideo, about, techStack, quickAccess, quickLinks, socialLinks } =
+  const { profile, introVideo, about, techStack, quickAccess, quickLinks, socialLinks, visitorInfo, ui } =
     dashboard;
 
   return (
@@ -178,7 +178,7 @@ export default function Home() {
                     <div className="flex items-center gap-2.5">
                       <Briefcase size={15} className="text-slate-400 shrink-0" />
                       <span>
-                        at{" "}
+                        {profile.companyPrefix || "at"}{" "}
                         <a
                           href={profile.company.url}
                           target="_blank"
@@ -342,7 +342,7 @@ export default function Home() {
           </div>
         </div>
 
-        <DashboardVisitorInfo />
+            <DashboardVisitorInfo config={visitorInfo} />
       </div>
 
       {showVideo && (
@@ -397,7 +397,7 @@ export default function Home() {
                           <Play size={18} className="text-indigo-300 ml-0.5" fill="currentColor" />
                         </div>
                       </div>
-                      <p className="mt-4 text-sm text-indigo-200/70">Starting playback...</p>
+                      <p className="mt-4 text-sm text-indigo-200/70">{introVideo.loadingText || "Starting playback..."}</p>
                     </div>
                   )}
 
@@ -415,7 +415,7 @@ export default function Home() {
 
                 <div className="px-4 sm:px-5 py-3 border-t border-white/10 bg-slate-950/90">
                   <p className="text-[11px] text-slate-400 text-center">
-                    Press <kbd className="px-1.5 py-0.5 rounded bg-white/10 text-slate-300 font-mono text-[10px]">Esc</kbd> or click outside to close
+                    {introVideo.closeHint || "Press Esc or click outside to close"}
                   </p>
                 </div>
               </div>

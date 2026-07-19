@@ -35,6 +35,15 @@
     }
   ],
   "growthMessage": "More roles will appear here as my career grows.",
+  "labels": {
+    "highlights": "Key contributions",
+    "technologies": "Technologies"
+  },
+  "ui": {
+    "loadingLabel": "Loading experience...",
+    "errorLabel": "Could not load experience data.",
+    "unavailableLabel": "Experience unavailable."
+  },
   "relatedLinks": [
     { "href": "/projects", "label": "View related projects", "primary": true },
     { "href": "/skills", "label": "See all skills", "primary": false }

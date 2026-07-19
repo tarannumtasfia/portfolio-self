@@ -98,5 +98,10 @@
         "internal": true
       }
     ]
+  },
+  "ui": {
+    "loadingLabel": "Loading contact...",
+    "errorLabel": "Could not load contact data.",
+    "unavailableLabel": "Contact unavailable."
   }
 }

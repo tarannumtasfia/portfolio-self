@@ -72,7 +72,9 @@ export default function Contact() {
   if (error || !hire) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4">
-        <p className="text-slate-600 dark:text-slate-400">{error || "Hire page unavailable."}</p>
+        <p className="text-slate-600 dark:text-slate-400">
+          {error || hire?.ui?.unavailableLabel || "Hire page unavailable."}
+        </p>
       </main>
     );
   }

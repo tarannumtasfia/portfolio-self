@@ -58,7 +58,9 @@ export default function ContactInfo() {
   if (error || !contact) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4">
-        <p className="text-slate-600 dark:text-slate-400">{error || "Contact unavailable."}</p>
+        <p className="text-slate-600 dark:text-slate-400">
+          {error || contact?.ui?.unavailableLabel || "Contact unavailable."}
+        </p>
       </main>
     );
   }

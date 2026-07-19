@@ -39,12 +39,13 @@ function getOsName() {
 function getTimezone() {
   try {
     const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const offset = new Date().toLocaleTimeString("en-US", {
-      timeZoneName: "shortOffset",
-    }).split(" ").pop();
+    const offset = new Date()
+      .toLocaleTimeString("en-US", { timeZoneName: "shortOffset" })
+      .split(" ")
+      .pop();
     return offset ? `${zone} (${offset})` : zone;
   } catch {
-    return "Unavailable";
+    return null;
   }
 }
 
@@ -76,7 +77,16 @@ async function fetchPublicIp() {
   return data.ip || null;
 }
 
-function InfoItem({ icon: Icon, label, value, loading, mono = false, iconClass = "bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400" }) {
+function InfoItem({
+  icon: Icon,
+  label,
+  value,
+  loading,
+  mono = false,
+  detectingLabel = "Detecting...",
+  unavailableLabel = "Unavailable",
+  iconClass = "bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400",
+}) {
   return (
     <div className="flex items-center gap-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 px-3 py-2.5 min-w-0">
       <div className={`flex items-center justify-center w-8 h-8 rounded-lg shrink-0 ${iconClass}`}>
@@ -88,14 +98,40 @@ function InfoItem({ icon: Icon, label, value, loading, mono = false, iconClass =
           className={`text-xs font-medium text-slate-800 dark:text-slate-100 break-words sm:truncate ${mono ? "font-mono" : ""}`}
           title={!loading && value ? value : undefined}
         >
-          {loading ? "Detecting..." : value || "Unavailable"}
+          {loading ? detectingLabel : value || unavailableLabel}
         </p>
       </div>
     </div>
   );
 }
 
-export default function DashboardVisitorInfo() {
+const FIELD_ICONS = {
+  location: MapPin,
+  ip: Globe,
+  browser: Monitor,
+  os: Laptop,
+  timezone: Clock,
+};
+
+const FIELD_ICON_CLASSES = {
+  ip: "bg-violet-50 dark:bg-violet-950/50 text-violet-600 dark:text-violet-400",
+  browser: "bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400",
+  os: "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400",
+  timezone: "bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400",
+};
+
+export default function DashboardVisitorInfo({ config }) {
+  const title = config?.title || "Your visit summary";
+  const detectingLabel = config?.detectingLabel || "Detecting...";
+  const unavailableLabel = config?.unavailableLabel || "Unavailable";
+  const fields = config?.fields || [
+    { key: "location", label: "Location" },
+    { key: "ip", label: "IP" },
+    { key: "browser", label: "Browser" },
+    { key: "os", label: "OS" },
+    { key: "timezone", label: "Time zone" },
+  ];
+
   const [location, setLocation] = useState(null);
   const [ip, setIp] = useState(null);
   const [browser, setBrowser] = useState(null);
@@ -122,17 +158,15 @@ export default function DashboardVisitorInfo() {
 
         let resolvedIp = data.ip;
         if (!resolvedIp || resolvedIp === "Unavailable" || resolvedIp === "127.0.0.1" || resolvedIp === "::1") {
-          resolvedIp = (await fetchPublicIp()) || "Unavailable";
+          resolvedIp = (await fetchPublicIp()) || unavailableLabel;
         }
 
         setIp(resolvedIp);
-        if (data.location) {
-          setLocation(data.location);
-        }
+        if (data.location) setLocation(data.location);
       } catch {
         if (!cancelled) {
           const publicIp = await fetchPublicIp();
-          setIp(publicIp || "Unavailable");
+          setIp(publicIp || unavailableLabel);
         }
       } finally {
         if (!cancelled) setLoadingIp(false);
@@ -150,9 +184,7 @@ export default function DashboardVisitorInfo() {
               position.coords.latitude,
               position.coords.longitude
             );
-            if (!cancelled && resolvedLocation) {
-              setLocation(resolvedLocation);
-            }
+            if (!cancelled && resolvedLocation) setLocation(resolvedLocation);
           } catch {
             // Keep IP-based location if geolocation reverse lookup fails.
           } finally {
@@ -171,7 +203,16 @@ export default function DashboardVisitorInfo() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [unavailableLabel]);
+
+  const values = { location, ip, browser, os, timezone };
+  const loadingMap = {
+    location: loadingLocation,
+    ip: loadingIp,
+    browser: !browser,
+    os: !os,
+    timezone: !timezone,
+  };
 
   return (
     <section className="mt-3 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm p-5 sm:p-6">
@@ -179,47 +220,26 @@ export default function DashboardVisitorInfo() {
         <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400">
           <Sparkles size={16} />
         </div>
-        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-          Your visit summary
-        </h2>
+        <h2 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h2>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3">
-        <InfoItem
-          icon={MapPin}
-          label="Location"
-          value={location}
-          loading={loadingLocation}
-        />
-        <InfoItem
-          icon={Globe}
-          label="IP"
-          value={ip}
-          loading={loadingIp}
-          mono
-          iconClass="bg-violet-50 dark:bg-violet-950/50 text-violet-600 dark:text-violet-400"
-        />
-        <InfoItem
-          icon={Monitor}
-          label="Browser"
-          value={browser}
-          loading={!browser}
-          iconClass="bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400"
-        />
-        <InfoItem
-          icon={Laptop}
-          label="OS"
-          value={os}
-          loading={!os}
-          iconClass="bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400"
-        />
-        <InfoItem
-          icon={Clock}
-          label="Time zone"
-          value={timezone}
-          loading={!timezone}
-          iconClass="bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400"
-        />
+        {fields.map(({ key, label }) => {
+          const Icon = FIELD_ICONS[key] || MapPin;
+          return (
+            <InfoItem
+              key={key}
+              icon={Icon}
+              label={label}
+              value={values[key]}
+              loading={loadingMap[key]}
+              mono={key === "ip"}
+              detectingLabel={detectingLabel}
+              unavailableLabel={unavailableLabel}
+              iconClass={FIELD_ICON_CLASSES[key]}
+            />
+          );
+        })}
       </div>
     </section>
   );

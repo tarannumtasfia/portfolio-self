@@ -4,6 +4,16 @@
     "description": "Articles on SQL, Node.js, software design, and cloud deployment — published on Medium. Switch views or open an article."
   },
   "postsPerPage": 3,
+  "ui": {
+    "loadingLabel": "Loading blog...",
+    "errorLabel": "Could not load blog data.",
+    "unavailableLabel": "Blog unavailable.",
+    "readLabel": "Read on Medium",
+    "gridLabel": "Grid",
+    "listLabel": "List",
+    "articlePrefix": "Article",
+    "pageSummary": "Page {page} of {totalPages} · {total} posts"
+  },
   "posts": [
     {
       "id": "sql-queries",

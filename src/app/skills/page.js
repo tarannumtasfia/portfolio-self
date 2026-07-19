@@ -81,7 +81,7 @@ export default function SkillsPage() {
     return (
       <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
         <div className="max-w-6xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
-          {error || "Skills unavailable."}
+          {error || skills?.ui?.unavailableLabel || "Skills unavailable."}
         </div>
       </main>
     );

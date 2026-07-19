@@ -79,12 +79,14 @@ function resolveStatValue(stat, experiences) {
 }
 
 export default function ExperienceSection({ data }) {
-  const { header, stats, experiences, growthMessage, relatedLinks } = data;
+  const { header, stats, experiences, growthMessage, relatedLinks, labels } = data;
   const resolvedStats = stats.map((stat) => ({
     ...stat,
     ...resolveStatValue(stat, experiences),
     icon: STAT_ICONS[stat.icon] || Briefcase,
   }));
+  const highlightsLabel = labels?.highlights || "Key contributions";
+  const technologiesLabel = labels?.technologies || "Technologies";
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16 transition-colors duration-300">
@@ -200,7 +202,7 @@ export default function ExperienceSection({ data }) {
                     <div className="mt-8 grid md:grid-cols-2 gap-6 pt-6 border-t border-slate-100 dark:border-slate-800">
                       <div>
                         <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500 mb-3">
-                          Key contributions
+                          {highlightsLabel}
                         </h3>
                         <ul className="space-y-2.5">
                           {job.highlights.map((item) => (
@@ -220,7 +222,7 @@ export default function ExperienceSection({ data }) {
 
                       <div>
                         <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500 mb-3">
-                          Technologies
+                          {technologiesLabel}
                         </h3>
                         <div className="flex flex-wrap gap-2">
                           {job.technologies.map((tech) => (

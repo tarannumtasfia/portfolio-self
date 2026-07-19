@@ -49,5 +49,10 @@
       "href": "/contact-info",
       "label": "View contact card"
     }
+  },
+  "ui": {
+    "loadingLabel": "Loading hire page...",
+    "errorLabel": "Could not load hire page data.",
+    "unavailableLabel": "Hire page unavailable."
   }
 }
