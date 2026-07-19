@@ -8,19 +8,7 @@ import { Briefcase } from "lucide-react";
 function ExperienceSkeleton() {
   return (
     <div className="animate-pulse">
-      <div className="mb-10 space-y-3">
-        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-20" />
-        <div className="h-8 bg-slate-200 dark:bg-slate-800 rounded w-40" />
-        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-full max-w-2xl" />
-      </div>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-        {[1, 2, 3, 4].map((i) => (
-          <div
-            key={i}
-            className="h-20 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl"
-          />
-        ))}
-      </div>
+      <div className="h-48 rounded-[1.75rem] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 mb-5" />
       <div className="h-96 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl" />
     </div>
   );

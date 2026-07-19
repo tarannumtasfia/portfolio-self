@@ -4,12 +4,23 @@
     "title": "Experience",
     "description": "My professional journey — roles, responsibilities, and the technologies I work with day to day."
   },
-  "stats": [
-    { "key": "roles", "label": "Roles", "icon": "Briefcase" },
-    { "key": "experience", "label": "Experience", "icon": "Calendar" },
-    { "key": "workMode", "label": "Work mode", "icon": "Building2", "value": "On-site" },
-    { "key": "location", "label": "Location", "icon": "MapPin", "value": "Dhaka" }
-  ],
+  "careerHero": {
+    "titlePrefix": "My",
+    "titleHighlight": "Career",
+    "subtitle": "Junior Software Engineer · Full-stack web development",
+    "description": "I focus on algorithms because they build strong logical thinking. Technologies evolve, but problem-solving skills remain valuable, making it easier to adapt to any new technology — including database work, C#, TypeScript, JavaScript, and more.",
+    "careerStart": "2025-04-01T00:00:00",
+    "totalLabel": "Total Experience",
+    "liveLabel": "Live",
+    "units": {
+      "years": "Years",
+      "months": "Months",
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds"
+    }
+  },
   "experiences": [
     {
       "id": "fpt-is",
@@ -34,7 +45,7 @@
       "technologies": ["JavaScript", "Next.js", "Node.js", "React", "Express.js"]
     }
   ],
-  "growthMessage": "More roles will appear here as my career grows.",
+  "growthMessage": "",
   "labels": {
     "highlights": "Key contributions",
     "technologies": "Technologies"

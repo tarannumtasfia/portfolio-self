@@ -1,131 +1,37 @@
 import Link from "next/link";
 import {
-  Briefcase,
   MapPin,
   Calendar,
-  Building2,
   ArrowRight,
   CheckCircle2,
 } from "lucide-react";
-
-const STAT_ICONS = {
-  Briefcase,
-  Calendar,
-  Building2,
-  MapPin,
-};
-
-const MONTH_NAMES = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-function formatYearsAndMonths(startYear, startMonth) {
-  const start = new Date(startYear, startMonth - 1, 1);
-  const now = new Date();
-  let totalMonths =
-    (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
-
-  if (totalMonths < 0) totalMonths = 0;
-
-  const years = Math.floor(totalMonths / 12);
-  const months = totalMonths % 12;
-
-  if (years === 0) return `${months} mo`;
-  if (months === 0) return `${years} yr`;
-  return `${years} yr ${months} mo`;
-}
-
-function getTotalExperience(experiences) {
-  const earliest = experiences.reduce((current, job) => {
-    if (!job.startYear || !job.startMonth) return current;
-    const jobStart = job.startYear * 12 + job.startMonth;
-    if (!current || jobStart < current.start) {
-      return { start: jobStart, year: job.startYear, month: job.startMonth };
-    }
-    return current;
-  }, null);
-
-  if (!earliest) return { value: "—", detail: "" };
-
-  return {
-    value: formatYearsAndMonths(earliest.year, earliest.month),
-    detail: `Since ${MONTH_NAMES[earliest.month - 1]} ${earliest.year}`,
-  };
-}
-
-function resolveStatValue(stat, experiences) {
-  if (stat.value) return { value: stat.value, detail: stat.detail || "" };
-
-  if (stat.key === "roles") {
-    return { value: String(experiences.length), detail: "" };
-  }
-
-  if (stat.key === "experience") {
-    return getTotalExperience(experiences);
-  }
-
-  return { value: "—", detail: "" };
-}
+import LiveCareerHero from "./LiveCareerHero";
 
 export default function ExperienceSection({ data }) {
-  const { header, stats, experiences, growthMessage, relatedLinks, labels } = data;
-  const resolvedStats = stats.map((stat) => ({
-    ...stat,
-    ...resolveStatValue(stat, experiences),
-    icon: STAT_ICONS[stat.icon] || Briefcase,
-  }));
+  const { header, careerHero, experiences, growthMessage, relatedLinks, labels } = data;
   const highlightsLabel = labels?.highlights || "Key contributions";
   const technologiesLabel = labels?.technologies || "Technologies";
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16 transition-colors duration-300">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-20 pb-12 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <header className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-2">
-            {header.eyebrow}
-          </p>
-          <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            {header.title}
-          </h1>
-          <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto description-text text-center">
-            {header.description}
-          </p>
-        </header>
+        {careerHero ? (
+          <LiveCareerHero data={careerHero} />
+        ) : (
+          <header className="mb-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-2">
+              {header.eyebrow}
+            </p>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
+              {header.title}
+            </h1>
+            <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto description-text text-center">
+              {header.description}
+            </p>
+          </header>
+        )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {resolvedStats.map(({ label, value, detail, icon: Icon }) => (
-            <div
-              key={label}
-              className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 shadow-sm min-w-0"
-            >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 shrink-0">
-                  <Icon size={17} />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-lg font-semibold text-slate-900 dark:text-white">{value}</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">{label}</p>
-                  {detail && (
-                    <p className="text-[11px] text-indigo-600/80 dark:text-indigo-400/80 mt-0.5">
-                      {detail}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <h2 className="sr-only">{header.title}</h2>
 
         <div className="relative">
           <div
@@ -133,7 +39,7 @@ export default function ExperienceSection({ data }) {
             className="absolute left-[1.65rem] top-4 bottom-4 w-px bg-gradient-to-b from-[#3e0097] via-indigo-400 to-transparent hidden sm:block"
           />
 
-          <div className="space-y-8">
+          <div className="space-y-5">
             {experiences.map((job, index) => (
               <article key={job.id} className="relative sm:pl-16">
                 <div

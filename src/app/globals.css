@@ -74,6 +74,22 @@ iframe {
   }
 }
 
+@keyframes heart-zoom {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-heart-zoom {
+  animation: heart-zoom 1.4s ease-in-out infinite;
+  transform-origin: center;
+  display: inline-flex;
+}
+
 .description-text {
   text-justify: inter-word;
 }

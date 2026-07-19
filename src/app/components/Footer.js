@@ -108,7 +108,7 @@ export default function Footer() {
             <p>
               © {year} {data?.footer?.copyrightName ?? "Tasfia Tarannum"}. All rights reserved.
             </p>
-            <p className="flex items-center gap-1">
+            <p className="flex items-center gap-1 animate-heart-zoom origin-center">
               {data?.footer?.builtWithPrefix ?? "Built with"}
               <Heart size={10} className="text-rose-500 fill-rose-500" />
               {data?.footer?.builtWithSuffix ?? "Next.js & Tailwind"}
