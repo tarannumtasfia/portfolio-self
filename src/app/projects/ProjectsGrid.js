@@ -11,8 +11,115 @@ import {
   ChevronLeft,
   ChevronRight,
   FolderKanban,
+  Play,
+  X,
 } from "lucide-react";
 import PageLoader from "../components/PageLoader";
+
+function DemoVideoModal({ project, ui, onClose }) {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!project) return;
+
+    setVideoLoaded(false);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    function onKeyDown(event) {
+      if (event.key === "Escape") onClose();
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [project, onClose]);
+
+  if (!project) return null;
+
+  const videoUrl = project.demoVideo || ui?.demoVideoUrl;
+  const title = `${project.title} — Demo Video`;
+  const subtitle = project.role;
+  const loadingText = ui?.demoVideoLoadingText || "Starting playback...";
+  const closeHint = ui?.demoVideoCloseHint || "Press Esc or click outside to close";
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+      role="presentation"
+    >
+      <button
+        type="button"
+        aria-label="Close video"
+        className="absolute inset-0 bg-slate-950/85 backdrop-blur-md animate-[video-backdrop-in_0.25s_ease-out]"
+        onClick={onClose}
+      />
+
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        className="relative w-full max-w-4xl animate-[video-modal-in_0.3s_ease-out]"
+      >
+        <div className="rounded-2xl p-[1px] bg-gradient-to-br from-[#3e0097] via-indigo-500 to-violet-400 shadow-2xl shadow-indigo-950/40">
+          <div className="rounded-[calc(1rem-1px)] overflow-hidden bg-slate-950">
+            <div className="flex items-center justify-between gap-4 px-4 sm:px-5 py-3.5 border-b border-white/10 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-600/90 text-white shrink-0">
+                  <Play size={16} className="ml-0.5" fill="currentColor" />
+                </div>
+                <div className="min-w-0 text-left">
+                  <p className="text-sm font-semibold text-white truncate">{title}</p>
+                  <p className="text-xs text-indigo-200/80 truncate hidden sm:block">{subtitle}</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close"
+                className="flex items-center justify-center w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer shrink-0"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="relative aspect-video w-full bg-black">
+              {!videoLoaded && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900">
+                  <div className="relative w-14 h-14">
+                    <div className="absolute inset-0 rounded-full border-2 border-indigo-500/30" />
+                    <div className="absolute inset-0 rounded-full border-2 border-t-indigo-400 border-r-transparent border-b-transparent border-l-transparent animate-spin" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Play size={18} className="text-indigo-300 ml-0.5" fill="currentColor" />
+                    </div>
+                  </div>
+                  <p className="mt-4 text-sm text-indigo-200/70">{loadingText}</p>
+                </div>
+              )}
+
+              <iframe
+                src={videoUrl}
+                className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                  videoLoaded ? "opacity-100" : "opacity-0"
+                }`}
+                allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+                allowFullScreen
+                title={title}
+                onLoad={() => setVideoLoaded(true)}
+              />
+            </div>
+
+            <div className="px-4 sm:px-5 py-3 border-t border-white/10 bg-slate-950/90">
+              <p className="text-[11px] text-slate-400 text-center">{closeHint}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ProjectsSkeleton() {
   return (
@@ -147,30 +254,38 @@ function ProjectTags({ tags }) {
   );
 }
 
-function ProjectActions({ project, ui }) {
+function ProjectActions({ project, ui, onQuickDemo }) {
   return (
     <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 w-full sm:w-auto">
+      <button
+        type="button"
+        onClick={() => onQuickDemo?.(project)}
+        className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 hover:from-[#32007a] hover:to-indigo-700 text-white text-sm font-semibold px-4 py-2 shadow-sm shadow-indigo-500/20 transition-all cursor-pointer"
+      >
+        {ui?.demoVideoLabel || "Demo Video"}
+        <Play size={14} className="fill-current" />
+      </button>
       <Link
         href={`/details/${project.id}`}
-        className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 hover:from-[#32007a] hover:to-indigo-700 text-white text-sm font-semibold px-4 py-2 shadow-sm shadow-indigo-500/20 transition-all"
+        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-indigo-300 dark:hover:border-indigo-600 text-slate-700 dark:text-slate-200 text-sm font-medium px-4 py-2 transition-all"
       >
-        {ui?.viewDetailsLabel || "View details"}
+        {ui?.viewHereLabel || "View here"}
         <ArrowRight size={14} />
       </Link>
       <a
         href={project.iframeSrc}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-indigo-300 dark:hover:border-indigo-600 text-slate-700 dark:text-slate-200 text-sm font-medium px-4 py-2 transition-all"
+        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50/80 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-950/60 text-[#3e0097] dark:text-indigo-300 text-sm font-medium px-4 py-2 transition-all"
       >
-        {ui?.liveDemoLabel || "Live demo"}
+        {ui?.liveDemoLabel || "Live Demo"}
         <ExternalLink size={14} />
       </a>
     </div>
   );
 }
 
-function GridCard({ project, index, ui }) {
+function GridCard({ project, index, ui, onQuickDemo }) {
   return (
     <article className="group relative flex flex-col bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-slate-200/50 dark:hover:shadow-black/30 hover:border-indigo-200/80 dark:hover:border-indigo-800 transition-all duration-300 hover:-translate-y-1">
       <div className={`h-1 bg-gradient-to-r ${project.accent}`} />
@@ -203,14 +318,14 @@ function GridCard({ project, index, ui }) {
           {project.description}
         </p>
         <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800">
-          <ProjectActions project={project} ui={ui} />
+          <ProjectActions project={project} ui={ui} onQuickDemo={onQuickDemo} />
         </div>
       </div>
     </article>
   );
 }
 
-function ListCard({ project, index, ui }) {
+function ListCard({ project, index, ui, onQuickDemo }) {
   return (
     <article className="group relative bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg hover:border-indigo-200/80 dark:hover:border-indigo-800 transition-all duration-300">
       <div className="flex flex-col sm:flex-row sm:items-stretch">
@@ -245,7 +360,7 @@ function ListCard({ project, index, ui }) {
           </div>
 
           <div className="shrink-0 w-full lg:w-auto lg:pl-4">
-            <ProjectActions project={project} ui={ui} />
+            <ProjectActions project={project} ui={ui} onQuickDemo={onQuickDemo} />
           </div>
         </div>
       </div>
@@ -258,6 +373,7 @@ export default function ProjectsGrid() {
   const [projectsData, setProjectsData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [quickDemoProject, setQuickDemoProject] = useState(null);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -316,7 +432,7 @@ export default function ProjectsGrid() {
 
   if (loading) {
     return (
-      <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16 transition-colors duration-300">
+      <main className="relative min-h-[50vh] bg-slate-50 dark:bg-slate-950 pt-24 pb-16 transition-colors duration-300">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 opacity-50 pointer-events-none select-none">
           <ProjectsSkeleton />
         </div>
@@ -329,7 +445,7 @@ export default function ProjectsGrid() {
 
   if (error || !projectsData) {
     return (
-      <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
+      <main className="bg-slate-50 dark:bg-slate-950 pt-24 pb-8">
         <div className="max-w-6xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
           {error || ui?.unavailableLabel || "Projects unavailable."}
         </div>
@@ -338,9 +454,9 @@ export default function ProjectsGrid() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16 transition-colors duration-300">
+    <main className="bg-slate-50 dark:bg-slate-950 pt-20 pb-6 sm:pb-8 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <header className="mb-8 sm:mb-10">
+        <header className="mb-5 sm:mb-6">
           <h1 className="sr-only">{header.title}</h1>
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 text-left leading-relaxed break-words max-w-full">
             {header.description}
@@ -365,6 +481,7 @@ export default function ProjectsGrid() {
                 project={project}
                 index={startIndex - 1 + index}
                 ui={ui}
+                onQuickDemo={setQuickDemoProject}
               />
             ))}
           </div>
@@ -376,11 +493,18 @@ export default function ProjectsGrid() {
                 project={project}
                 index={startIndex - 1 + index}
                 ui={ui}
+                onQuickDemo={setQuickDemoProject}
               />
             ))}
           </div>
         )}
       </div>
+
+      <DemoVideoModal
+        project={quickDemoProject}
+        ui={ui}
+        onClose={() => setQuickDemoProject(null)}
+      />
     </main>
   );
 }
