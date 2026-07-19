@@ -1,143 +1,101 @@
 {
-  "header": {
-    "eyebrow": "Expertise",
-    "title": "Skills",
-    "description": "250+ algorithms solved, SQL & C# expertise, and modern full-stack development.",
-    "highlights": [
-      { "value": "250+", "label": "Algorithms" },
-      { "value": "SQL", "label": "Queries & schemas" },
-      { "value": "C#", "label": "OOP" },
-      { "value": "React", "label": "Frontend" }
-    ]
+  "belief": {
+    "title": "I Believe",
+    "text": [
+      "Technology is a skill — not a gift. Consistent practice, dedication, and hard work are what turn curiosity into craft. I build that craft one problem, one project, and one deploy at a time."]
   },
-  "carousel": {
-    "title": "Standout strengths",
+  "algorithmsSpotlight": {
+    "eyebrow": "Standout focus",
+    "stat": "250+",
+    "label": "Algorithms Solved",
+    "description": "I focus on algorithms because they build strong logical thinking. Technologies evolve, but problem-solving skills remain valuable, making it easier to adapt to any new technology.",
+    "href": "https://leetcode.com/u/tasfiatarannum/",
+    "linkLabel": "View LeetCode profile",
+    "tags": ["Arrays", "C#", "TypeScript", "JavaScript","PostgreSQL", "MongoDB"]
+  },
+  "howIWork": {
+    "title": "How I work",
+    "subtitle": "Full-stack delivery, disciplined problem solving, and steady collaboration.",
     "items": [
       {
-        "id": "algorithms",
-        "stat": "250+",
-        "statLabel": "Problems Solved",
-        "title": "Algorithms & DSA",
-        "description": "250+ LeetCode problems — arrays, trees, graphs, DP, and interview-ready problem solving.",
-        "tags": ["Arrays", "Trees", "Graphs", "DP"],
-        "href": "https://leetcode.com/u/tasfiatarannum/",
-        "linkLabel": "View LeetCode profile",
-        "icon": "Trophy",
-        "accent": "from-amber-400 via-orange-500 to-yellow-500",
-        "accentSoft": "from-amber-500/15 via-orange-500/10 to-yellow-500/15 dark:from-amber-500/25 dark:via-orange-500/15 dark:to-yellow-500/25",
-        "glow": "shadow-amber-500/20 dark:shadow-amber-900/30",
-        "linkAccent": "text-amber-700 dark:text-amber-400"
-      },
-      {
-        "id": "sql",
-        "stat": "SQL",
-        "statLabel": "Database Expertise",
-        "title": "SQL & Data Management",
-        "description": "SQL queries, T-SQL, job data handling, and schema comparison for real-world data work.",
-        "tags": ["SQL Queries", "T-SQL", "Schema Comparison", "Job Data"],
-        "icon": "Database",
-        "accent": "from-emerald-400 via-teal-500 to-cyan-500",
-        "accentSoft": "from-emerald-500/15 via-teal-500/10 to-cyan-500/15 dark:from-emerald-500/25 dark:via-teal-500/15 dark:to-cyan-500/25",
-        "glow": "shadow-emerald-500/20 dark:shadow-emerald-900/30"
-      },
-      {
-        "id": "csharp",
-        "stat": "C#",
-        "statLabel": "Language Skill",
-        "title": "C# Programming",
-        "description": "C# with OOP — structured code, strong typing, and .NET fundamentals.",
-        "tags": ["C#", "OOP", "LINQ", ".NET"],
-        "icon": "Binary",
-        "accent": "from-violet-500 via-purple-600 to-indigo-600",
-        "accentSoft": "from-violet-500/15 via-purple-500/10 to-indigo-500/15 dark:from-violet-500/25 dark:via-purple-500/15 dark:to-indigo-500/25",
-        "glow": "shadow-violet-500/20 dark:shadow-violet-900/30"
-      },
-      {
-        "id": "react",
-        "stat": "React",
-        "statLabel": "UI Library",
-        "title": "React.js",
-        "description": "Interactive UIs with React — components, hooks, and reusable patterns.",
-        "tags": ["Components", "Hooks", "JSX", "SPA"],
-        "icon": "Code2",
-        "accent": "from-cyan-400 via-sky-500 to-blue-500",
-        "accentSoft": "from-cyan-500/15 via-sky-500/10 to-blue-500/15 dark:from-cyan-500/25 dark:via-sky-500/15 dark:to-blue-500/25",
-        "glow": "shadow-cyan-500/20 dark:shadow-cyan-900/30"
-      },
-      {
-        "id": "nextjs",
-        "stat": "Next.js",
-        "statLabel": "React Framework",
-        "title": "Next.js",
-        "description": "Next.js for SSR, routing, API routes, and production-ready React apps.",
-        "tags": ["App Router", "SSR", "API Routes", "SEO"],
+        "id": "fullstack",
+        "eyebrow": "Core practice",
         "icon": "Layers",
-        "accent": "from-slate-700 via-slate-800 to-black",
-        "accentSoft": "from-slate-500/15 via-slate-600/10 to-slate-700/15 dark:from-slate-500/25 dark:via-slate-600/15 dark:to-slate-700/25",
-        "glow": "shadow-slate-500/20 dark:shadow-black/40"
+        "title": "Full-stack development",
+        "description": "Hands-on work across frontend, backend, and SQL — shipping features end to end with React, Next.js, Node.js, and modern APIs.",
+        "tags": ["React & Next.js", "Node & Express", "SQL & data"]
       },
       {
-        "id": "django",
-        "stat": "Django",
-        "statLabel": "Python Framework",
-        "title": "Python & Django",
-        "description": "Python & Django — ORM, MVT architecture, and backend web apps.",
-        "tags": ["Python", "Django", "ORM", "REST APIs"],
-        "icon": "Server",
-        "accent": "from-green-600 via-emerald-600 to-teal-700",
-        "accentSoft": "from-green-500/15 via-emerald-500/10 to-teal-500/15 dark:from-green-500/25 dark:via-emerald-500/15 dark:to-teal-500/25",
-        "glow": "shadow-green-500/20 dark:shadow-green-900/30"
+        "id": "algorithms",
+        "eyebrow": "Problem solving",
+        "icon": "Trophy",
+        "title": "Algorithms & DSA",
+        "description": "250+ algorithms solved — I break problems down, choose the right structure, and write clear, efficient solutions under real constraints.",
+        "tags": ["250+ solved", "Data structures", "LeetCode"],
+        "featured": true
       },
       {
-        "id": "express",
-        "stat": "Express",
-        "statLabel": "Node.js Backend",
-        "title": "Express.js",
-        "description": "Express.js REST APIs — middleware, routing, and Node.js backends.",
-        "tags": ["REST APIs", "Middleware", "Routing", "Node.js"],
-        "icon": "Zap",
-        "accent": "from-gray-500 via-gray-600 to-gray-800",
-        "accentSoft": "from-gray-500/15 via-gray-600/10 to-gray-700/15 dark:from-gray-500/25 dark:via-gray-600/15 dark:to-gray-700/25",
-        "glow": "shadow-gray-500/20 dark:shadow-gray-900/30"
+        "id": "collaboration",
+        "eyebrow": "Collaboration",
+        "icon": "Users",
+        "title": "Team delivery",
+        "description": "I communicate clearly, learn from code reviews, and stay focused on shipping reliable work that helps the team move forward.",
+        "tags": ["Code reviews", "Clear communication", "Fast learning"]
       }
     ]
   },
-  "allSkills": {
-    "title": "All skills",
-    "viewProjectsLabel": "View projects",
-    "viewProjectsHref": "/projects",
+  "technicalSkills": {
+    "title": "Technical Skills",
     "categories": [
       {
         "category": "Frontend",
-        "icon": "Code2",
-        "skills": ["HTML5", "CSS3", "Bootstrap", "JavaScript", "TypeScript", "React.js", "Next.js", "Tailwind CSS"]
+        "skills": ["HTML5", "CSS3", "JavaScript", "TypeScript", "React.js", "Next.js", "Tailwind CSS", "Bootstrap"]
       },
       {
-        "category": "Backend & Languages",
-        "icon": "Server",
-        "skills": ["Node.js", "Express.js", "C#", "Python", "Django"]
+        "category": "Backend & APIs",
+        "skills": ["Node.js", "Express.js", "Python", "Django", "C#", "REST APIs"]
       },
       {
-        "category": "SQL & Databases",
-        "icon": "Database",
-        "skills": ["MS SQL Server", "SQL Queries", "Schema Comparison", "Job Data", "MongoDB"]
-      },
-      {
-        "category": "Concepts",
-        "icon": "Brain",
-        "skills": ["Data Structures", "Algorithms", "OOP", "SOLID", "Design Patterns", "HTTP"]
+        "category": "Database",
+        "skills": ["MS SQL Server", "SQL Queries", "T-SQL", "MongoDB", "Schema Comparison", "Job Data"]
       },
       {
         "category": "Tools",
-        "icon": "Wrench",
-        "skills": ["VS Code", "GitHub", "Postman", "Figma", "LeetCode"]
+        "skills": ["GitHub", "VS Code", "Postman", "Figma", "LeetCode"]
+      },
+      {
+        "category": "Principles",
+        "skills": ["OOP", "SOLID", "Design patterns", "Data structures", "HTTP", "Agile"],
+        "highlightSkills": [
+          {
+            "label": "250+ Algorithms Solved",
+            "href": "https://leetcode.com/u/tasfiatarannum/"
+          }
+        ]
       }
     ]
   },
-  "footerLinks": [
-    { "href": "/projects", "label": "Projects", "primary": true },
-    { "href": "/experience", "label": "Experience", "primary": false }
-  ],
+  "professionalStrengths": {
+    "title": "Professional Strengths",
+    "columns": {
+      "number": "No.",
+      "strength": "Professional Strength"
+    },
+    "items": [
+      "Solved 250+ algorithm problems on LeetCode — with clear grounding in OOP, data structures, algorithms, and design patterns.",
+      "Comfortable working across the stack — frontend UIs, Node/Express or Django backends, and SQL-backed features.",
+      "Able to work under delivery pressure, break work into steps, and meet deadlines without losing code quality.",
+      "A collaborative teammate who communicates clearly and learns quickly from feedback and code reviews.",
+      "A quick learner with a positive attitude — curious, optimistic, and always improving through practice."
+    ]
+  },
+  "footer": {
+    "note": "Full career history and project context are available on the experience page.",
+    "links": [
+      { "href": "/experience", "label": "Experience", "primary": true },
+      { "href": "/contact-info", "label": "Contact", "primary": false }
+    ]
+  },
   "ui": {
     "loadingLabel": "Loading skills...",
     "errorLabel": "Could not load skills data.",

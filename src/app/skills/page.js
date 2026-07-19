@@ -2,35 +2,40 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import StandoutCarousel from "../components/StandoutCarousel";
 import PageLoader from "../components/PageLoader";
-import { Code2, Server, Brain, Wrench, Database, ArrowRight, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  ExternalLink,
+  Layers,
+  Sparkles,
+  Trophy,
+  Users,
+} from "lucide-react";
 
-const CATEGORY_ICONS = {
-  Code2,
-  Server,
-  Database,
-  Brain,
-  Wrench,
+const WORK_ICONS = {
+  Layers,
+  Trophy,
+  Users,
 };
 
 function SkillsSkeleton() {
   return (
-    <div className="animate-pulse">
-      <div className="mb-6 space-y-3 text-center">
-        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-24 mx-auto" />
-        <div className="h-8 bg-slate-200 dark:bg-slate-800 rounded w-32 mx-auto" />
-        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-80 max-w-full mx-auto" />
+    <div className="animate-pulse space-y-12">
+      <div className="space-y-3 max-w-2xl">
+        <div className="h-10 bg-slate-200 dark:bg-slate-800 rounded w-48" />
+        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-full" />
+        <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-5/6" />
       </div>
-      <div className="h-48 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl mb-8" />
-      <div className="grid sm:grid-cols-2 gap-3">
-        {[1, 2, 3, 4, 5].map((i) => (
+      <div className="h-40 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl" />
+      <div className="grid sm:grid-cols-3 gap-4">
+        {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="h-32 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl"
+            className="h-52 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl"
           />
         ))}
       </div>
+      <div className="h-72 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl" />
     </div>
   );
 }
@@ -66,8 +71,8 @@ export default function SkillsPage() {
 
   if (loading) {
     return (
-      <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 opacity-50 pointer-events-none select-none">
+      <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 opacity-50 pointer-events-none select-none">
           <SkillsSkeleton />
         </div>
         <div className="absolute inset-0 flex items-center justify-center pt-24">
@@ -80,95 +85,298 @@ export default function SkillsPage() {
   if (error || !skills) {
     return (
       <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
-        <div className="max-w-6xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
+        <div className="max-w-5xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
           {error || skills?.ui?.unavailableLabel || "Skills unavailable."}
         </div>
       </main>
     );
   }
 
-  const { header, carousel, allSkills, footerLinks } = skills;
+  const {
+    belief,
+    algorithmsSpotlight,
+    howIWork,
+    technicalSkills,
+    professionalStrengths,
+    footer,
+  } = skills;
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-10 transition-colors duration-300">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <header className="mb-6 text-center">
-          <h1 className="sr-only">{header.title}</h1>
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16 transition-colors duration-300">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10">
+        <h1 className="sr-only">Skills</h1>
 
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {header.highlights.map(({ value, label }) => (
-              <span
-                key={label}
-                className="inline-flex items-center gap-2 rounded-full bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 px-3 py-1.5 text-xs shadow-sm"
+        {/* Belief */}
+        <section className="max-w-3xl">
+          <h2
+            className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white"
+            style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
+          >
+            {belief.title}
+          </h2>
+          <div className="mt-4 space-y-2">
+            {(Array.isArray(belief.text) ? belief.text : [belief.text]).map((line) => (
+              <p
+                key={line}
+                className="text-sm sm:text-base md:text-lg leading-relaxed text-slate-600 dark:text-slate-400 break-words"
               >
-                <span className="font-bold text-[#3e0097] dark:text-indigo-400">{value}</span>
-                <span className="text-slate-500 dark:text-slate-400">{label}</span>
-              </span>
+                {line}
+              </p>
             ))}
           </div>
-        </header>
+        </section>
 
-        <StandoutCarousel title={carousel.title} items={carousel.items} />
+        {/* 250+ Algorithms spotlight */}
+        <section className="relative overflow-hidden rounded-2xl border border-amber-200/80 dark:border-amber-900/50 bg-gradient-to-br from-amber-50 via-white to-orange-50 dark:from-amber-950/40 dark:via-slate-900 dark:to-orange-950/30 shadow-sm">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-amber-300/30 dark:bg-amber-500/10 blur-3xl"
+          />
+          <div className="relative grid gap-6 p-6 sm:p-8 md:grid-cols-[auto_1fr] md:items-center md:gap-10">
+            <div className="flex flex-col items-start">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-700 dark:text-amber-400">
+                {algorithmsSpotlight.eyebrow}
+              </p>
+              <p
+                className="mt-2 text-6xl sm:text-7xl font-semibold leading-none tracking-tight text-amber-600 dark:text-amber-400 tabular-nums"
+                style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
+              >
+                {algorithmsSpotlight.stat}
+              </p>
+              <p className="mt-2 text-sm font-semibold uppercase tracking-[0.14em] text-slate-800 dark:text-slate-200">
+                {algorithmsSpotlight.label}
+              </p>
+            </div>
 
-        <section className="mt-8">
-          <div className="flex items-center justify-between gap-4 mb-4">
-            <h2 className="text-base font-semibold text-slate-900 dark:text-white">
-              {allSkills.title}
-            </h2>
-            <Link
-              href={allSkills.viewProjectsHref}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#3e0097] dark:text-indigo-400 hover:underline shrink-0"
+            <div className="min-w-0">
+              <p className="text-sm sm:text-base leading-relaxed text-slate-600 dark:text-slate-300">
+                {algorithmsSpotlight.description}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {algorithmsSpotlight.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center rounded-full border border-amber-200/80 dark:border-amber-800/60 bg-white/80 dark:bg-slate-900/60 px-3 py-1 text-xs font-medium text-amber-900 dark:text-amber-200"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <a
+                href={algorithmsSpotlight.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex items-center gap-2 rounded-xl bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 text-sm font-semibold px-4 py-2.5 min-h-11 transition-colors shadow-sm"
+              >
+                {algorithmsSpotlight.linkLabel}
+                <ExternalLink size={14} />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* How I work */}
+        <section>
+          <div className="text-center max-w-xl mx-auto mb-5">
+            <h2
+              className="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900 dark:text-white"
+              style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
             >
-              {allSkills.viewProjectsLabel}
-              <ArrowRight size={12} />
-            </Link>
+              {howIWork.title}
+            </h2>
+            <p className="mt-2 text-sm sm:text-base text-slate-500 dark:text-slate-400">
+              {howIWork.subtitle}
+            </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-3">
-            {allSkills.categories.map(({ category, icon, skills: categorySkills }) => {
-              const Icon = CATEGORY_ICONS[icon] || Code2;
+          <div className="grid sm:grid-cols-3 gap-4">
+            {howIWork.items.map((item) => {
+              const Icon = WORK_ICONS[item.icon] || Layers;
+              const featured = item.featured;
 
               return (
-                <div
-                  key={category}
-                  className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4 shadow-sm"
+                <article
+                  key={item.id}
+                  className={`flex flex-col rounded-2xl border bg-white dark:bg-slate-900 p-5 sm:p-6 shadow-sm transition-shadow hover:shadow-md ${
+                    featured
+                      ? "border-amber-300/90 dark:border-amber-700/60 ring-1 ring-amber-200/60 dark:ring-amber-800/40"
+                      : "border-slate-200/80 dark:border-slate-800"
+                  }`}
                 >
-                  <div className="flex items-center gap-2 mb-2.5">
-                    <Icon size={15} className="text-indigo-600 dark:text-indigo-400" />
-                    <h3 className="text-sm font-semibold text-slate-900 dark:text-white">{category}</h3>
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <span
+                      className={`inline-flex h-9 w-9 items-center justify-center rounded-full ${
+                        featured
+                          ? "bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400"
+                          : "bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400"
+                      }`}
+                    >
+                      <Icon size={16} />
+                    </span>
+                    <p
+                      className={`text-[10px] font-semibold uppercase tracking-[0.16em] ${
+                        featured
+                          ? "text-amber-700 dark:text-amber-400"
+                          : "text-indigo-600 dark:text-indigo-400"
+                      }`}
+                    >
+                      {item.eyebrow}
+                    </p>
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {categorySkills.map((skill) => (
+
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white leading-snug">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400 flex-1">
+                    {item.description}
+                  </p>
+
+                  <div className="mt-5 flex flex-wrap gap-1.5">
+                    {item.tags.map((tag) => (
                       <span
-                        key={skill}
-                        className="inline-flex items-center rounded-md bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[11px] font-medium text-slate-700 dark:text-slate-300"
+                        key={tag}
+                        className={`inline-flex items-center rounded-full border px-2.5 py-1 text-[11px] font-medium ${
+                          featured
+                            ? "border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-200"
+                            : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300"
+                        }`}
                       >
-                        {skill}
+                        {tag}
                       </span>
                     ))}
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
         </section>
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-sm">
-          {footerLinks.map((link, index) => (
-            <span key={link.href} className="contents">
-              {index > 0 && <span className="text-slate-300 dark:text-slate-700">·</span>}
-              <Link
-                href={link.href}
-                className={
-                  link.primary
-                    ? "font-semibold text-[#3e0097] dark:text-indigo-400 hover:underline"
-                    : "font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300"
-                }
-              >
-                {link.label}
-              </Link>
-            </span>
-          ))}
+        {/* Technical Skills */}
+        <section>
+          <h2 className="text-sm font-bold uppercase tracking-[0.14em] text-slate-900 dark:text-white mb-4">
+            {technicalSkills.title}
+          </h2>
+
+          <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm">
+            <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+              {technicalSkills.categories.map(({ category, skills: categorySkills, highlightSkills }) => (
+                <li
+                  key={category}
+                  className="grid gap-3 sm:grid-cols-[10rem_1fr] sm:gap-6 px-4 sm:px-6 py-4 sm:py-5"
+                >
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white pt-0.5">
+                    {category}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {highlightSkills?.map((skill) => (
+                      <a
+                        key={skill.label}
+                        href={skill.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/50 px-3 py-1.5 text-xs font-semibold text-amber-800 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-amber-800/60 hover:border-amber-400 dark:hover:border-amber-500 hover:text-amber-950 dark:hover:text-amber-50 transition-colors duration-200"
+                      >
+                        <Trophy size={12} />
+                        {skill.label}
+                        <ExternalLink size={11} className="opacity-70" />
+                      </a>
+                    ))}
+                    {categorySkills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="inline-flex items-center rounded-full border border-indigo-100 dark:border-indigo-900/60 bg-indigo-50/60 dark:bg-indigo-950/30 px-3 py-1.5 text-xs font-medium text-indigo-800 dark:text-indigo-200 cursor-default transition-colors duration-200 hover:bg-[#3e0097] hover:border-[#3e0097] hover:text-white dark:hover:bg-indigo-500 dark:hover:border-indigo-500 dark:hover:text-white"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* Professional Strengths */}
+        <section>
+          <h2 className="text-sm font-bold uppercase tracking-[0.14em] text-slate-900 dark:text-white mb-4">
+            {professionalStrengths.title}
+          </h2>
+
+          <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-sm">
+            <div className="hidden sm:grid grid-cols-[4rem_1fr] gap-4 px-6 py-3 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/40">
+              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                {professionalStrengths.columns.number}
+              </p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                {professionalStrengths.columns.strength}
+              </p>
+            </div>
+
+            <ul className="divide-y divide-slate-100 dark:divide-slate-800">
+              {professionalStrengths.items.map((item, index) => {
+                const isAlgorithms = index === 0;
+
+                return (
+                  <li
+                    key={item}
+                    className={`group grid gap-2 sm:grid-cols-[4rem_1fr] sm:gap-4 px-4 sm:px-6 py-4 sm:py-5 cursor-default transition-colors duration-200 ${
+                      isAlgorithms
+                        ? "bg-amber-50/50 dark:bg-amber-950/20 hover:bg-amber-100/80 dark:hover:bg-amber-950/40"
+                        : "hover:bg-amber-50/70 dark:hover:bg-amber-950/25"
+                    }`}
+                  >
+                    <p
+                      className={`text-sm font-semibold tabular-nums transition-colors duration-200 ${
+                        isAlgorithms
+                          ? "text-amber-700 dark:text-amber-400"
+                          : "text-slate-400 dark:text-slate-500 group-hover:text-amber-700 dark:group-hover:text-amber-400"
+                      }`}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <p
+                      className={`text-sm leading-relaxed transition-colors duration-200 ${
+                        isAlgorithms
+                          ? "text-slate-800 dark:text-slate-100 font-medium"
+                          : "text-slate-600 dark:text-slate-300 group-hover:text-slate-800 dark:group-hover:text-slate-100"
+                      }`}
+                    >
+                      {item}
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+
+        {/* Footer CTAs */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 pt-2 border-t border-slate-200/80 dark:border-slate-800">
+          <p className="text-sm text-slate-500 dark:text-slate-400 sm:whitespace-nowrap sm:shrink min-w-0">
+            {footer.note}
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {footer.links.map((link) =>
+              link.primary ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#3e0097] hover:bg-[#32007a] text-white text-sm font-semibold px-4 py-2.5 min-h-11 transition-colors shadow-sm"
+                >
+                  {link.label}
+                  <ArrowRight size={14} />
+                </Link>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-white dark:bg-slate-900 text-indigo-700 dark:text-indigo-300 text-sm font-semibold px-4 py-2.5 min-h-11 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors"
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
+          </div>
         </div>
       </div>
     </main>
