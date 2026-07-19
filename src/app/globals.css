@@ -91,7 +91,14 @@ iframe {
 }
 
 .description-text {
-  text-justify: inter-word;
+  text-align: left;
+}
+
+@media (min-width: 640px) {
+  .description-text {
+    text-align: justify;
+    text-justify: inter-word;
+  }
 }
 
 /* Hide Tawk "We Are Here!" grabber — keep only the chat bubble when minimized */

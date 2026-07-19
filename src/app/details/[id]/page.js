@@ -92,7 +92,7 @@ export default function ProjectDetails() {
           </a>
         </div>
 
-        <div className="relative w-full h-[calc(100dvh-11rem)] min-h-[480px] rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+        <div className="relative w-full h-[calc(100dvh-11rem)] min-h-[280px] sm:min-h-[420px] rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
           <iframe
             src={project.iframeSrc}
             title={project.title}

@@ -353,7 +353,7 @@ export default function Navbar() {
               <Link
                 href={data?.hireCta?.href ?? "/contact"}
                 onClick={() => setIsOpen(false)}
-                className="w-full flex items-center justify-center py-2.5 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white text-sm font-semibold shadow-sm"
+                className="w-full flex items-center justify-center py-3 min-h-11 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white text-sm font-semibold shadow-sm"
               >
                 {data?.hireCta?.label ?? "Hire me"}
               </Link>

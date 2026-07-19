@@ -321,7 +321,7 @@ export default function BlogGrid() {
 
   if (loading) {
     return (
-      <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-12 transition-colors duration-300">
+      <main className="relative min-h-[50vh] bg-slate-50 dark:bg-slate-950 pt-24 pb-8 transition-colors duration-300">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 opacity-50 pointer-events-none select-none">
           <BlogSkeleton />
         </div>
@@ -334,7 +334,7 @@ export default function BlogGrid() {
 
   if (error || !blogData) {
     return (
-      <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-12">
+      <main className="bg-slate-50 dark:bg-slate-950 pt-24 pb-8">
         <div className="max-w-6xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
           {error || ui?.unavailableLabel || "Blog unavailable."}
         </div>
@@ -343,7 +343,7 @@ export default function BlogGrid() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-12 transition-colors duration-300">
+    <main className="bg-slate-50 dark:bg-slate-950 pt-20 pb-6 sm:pb-8 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <header className="mb-6 sm:mb-8">
           <h1 className="sr-only">{header.title}</h1>
@@ -381,7 +381,7 @@ export default function BlogGrid() {
             href={mediumLink.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 hover:from-[#32007a] hover:to-indigo-700 text-white text-sm font-semibold px-5 py-2.5 shadow-sm transition-all"
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 hover:from-[#32007a] hover:to-indigo-700 text-white text-sm font-semibold px-5 py-2.5 min-h-11 shadow-sm transition-all"
           >
             <img src={mediumLink.icon} alt="" className="w-4 h-4 brightness-0 invert" />
             {mediumLink.label}

@@ -58,7 +58,7 @@ export default function Contact() {
 
   if (loading) {
     return (
-      <main className="relative min-h-screen flex items-start sm:items-center justify-center px-3 sm:px-4 pt-24 pb-20 sm:py-28 overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 transition-colors duration-300">
+      <main className="relative min-h-[50vh] flex items-start justify-center px-4 pt-24 pb-10 overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 transition-colors duration-300">
         <div className="opacity-50 pointer-events-none select-none">
           <ContactSkeleton />
         </div>
@@ -71,7 +71,7 @@ export default function Contact() {
 
   if (error || !hire) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4">
+      <main className="flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 pt-24 pb-10">
         <p className="text-slate-600 dark:text-slate-400">
           {error || hire?.ui?.unavailableLabel || "Hire page unavailable."}
         </p>
@@ -82,7 +82,7 @@ export default function Contact() {
   const { profile, leftPanel, formPanel } = hire;
 
   return (
-    <main className="relative min-h-screen flex items-start sm:items-center justify-center px-3 sm:px-4 pt-24 pb-20 sm:py-28 overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 transition-colors duration-300">
+    <main className="relative flex items-start justify-center px-4 pt-20 pb-6 sm:pb-8 overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950 transition-colors duration-300">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-40 -right-40 w-[28rem] h-[28rem] rounded-full bg-purple-400/25 dark:bg-purple-600/15 blur-3xl animate-pulse"
@@ -229,7 +229,7 @@ export default function Contact() {
                       <iframe
                         src={formPanel.iframeSrc}
                         title="Contact form"
-                        className="w-full h-[min(70vh,560px)] sm:h-[min(62vh,520px)] border-0 bg-white dark:bg-slate-900"
+                        className="w-full h-[min(55dvh,480px)] sm:h-[min(62vh,520px)] border-0 bg-white dark:bg-slate-900"
                       />
                     </div>
                   </div>

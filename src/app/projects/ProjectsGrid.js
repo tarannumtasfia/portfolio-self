@@ -47,7 +47,7 @@ function DemoVideoModal({ project, ui, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-3 sm:p-6"
       role="presentation"
     >
       <button
@@ -61,7 +61,7 @@ function DemoVideoModal({ project, ui, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="relative w-full max-w-4xl animate-[video-modal-in_0.3s_ease-out]"
+        className="relative w-full max-w-4xl max-h-[min(92dvh,100%)] overflow-y-auto animate-[video-modal-in_0.3s_ease-out]"
       >
         <div className="rounded-2xl p-[1px] bg-gradient-to-br from-[#3e0097] via-indigo-500 to-violet-400 shadow-2xl shadow-indigo-950/40">
           <div className="rounded-[calc(1rem-1px)] overflow-hidden bg-slate-950">
@@ -79,13 +79,13 @@ function DemoVideoModal({ project, ui, onClose }) {
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
-                className="flex items-center justify-center w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer shrink-0"
+                className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer shrink-0"
               >
                 <X size={18} />
               </button>
             </div>
 
-            <div className="relative aspect-video w-full bg-black">
+            <div className="relative aspect-video w-full max-h-[min(50dvh,calc(100dvh-10rem))] sm:max-h-none bg-black">
               {!videoLoaded && (
                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900">
                   <div className="relative w-14 h-14">
@@ -256,18 +256,18 @@ function ProjectTags({ tags }) {
 
 function ProjectActions({ project, ui, onQuickDemo }) {
   return (
-    <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2 w-full sm:w-auto">
+    <div className="flex flex-col lg:flex-row flex-wrap items-stretch lg:items-center gap-2 w-full">
       <button
         type="button"
         onClick={() => onQuickDemo?.(project)}
-        className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 hover:from-[#32007a] hover:to-indigo-700 text-white text-sm font-semibold px-4 py-2 shadow-sm shadow-indigo-500/20 transition-all cursor-pointer"
+        className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 hover:from-[#32007a] hover:to-indigo-700 text-white text-sm font-semibold px-4 py-2.5 min-h-11 shadow-sm shadow-indigo-500/20 transition-all cursor-pointer"
       >
         {ui?.demoVideoLabel || "Demo Video"}
         <Play size={14} className="fill-current" />
       </button>
       <Link
         href={`/details/${project.id}`}
-        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-indigo-300 dark:hover:border-indigo-600 text-slate-700 dark:text-slate-200 text-sm font-medium px-4 py-2 transition-all"
+        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-indigo-300 dark:hover:border-indigo-600 text-slate-700 dark:text-slate-200 text-sm font-medium px-4 py-2.5 min-h-11 transition-all"
       >
         {ui?.viewHereLabel || "View here"}
         <ArrowRight size={14} />
@@ -276,7 +276,7 @@ function ProjectActions({ project, ui, onQuickDemo }) {
         href={project.iframeSrc}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50/80 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-950/60 text-[#3e0097] dark:text-indigo-300 text-sm font-medium px-4 py-2 transition-all"
+        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50/80 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-950/60 text-[#3e0097] dark:text-indigo-300 text-sm font-medium px-4 py-2.5 min-h-11 transition-all"
       >
         {ui?.liveDemoLabel || "Live Demo"}
         <ExternalLink size={14} />
@@ -474,7 +474,7 @@ export default function ProjectsGrid() {
         />
 
         {view === "grid" ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {visibleProjects.map((project, index) => (
               <GridCard
                 key={project.id}

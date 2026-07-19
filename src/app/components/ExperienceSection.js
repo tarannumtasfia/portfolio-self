@@ -148,8 +148,8 @@ export default function ExperienceSection({ data }) {
                               href={link.href}
                               className={
                                 link.primary
-                                  ? "inline-flex items-center gap-1.5 text-sm font-semibold text-[#3e0097] dark:text-indigo-400 hover:underline"
-                                  : "inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
+                                  ? "inline-flex items-center gap-1.5 min-h-11 px-3 text-sm font-semibold text-[#3e0097] dark:text-indigo-400 hover:underline"
+                                  : "inline-flex items-center gap-1.5 min-h-11 px-3 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors"
                               }
                             >
                               {link.label}

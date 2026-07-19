@@ -44,7 +44,7 @@ export default function ContactInfo() {
 
   if (loading) {
     return (
-      <main className="relative min-h-screen flex items-start sm:items-center justify-center px-3 sm:px-4 pt-24 pb-20 sm:py-28 overflow-hidden transition-colors duration-300 bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
+      <main className="relative min-h-[50vh] flex items-start justify-center px-3 sm:px-4 pt-24 pb-10 overflow-hidden transition-colors duration-300 bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
         <div className="opacity-50 pointer-events-none select-none">
           <ContactInfoSkeleton />
         </div>
@@ -57,7 +57,7 @@ export default function ContactInfo() {
 
   if (error || !contact) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4">
+      <main className="flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 pt-24 pb-10">
         <p className="text-slate-600 dark:text-slate-400">
           {error || contact?.ui?.unavailableLabel || "Contact unavailable."}
         </p>
@@ -68,7 +68,7 @@ export default function ContactInfo() {
   const { profile, header, bio, contactRows, cta, social } = contact;
 
   return (
-    <main className="relative min-h-screen flex items-start sm:items-center justify-center px-3 sm:px-4 pt-24 pb-20 sm:py-28 overflow-hidden transition-colors duration-300 bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
+    <main className="relative flex items-start justify-center px-4 pt-20 pb-6 sm:pb-8 overflow-hidden transition-colors duration-300 bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-32 -right-32 w-96 h-96 rounded-full bg-purple-400/20 dark:bg-purple-600/10 blur-3xl"
@@ -128,7 +128,7 @@ export default function ContactInfo() {
             </div>
 
             <div className="relative flex flex-col items-center px-4 sm:px-8 pb-1">
-              <div className="relative -mt-[4.5rem] sm:-mt-[5.5rem] z-10">
+              <div className="relative -mt-14 sm:-mt-[4.5rem] md:-mt-[5.5rem] z-10">
                 <div className="relative mx-auto w-fit group">
                   <div
                     aria-hidden
@@ -137,7 +137,7 @@ export default function ContactInfo() {
 
                   <div className="relative rounded-full p-[3px] bg-gradient-to-br from-[#3e0097] via-indigo-500 to-violet-400 shadow-xl shadow-indigo-500/30">
                     <div className="rounded-full p-[4px] bg-white dark:bg-slate-900">
-                      <div className="relative w-36 h-36 sm:w-44 sm:h-44 md:w-48 md:h-48 rounded-full overflow-hidden bg-gradient-to-br from-indigo-100 to-violet-100 dark:from-slate-800 dark:to-indigo-950">
+                      <div className="relative w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full overflow-hidden bg-gradient-to-br from-indigo-100 to-violet-100 dark:from-slate-800 dark:to-indigo-950">
                         <img
                           src={profile.image}
                           alt={profile.imageAlt}

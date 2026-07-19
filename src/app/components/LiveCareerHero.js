@@ -42,11 +42,11 @@ function getDurationParts(startDate, now) {
 
 function DurationTile({ value, label }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-indigo-100/80 dark:border-slate-700 shadow-sm px-2 py-3 sm:py-3.5 min-h-[4.25rem] transition-all duration-200 hover:shadow-md hover:border-[#3e0097]/50 dark:hover:border-indigo-500 hover:-translate-y-0.5">
-      <span className="text-xl sm:text-2xl font-bold tabular-nums text-slate-900 dark:text-white leading-none">
+    <div className="flex flex-col items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-indigo-100/80 dark:border-slate-700 shadow-sm px-1.5 sm:px-2 py-2.5 sm:py-3.5 min-h-[3.75rem] sm:min-h-[4.25rem] transition-all duration-200 hover:shadow-md hover:border-[#3e0097]/50 dark:hover:border-indigo-500 hover:-translate-y-0.5">
+      <span className="text-lg sm:text-2xl font-bold tabular-nums text-slate-900 dark:text-white leading-none">
         {value}
       </span>
-      <span className="mt-1.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.12em] text-[#3e0097] dark:text-indigo-400">
+      <span className="mt-1 sm:mt-1.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.08em] sm:tracking-[0.12em] text-[#3e0097] dark:text-indigo-400 text-center leading-tight">
         {label}
       </span>
     </div>
@@ -89,7 +89,7 @@ export default function LiveCareerHero({ data }) {
       <div className="relative grid gap-5 lg:grid-cols-[1.15fr_1fr] lg:gap-8 p-4 sm:p-5 lg:p-6">
         <div className="min-w-0 flex flex-col justify-center">
           <h1
-            className="text-3xl sm:text-4xl lg:text-[2.75rem] font-semibold tracking-tight leading-tight"
+            className="text-2xl sm:text-3xl lg:text-[2.75rem] font-semibold tracking-tight leading-tight"
             style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
           >
             <span className="text-slate-900 dark:text-white">{data.titlePrefix}</span>{" "}

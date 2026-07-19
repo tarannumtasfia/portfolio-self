@@ -42,7 +42,7 @@ export default function RootLayout({ children }) {
           <SiteNavProvider>
             <Navbar />
 
-            <div>{children}</div>
+            <div className="flex-1 min-w-0 w-full">{children}</div>
 
             <Footer />
           </SiteNavProvider>

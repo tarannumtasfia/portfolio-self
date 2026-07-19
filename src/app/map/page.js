@@ -36,7 +36,7 @@ export default function MapPage() {
           </a>
         </div>
 
-        <div className="relative w-full h-[calc(100dvh-10.5rem)] min-h-[420px] rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+        <div className="relative w-full h-[calc(100dvh-14rem)] sm:h-[calc(100dvh-10.5rem)] min-h-[240px] sm:min-h-[420px] rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
           <iframe
             src={MAP_EMBED}
             title="Location map — BTI Chorus, Dhaka"

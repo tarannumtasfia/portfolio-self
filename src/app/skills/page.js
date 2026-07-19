@@ -71,7 +71,7 @@ export default function SkillsPage() {
 
   if (loading) {
     return (
-      <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
+      <main className="relative min-h-[50vh] bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 opacity-50 pointer-events-none select-none">
           <SkillsSkeleton />
         </div>
@@ -84,7 +84,7 @@ export default function SkillsPage() {
 
   if (error || !skills) {
     return (
-      <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
+      <main className="bg-slate-50 dark:bg-slate-950 pt-24 pb-8">
         <div className="max-w-5xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
           {error || skills?.ui?.unavailableLabel || "Skills unavailable."}
         </div>
@@ -102,14 +102,14 @@ export default function SkillsPage() {
   } = skills;
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16 transition-colors duration-300">
+    <main className="bg-slate-50 dark:bg-slate-950 pt-20 pb-6 sm:pb-8 transition-colors duration-300">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10">
         <h1 className="sr-only">Skills</h1>
 
         {/* Belief */}
         <section className="max-w-3xl">
           <h2
-            className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white"
+            className="text-2xl sm:text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white"
             style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
           >
             {belief.title}
@@ -138,7 +138,7 @@ export default function SkillsPage() {
                 {algorithmsSpotlight.eyebrow}
               </p>
               <p
-                className="mt-2 text-6xl sm:text-7xl font-semibold leading-none tracking-tight text-[#3e0097] dark:text-indigo-400 tabular-nums"
+                className="mt-2 text-4xl sm:text-6xl md:text-7xl font-semibold leading-none tracking-tight text-[#3e0097] dark:text-indigo-400 tabular-nums"
                 style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
               >
                 {algorithmsSpotlight.stat}
@@ -195,7 +195,7 @@ export default function SkillsPage() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             {howIWork.items.map((item) => {
               const Icon = WORK_ICONS[item.icon] || Layers;
               const featured = item.featured;
@@ -268,7 +268,7 @@ export default function SkillsPage() {
               {technicalSkills.categories.map(({ category, skills: categorySkills, highlightSkills }) => (
                 <li
                   key={category}
-                  className="grid gap-3 sm:grid-cols-[10rem_1fr] sm:gap-6 px-4 sm:px-6 py-4 sm:py-5"
+                  className="grid gap-3 sm:grid-cols-[9rem_1fr] lg:grid-cols-[10rem_1fr] sm:gap-6 px-4 sm:px-6 py-4 sm:py-5"
                 >
                   <p className="text-sm font-semibold text-slate-900 dark:text-white pt-0.5">
                     {category}
@@ -358,7 +358,7 @@ export default function SkillsPage() {
 
         {/* Footer CTAs */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 pt-2 border-t border-slate-200/80 dark:border-slate-800">
-          <p className="text-sm text-slate-500 dark:text-slate-400 sm:whitespace-nowrap sm:shrink min-w-0">
+          <p className="text-sm text-slate-500 dark:text-slate-400 break-words sm:whitespace-nowrap sm:shrink min-w-0">
             {footer.note}
           </p>
           <div className="flex flex-wrap gap-3">

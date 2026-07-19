@@ -269,7 +269,7 @@ export default function Home() {
               <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">
                 {about.title}
               </h2>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-[15px] text-justify">
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-[15px] text-left sm:text-justify">
                 {about.text}
               </p>
 
@@ -291,7 +291,7 @@ export default function Home() {
             </section>
 
             <section className="flex-1 flex flex-col min-h-0">
-              <div className="flex items-center justify-between mb-4 shrink-0">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-4 shrink-0">
                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                   {quickAccess.title}
                 </h2>
@@ -347,7 +347,7 @@ export default function Home() {
 
       {showVideo && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+          className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-3 sm:p-6"
           role="presentation"
         >
           <button
@@ -361,7 +361,7 @@ export default function Home() {
             role="dialog"
             aria-modal="true"
             aria-label="Intro video"
-            className="relative w-full max-w-4xl animate-[video-modal-in_0.3s_ease-out]"
+            className="relative w-full max-w-4xl max-h-[min(92dvh,100%)] overflow-y-auto animate-[video-modal-in_0.3s_ease-out]"
           >
             <div className="rounded-2xl p-[1px] bg-gradient-to-br from-[#3e0097] via-indigo-500 to-violet-400 shadow-2xl shadow-indigo-950/40">
               <div className="rounded-[calc(1rem-1px)] overflow-hidden bg-slate-950">
@@ -381,13 +381,13 @@ export default function Home() {
                     type="button"
                     onClick={handleClose}
                     aria-label="Close"
-                    className="flex items-center justify-center w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer shrink-0"
+                    className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer shrink-0"
                   >
                     <X size={18} />
                   </button>
                 </div>
 
-                <div className="relative aspect-video w-full bg-black">
+                <div className="relative aspect-video w-full max-h-[min(50dvh,calc(100dvh-10rem))] sm:max-h-none bg-black">
                   {!videoLoaded && (
                     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900">
                       <div className="relative w-14 h-14">
