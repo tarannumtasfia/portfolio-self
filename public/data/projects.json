@@ -1,11 +1,22 @@
 {
   "header": {
-    "eyebrow": "Portfolio",
     "title": "Projects",
-    "description": "from Kanban tools to real-time trackers. Switch views or open a live demo."
+    "description": "Showcasing full-stack web applications and projects developed using Angular, React, Next.js, ASP.NET Core (C#), Node.js, MongoDB, SQL Server, and modern web technologies."
   },
   "projectsPerPage": 4,
   "projects": [
+    {
+      "id": "dashboard-graphs",
+      "title": "Dashboard Graphs",
+      "role": "Data Visualization Dashboard",
+      "tags": ["Vue 3", "ECharts", "Dashboard"],
+      "description": "Interactive analytics dashboard with bar, line, pie, donut, area, stacked, scatter, and gauge charts.",
+      "iframeSrc": "https://dashboard-graphs-beta.vercel.app/",
+      "image": "/projects/dashboard-graphs.png",
+      "accent": "from-sky-400 to-indigo-500",
+      "accentSoft": "from-sky-500/10 to-indigo-500/10 dark:from-sky-500/20 dark:to-indigo-500/20",
+      "accentText": "text-sky-600 dark:text-sky-400"
+    },
     {
       "id": "todo",
       "title": "To-Do List",
