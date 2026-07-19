@@ -337,13 +337,8 @@ export default function BlogGrid() {
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-12 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <header className="mb-6 sm:mb-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-1">
-            {header.eyebrow}
-          </p>
-          <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            {header.title}
-          </h1>
-          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 max-w-xl description-text text-center">
+          <h1 className="sr-only">{header.title}</h1>
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 description-text text-left leading-relaxed break-words max-w-full">
             {header.description}
           </p>
         </header>

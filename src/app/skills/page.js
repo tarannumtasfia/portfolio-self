@@ -93,17 +93,9 @@ export default function SkillsPage() {
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-10 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <header className="mb-6 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-1">
-            {header.eyebrow}
-          </p>
-          <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            {header.title}
-          </h1>
-          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-center description-text">
-            {header.description}
-          </p>
+          <h1 className="sr-only">{header.title}</h1>
 
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             {header.highlights.map(({ value, label }) => (
               <span
                 key={label}

@@ -61,8 +61,8 @@ export default function ProjectDetails() {
   if (!project) return notFound();
 
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-6 sm:pb-8 transition-colors duration-300">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-4 min-h-[calc(100dvh-6rem)]">
+    <main className="bg-slate-50 dark:bg-slate-950 pt-24 pb-6 sm:pb-8 transition-colors duration-300">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between shrink-0">
           <Link
             href="/projects"
@@ -72,7 +72,7 @@ export default function ProjectDetails() {
             Back to Projects
           </Link>
 
-          <div className="min-w-0 sm:flex-1 sm:px-4">
+          <div className="min-w-0 sm:flex-1 sm:px-4 sm:text-center">
             <h1 className="text-lg sm:text-2xl font-semibold text-slate-900 dark:text-white break-words">
               {project.title}
             </h1>
@@ -90,11 +90,13 @@ export default function ProjectDetails() {
           </a>
         </div>
 
-        <div className="flex-1 min-h-[min(55dvh,640px)] rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+        <div className="relative w-full h-[calc(100dvh-11rem)] min-h-[480px] rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
           <iframe
             src={project.iframeSrc}
-            className="w-full h-full min-h-[320px] border-0"
             title={project.title}
+            className="absolute inset-0 h-full w-full border-0"
+            loading="eager"
+            allow="fullscreen"
           />
         </div>
       </div>
