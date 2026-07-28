@@ -1,18 +1,17 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   LayoutGrid,
   List,
-  ArrowRight,
   ExternalLink,
   ChevronLeft,
   ChevronRight,
   FolderKanban,
   Play,
   X,
+  Github,
 } from "lucide-react";
 import PageLoader from "../components/PageLoader";
 
@@ -142,82 +141,114 @@ function ProjectsSkeleton() {
   );
 }
 
-function PaginationControls({ page, totalPages, onPageChange }) {
+function CategoryFilters({ filters, active, onChange }) {
   return (
-    <div className="inline-flex items-center gap-0.5 p-0.5 rounded-lg bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 w-fit">
+    <div className="inline-flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700/70 shadow-sm">
+      {filters.map((filter) => {
+        const isActive = filter.id === active;
+        return (
+          <button
+            key={filter.id}
+            type="button"
+            onClick={() => onChange(filter.id)}
+            aria-pressed={isActive}
+            className={`px-3.5 py-2 min-h-10 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+              isActive
+                ? "bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white shadow-sm shadow-indigo-500/25"
+                : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200/70 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-600 hover:text-[#3e0097] dark:hover:text-indigo-300"
+            }`}
+          >
+            {filter.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function PaginationControls({ page, totalPages, onPageChange }) {
+  if (totalPages <= 1) {
+    return (
+      <div className="inline-flex items-center gap-1">
         <button
           type="button"
-          onClick={() => onPageChange(page - 1)}
-          disabled={page <= 1}
+          disabled
           aria-label="Previous page"
-          className="flex items-center justify-center min-w-11 min-h-11 w-11 h-11 rounded-md text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
+          className="flex items-center justify-center w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-300 dark:text-slate-600 cursor-not-allowed"
         >
           <ChevronLeft size={15} />
         </button>
-
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-          <button
-            key={pageNum}
-            type="button"
-            onClick={() => onPageChange(pageNum)}
-            aria-label={`Page ${pageNum}`}
-            aria-current={pageNum === page ? "page" : undefined}
-            className={`min-w-11 min-h-11 h-11 px-2 rounded-md text-xs font-medium transition-all cursor-pointer inline-flex items-center justify-center ${
-              pageNum === page
-                ? "bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white shadow-sm"
-                : "text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700"
-            }`}
-          >
-            {pageNum}
-          </button>
-        ))}
-
         <button
           type="button"
-          onClick={() => onPageChange(page + 1)}
-          disabled={page >= totalPages}
+          aria-current="page"
+          className="min-w-9 h-9 px-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white shadow-sm"
+        >
+          1
+        </button>
+        <button
+          type="button"
+          disabled
           aria-label="Next page"
-          className="flex items-center justify-center min-w-11 min-h-11 w-11 h-11 rounded-md text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
+          className="flex items-center justify-center w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-300 dark:text-slate-600 cursor-not-allowed"
         >
           <ChevronRight size={15} />
         </button>
       </div>
-  );
-}
-
-function ProjectsToolbar({ page, totalPages, onPageChange, total, view, setView, ui }) {
-  const summary = (ui?.pageSummary || "Page {page} of {totalPages} · {total} projects")
-    .replace("{page}", page)
-    .replace("{totalPages}", totalPages)
-    .replace("{total}", total);
+    );
+  }
 
   return (
-    <div className="mb-6 flex flex-col items-center gap-3 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center">
-      <p className="text-[11px] text-slate-500 dark:text-slate-400 text-center sm:text-left sm:justify-self-start order-2 sm:order-none">
-        {summary}
-      </p>
+    <div className="inline-flex items-center gap-1">
+      <button
+        type="button"
+        onClick={() => onPageChange(page - 1)}
+        disabled={page <= 1}
+        aria-label="Previous page"
+        className="flex items-center justify-center w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-indigo-300 dark:hover:border-indigo-600 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
+      >
+        <ChevronLeft size={15} />
+      </button>
 
-      <div className="justify-self-center order-1 sm:order-none w-full flex justify-center overflow-x-auto">
-        <PaginationControls page={page} totalPages={totalPages} onPageChange={onPageChange} />
-      </div>
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+        <button
+          key={pageNum}
+          type="button"
+          onClick={() => onPageChange(pageNum)}
+          aria-label={`Page ${pageNum}`}
+          aria-current={pageNum === page ? "page" : undefined}
+          className={`min-w-9 h-9 px-2 rounded-lg text-xs font-semibold transition-all cursor-pointer inline-flex items-center justify-center ${
+            pageNum === page
+              ? "bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white shadow-sm"
+              : "border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-indigo-300 dark:hover:border-indigo-600"
+          }`}
+        >
+          {pageNum}
+        </button>
+      ))}
 
-      <div className="justify-self-end flex justify-center sm:justify-end w-full sm:w-auto order-3 sm:order-none">
-        <ViewToggle view={view} setView={setView} ui={ui} />
-      </div>
+      <button
+        type="button"
+        onClick={() => onPageChange(page + 1)}
+        disabled={page >= totalPages}
+        aria-label="Next page"
+        className="flex items-center justify-center w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-indigo-300 dark:hover:border-indigo-600 disabled:opacity-35 disabled:cursor-not-allowed transition-all cursor-pointer"
+      >
+        <ChevronRight size={15} />
+      </button>
     </div>
   );
 }
 
 function ViewToggle({ view, setView, ui }) {
   return (
-    <div className="inline-flex w-auto items-center p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60">
+    <div className="inline-flex w-auto items-center gap-1.5">
       <button
         type="button"
         onClick={() => setView("grid")}
-        className={`inline-flex items-center justify-center gap-2 px-3.5 py-2.5 min-h-11 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+        className={`inline-flex items-center justify-center gap-2 px-3.5 py-2 min-h-9 rounded-lg text-sm font-medium transition-all cursor-pointer ${
           view === "grid"
             ? "bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white shadow-sm shadow-indigo-500/25"
-            : "text-slate-600 dark:text-slate-300 hover:text-[#3e0097] dark:hover:text-indigo-300"
+            : "border border-[#3e0097]/40 dark:border-indigo-500/50 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-[#3e0097] dark:hover:text-indigo-300"
         }`}
       >
         <LayoutGrid size={15} />
@@ -226,15 +257,58 @@ function ViewToggle({ view, setView, ui }) {
       <button
         type="button"
         onClick={() => setView("list")}
-        className={`inline-flex items-center justify-center gap-2 px-3.5 py-2.5 min-h-11 rounded-lg text-sm font-medium transition-all cursor-pointer ${
+        className={`inline-flex items-center justify-center gap-2 px-3.5 py-2 min-h-9 rounded-lg text-sm font-medium transition-all cursor-pointer ${
           view === "list"
             ? "bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white shadow-sm shadow-indigo-500/25"
-            : "text-slate-600 dark:text-slate-300 hover:text-[#3e0097] dark:hover:text-indigo-300"
+            : "border border-[#3e0097]/40 dark:border-indigo-500/50 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-[#3e0097] dark:hover:text-indigo-300"
         }`}
       >
         <List size={15} />
         {ui?.listLabel || "List"}
       </button>
+    </div>
+  );
+}
+
+function ProjectsToolbar({
+  filters,
+  category,
+  onCategoryChange,
+  page,
+  totalPages,
+  onPageChange,
+  total,
+  view,
+  setView,
+  ui,
+}) {
+  const totalText = (ui?.totalLabel || "Total {total} Projects").replace(
+    "{total}",
+    total
+  );
+
+  return (
+    <div className="mb-6 flex flex-col gap-3 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-4">
+      <div className="flex justify-center lg:justify-start overflow-x-auto">
+        <CategoryFilters
+          filters={filters}
+          active={category}
+          onChange={onCategoryChange}
+        />
+      </div>
+
+      <p className="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100 text-center whitespace-nowrap">
+        {totalText}
+      </p>
+
+      <div className="flex flex-wrap items-center justify-center lg:justify-end gap-2 sm:gap-3">
+        <PaginationControls
+          page={page}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
+        <ViewToggle view={view} setView={setView} ui={ui} />
+      </div>
     </div>
   );
 }
@@ -265,13 +339,17 @@ function ProjectActions({ project, ui, onQuickDemo }) {
         {ui?.demoVideoLabel || "Demo Video"}
         <Play size={14} className="fill-current" />
       </button>
-      <Link
-        href={`/details/${project.id}`}
-        className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-indigo-300 dark:hover:border-indigo-600 text-slate-700 dark:text-slate-200 text-sm font-medium px-4 py-2.5 min-h-11 transition-all"
-      >
-        {ui?.viewHereLabel || "View here"}
-        <ArrowRight size={14} />
-      </Link>
+      {project.githubUrl ? (
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-indigo-300 dark:hover:border-indigo-600 text-slate-700 dark:text-slate-200 text-sm font-medium px-4 py-2.5 min-h-11 transition-all"
+        >
+          {ui?.githubLinkLabel || "GitHub Link"}
+          <Github size={14} />
+        </a>
+      ) : null}
       <a
         href={project.iframeSrc}
         target="_blank"
@@ -402,32 +480,71 @@ export default function ProjectsGrid() {
   }, []);
 
   const projects = projectsData?.projects ?? [];
+  const filters = projectsData?.filters ?? [
+    { id: "live", label: "Live" },
+    { id: "cloud", label: "Cloud" },
+    { id: "upcoming", label: "Upcoming" },
+  ];
   const projectsPerPage = projectsData?.projectsPerPage ?? 4;
   const header = projectsData?.header;
   const ui = projectsData?.ui;
+  const defaultCategory = filters[0]?.id || "live";
 
-  const initialPage = Math.max(1, parseInt(searchParams.get("page") || "1", 10) || 1);
-  const totalPages = Math.max(1, Math.ceil(projects.length / projectsPerPage));
+  const [category, setCategory] = useState(defaultCategory);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (!projectsData) return;
+
+    const validIds = new Set(filters.map((f) => f.id));
+    const urlCategory = searchParams.get("category") || defaultCategory;
+    const nextCategory = validIds.has(urlCategory) ? urlCategory : defaultCategory;
+    setCategory(nextCategory);
+
+    const filteredCount = projects.filter((p) => p.category === nextCategory).length;
+    const nextTotalPages = Math.max(1, Math.ceil(filteredCount / projectsPerPage));
     const urlPage = Math.max(1, parseInt(searchParams.get("page") || "1", 10) || 1);
-    setPage(Math.min(urlPage, totalPages));
-  }, [searchParams, totalPages, projectsData]);
+    setPage(Math.min(urlPage, nextTotalPages));
+  }, [searchParams, projectsData, filters, projects, projectsPerPage, defaultCategory]);
+
+  const filteredProjects = useMemo(
+    () => projects.filter((project) => project.category === category),
+    [projects, category]
+  );
+
+  const totalPages = Math.max(1, Math.ceil(filteredProjects.length / projectsPerPage));
 
   const visibleProjects = useMemo(() => {
     const start = (page - 1) * projectsPerPage;
-    return projects.slice(start, start + projectsPerPage);
-  }, [page, projects, projectsPerPage]);
+    return filteredProjects.slice(start, start + projectsPerPage);
+  }, [page, filteredProjects, projectsPerPage]);
 
   const startIndex = (page - 1) * projectsPerPage + 1;
+
+  function updateUrl(nextCategory, nextPage) {
+    const params = new URLSearchParams();
+    if (nextCategory && nextCategory !== defaultCategory) {
+      params.set("category", nextCategory);
+    }
+    if (nextPage > 1) {
+      params.set("page", String(nextPage));
+    }
+    const query = params.toString();
+    router.push(query ? `/projects?${query}` : "/projects", { scroll: false });
+  }
 
   function goToPage(nextPage) {
     const clamped = Math.max(1, Math.min(nextPage, totalPages));
     setPage(clamped);
-    router.push(clamped === 1 ? "/projects" : `/projects?page=${clamped}`, { scroll: false });
+    updateUrl(category, clamped);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function changeCategory(nextCategory) {
+    if (nextCategory === category) return;
+    setCategory(nextCategory);
+    setPage(1);
+    updateUrl(nextCategory, 1);
   }
 
   if (loading) {
@@ -464,16 +581,25 @@ export default function ProjectsGrid() {
         </header>
 
         <ProjectsToolbar
+          filters={filters}
+          category={category}
+          onCategoryChange={changeCategory}
           page={page}
           totalPages={totalPages}
           onPageChange={goToPage}
-          total={projects.length}
+          total={filteredProjects.length}
           view={view}
           setView={setView}
           ui={ui}
         />
 
-        {view === "grid" ? (
+        {filteredProjects.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/50 px-6 py-16 text-center">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              {ui?.emptyFilterLabel || "No projects in this category yet."}
+            </p>
+          </div>
+        ) : view === "grid" ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {visibleProjects.map((project, index) => (
               <GridCard
