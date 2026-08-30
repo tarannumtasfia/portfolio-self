@@ -1,89 +1,107 @@
-import { notFound } from "next/navigation";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useParams, notFound } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft, ExternalLink, FolderKanban } from "lucide-react";
+import PageLoader from "../../components/PageLoader";
 
-const projects = [
-  {
-    id: "todo",
-    title: "To-Do List",
-    role: "Task Manager App",
-    tags: ["React", "Kanban", "Productivity"],
-    iframeSrc: "https://kanban-board-sigma-sepia.vercel.app/",
-  },
-  {
-    id: "movie",
-    title: "Movie website",
-    role: "Movie Search App",
-    tags: ["React", "API", "Movies"],
-    iframeSrc: "https://movie-app-ashen-iota-35.vercel.app/",
-  },
-  {
-    id: "eschool",
-    title: "E-School Landing Page",
-    role: "E School Landing Page",
-    tags: ["HTML", "CSS", "Bootstrap"],
-    iframeSrc: "https://tarannumtasfia.github.io/e-school/",
-  },
-  {
-    id: "crudapp",
-    title: "Full-Stack CRUD App",
-    role: "User Management System",
-    tags: ["React", "MongoDB", "Express", "Node.js"],
-    logo: "/portfolio_img.jpg",
-    description:
-      "A full-stack application to manage users. Features include registration, login, and CRUD operations uisng postman.",
-    iframeSrc: "https://crud-frontend-iota-one.vercel.app/",
-    
-  },
-  {
-  id: "courier",
-  title: "Courier Package Tracker",
-  role: "Real-Time Package Tracker",
-  tags: ["Next.js", "Socket.IO", "MongoDB", "Tailwind"],
-  logo: "/portfolio_img.jpg", // update this if you have a custom image
-  description:
-    "A real-time package tracking system with alerting and drill-down views for dispatchers.",
-  iframeSrc: "https://courier-tracker-frontend-eosin.vercel.app/",
-  bg: "bg-yellow-100",
-},
-{
-  id: "planetrix",
-  title: "Planetrix",
-  role: "Sustainable Energy Solutions",
-  tags: ["Next.js", "React", "Tailwind CSS"],
-  logo: "/portfolio_img.jpg",
-  description:
-    "A modern web platform for exploring sustainable energy solutions, featuring interactive UI, responsive design, and optimized performance using Next.js and Tailwind CSS.",
-  iframeSrc: "https://planetrix-frontend-one.vercel.app/",
-  bg: "bg-emerald-100",
-},
+export default function ProjectDetails() {
+  const params = useParams();
+  const [projectsData, setProjectsData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-];
+  useEffect(() => {
+    let cancelled = false;
 
-export default function ProjectDetails({ params }) {
-  const project = projects.find((p) => p.id === params.id);
+    async function loadProjects() {
+      try {
+        const response = await fetch("/api/projects");
+        if (!response.ok) throw new Error("Failed to load projects");
+
+        const data = await response.json();
+        if (!cancelled) setProjectsData(data);
+      } catch {
+        if (!cancelled) setError("Could not load project data.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    loadProjects();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const ui = projectsData?.ui;
+
+  if (loading) {
+    return (
+      <main className="relative min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-6">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <PageLoader label="Loading project..." icon={FolderKanban} />
+        </div>
+      </main>
+    );
+  }
+
+  if (error || !projectsData) {
+    return (
+      <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pt-24 pb-16">
+        <div className="max-w-6xl mx-auto px-4 text-center text-slate-600 dark:text-slate-400">
+          {error || ui?.detailsUnavailableLabel || "Project unavailable."}
+        </div>
+      </main>
+    );
+  }
+
+  const project = projectsData.projects.find((p) => p.id === params.id);
 
   if (!project) return notFound();
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-sky-50 to-indigo-100 p-6 flex flex-col items-center">
-      <Link
-        href="/projects"
-        className="mb-6 px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700"
-      >
-        ← Back to Projects
-      </Link>
+    <main className="bg-slate-50 dark:bg-slate-950 pt-24 pb-6 sm:pb-8 transition-colors duration-300">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between shrink-0">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-1.5 w-fit rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:border-indigo-300 dark:hover:border-indigo-600 transition-colors min-h-11"
+          >
+            <ArrowLeft size={15} />
+            {ui?.backLabel || "Back to Projects"}
+          </Link>
 
-      <h1 className="text-3xl font-bold mb-4 text-indigo-800">
-        {project.title}
-      </h1>
-      <div className="w-full h-[100vh] bg-gradient-to-br from-sky-50 to-indigo-100 overflow-hidden">
-    <iframe
-      src={project.iframeSrc}
-      className="w-full h-full"
-      title={project.title}
-      style={{ backgroundColor: "transparent" }}
-    />
-  </div>
+          <div className="min-w-0 sm:flex-1 sm:px-4 sm:text-center">
+            <h1 className="text-lg sm:text-2xl font-semibold text-slate-900 dark:text-white break-words">
+              {project.title}
+            </h1>
+            <p className="text-sm text-slate-500 dark:text-slate-400 break-words">{project.role}</p>
+          </div>
+
+          <a
+            href={project.iframeSrc}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-1.5 w-full sm:w-auto rounded-xl bg-gradient-to-r from-[#3e0097] to-indigo-600 text-white text-sm font-semibold px-4 py-2.5 min-h-11 shadow-sm transition-all shrink-0"
+          >
+            {ui?.openLiveDemoLabel || "Open live demo"}
+            <ExternalLink size={14} />
+          </a>
+        </div>
+
+        <div className="relative w-full h-[calc(100dvh-11rem)] min-h-[280px] sm:min-h-[420px] rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+          <iframe
+            src={project.iframeSrc}
+            title={project.title}
+            className="absolute inset-0 h-full w-full border-0"
+            loading="eager"
+            allow="fullscreen"
+          />
+        </div>
+      </div>
     </main>
   );
 }

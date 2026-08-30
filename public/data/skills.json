@@ -1,0 +1,104 @@
+{
+  "belief": {
+    "title": "I Believe",
+    "text": [
+      "Technology is a skill — not a gift. Consistent practice, dedication, and hard work are what turn curiosity into craft. I build that craft one problem, one project, and one deploy at a time."]
+  },
+  "algorithmsSpotlight": {
+    "eyebrow": "Standout focus",
+    "stat": "250+",
+    "label": "Algorithms Solved",
+    "description": "I focus on algorithms because they build strong logical thinking. Technologies evolve, but problem-solving skills remain valuable, making it easier to adapt to any new technology.",
+    "href": "https://leetcode.com/u/tasfiatarannum/",
+    "linkLabel": "View LeetCode profile",
+    "tags": ["Arrays", "C#", "TypeScript", "JavaScript","PostgreSQL", "MongoDB"]
+  },
+  "howIWork": {
+    "title": "How I work",
+    "subtitle": "Full-stack delivery, disciplined problem solving, and steady collaboration.",
+    "items": [
+      {
+        "id": "fullstack",
+        "eyebrow": "Core practice",
+        "icon": "Layers",
+        "title": "Full-stack development",
+        "description": "Hands-on work across frontend, backend, and SQL — shipping features end to end with React, Next.js, Node.js, and modern APIs.",
+        "tags": ["React & Next.js", "Node & Express", "SQL & data"]
+      },
+      {
+        "id": "algorithms",
+        "eyebrow": "Problem solving",
+        "icon": "Trophy",
+        "title": "Algorithms & DSA",
+        "description": "250+ algorithms solved — I break problems down, choose the right structure, and write clear, efficient solutions under real constraints.",
+        "tags": ["250+ solved", "Data structures", "LeetCode"],
+        "featured": true
+      },
+      {
+        "id": "collaboration",
+        "eyebrow": "Collaboration",
+        "icon": "Users",
+        "title": "Team delivery",
+        "description": "I communicate clearly, learn from code reviews, and stay focused on shipping reliable work that helps the team move forward.",
+        "tags": ["Code reviews", "Clear communication", "Fast learning"]
+      }
+    ]
+  },
+  "technicalSkills": {
+    "title": "Technical Skills",
+    "categories": [
+      {
+        "category": "Frontend",
+        "skills": ["HTML5", "CSS3", "JavaScript", "TypeScript", "React.js", "Next.js", "Tailwind CSS", "Bootstrap"]
+      },
+      {
+        "category": "Backend & APIs",
+        "skills": ["Node.js", "Express.js", "Python", "Django", "C#", "REST APIs"]
+      },
+      {
+        "category": "Database",
+        "skills": ["MS SQL Server", "SQL Queries", "T-SQL", "MongoDB", "Schema Comparison", "Job Data"]
+      },
+      {
+        "category": "Tools",
+        "skills": ["GitHub", "VS Code", "Postman", "Figma", "LeetCode"]
+      },
+      {
+        "category": "Principles",
+        "skills": ["OOP", "SOLID", "Design patterns", "Data structures", "HTTP", "Agile"],
+        "highlightSkills": [
+          {
+            "label": "250+ Algorithms Solved",
+            "href": "https://leetcode.com/u/tasfiatarannum/"
+          }
+        ]
+      }
+    ]
+  },
+  "professionalStrengths": {
+    "title": "Professional Strengths",
+    "columns": {
+      "number": "No.",
+      "strength": "Professional Strength"
+    },
+    "items": [
+      "Solved 250+ algorithm problems on LeetCode — with clear grounding in OOP, data structures, algorithms, and design patterns.",
+      "Comfortable working across the stack — frontend UIs, Node/Express or Django backends, and SQL-backed features.",
+      "Able to work under delivery pressure, break work into steps, and meet deadlines without losing code quality.",
+      "A collaborative teammate who communicates clearly and learns quickly from feedback and code reviews.",
+      "A quick learner with a positive attitude — curious, optimistic, and always improving through practice."
+    ]
+  },
+  "footer": {
+    "note": "Full career history and project context are available on the experience page.",
+    "links": [
+      { "href": "/experience", "label": "Experience", "primary": true },
+      { "href": "/contact-info", "label": "Contact", "primary": false }
+    ]
+  },
+  "ui": {
+    "loadingLabel": "Loading skills...",
+    "errorLabel": "Could not load skills data.",
+    "unavailableLabel": "Skills unavailable."
+  }
+}

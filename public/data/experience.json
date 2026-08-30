@@ -1,0 +1,62 @@
+{
+  "header": {
+    "eyebrow": "Career",
+    "title": "Experience",
+    "description": "My professional journey — roles, responsibilities, and the technologies I work with day to day."
+  },
+  "careerHero": {
+    "titlePrefix": "My",
+    "titleHighlight": "Career",
+    "subtitle": "Junior Software Engineer · Full-stack web development",
+    "description": "I focus on algorithms because they build strong logical thinking. Technologies evolve, but problem-solving skills remain valuable, making it easier to adapt to any new technology — including database work, C#, TypeScript, JavaScript, and more.",
+    "careerStart": "2025-04-01T00:00:00",
+    "totalLabel": "Total Experience",
+    "liveLabel": "Live",
+    "units": {
+      "years": "Years",
+      "months": "Months",
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds"
+    }
+  },
+  "experiences": [
+    {
+      "id": "fpt-is",
+      "role": "Junior Software Engineer",
+      "company": "FPT IS",
+      "type": "Full-time",
+      "period": "Apr 2025 — Present",
+      "startMonth": 4,
+      "startYear": 2025,
+      "duration": "Current role",
+      "location": "Banani, Dhaka, Bangladesh",
+      "workMode": "On-site",
+      "logo": "/fpt-is-logo.png",
+      "companyUrl": "https://fpt-is.com/en/",
+      "description": "I contribute to web development using JavaScript, Next.js, and Node.js, focusing on performance and user experience. Passionate about learning and growing as a full-stack developer.",
+      "highlights": [
+        "Develop and maintain web applications with modern JavaScript frameworks",
+        "Collaborate on performance-focused, user-centered product features",
+        "Work with Next.js and Node.js in a professional engineering environment",
+        "Continuously improve full-stack skills through real-world project delivery"
+      ],
+      "technologies": ["JavaScript", "Next.js", "Node.js", "React", "Express.js"]
+    }
+  ],
+  "growthMessage": "",
+  "labels": {
+    "highlights": "Key contributions",
+    "technologies": "Technologies"
+  },
+  "ui": {
+    "loadingLabel": "Loading experience...",
+    "errorLabel": "Could not load experience data.",
+    "unavailableLabel": "Experience unavailable."
+  },
+  "relatedLinks": [
+    { "href": "/projects", "label": "View related projects", "primary": true },
+    { "href": "/skills", "label": "See all skills", "primary": false }
+  ]
+}

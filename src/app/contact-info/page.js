@@ -1,188 +1,243 @@
 "use client";
 
 import Link from "next/link";
-import {
-    
-    ArrowRight,
-   
-} from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight, ExternalLink, Mail } from "lucide-react";
+import PageLoader from "../components/PageLoader";
 
-const contactItems = [
-    {
-        icon: null,
-        imgSrc: "/linkedin-icon.png",
-        label: "LinkedIn",
-        value: "linkedin.com/in/tasfiatarannum",
-        href: "https://linkedin.com/in/tasfiatarannum",
-        isLink: true,
-        
-    },
-    {
-        icon: null,
-        imgSrc: "/globe-icon.png",
-        label: "Portfolio",
-        value: "portfolio-self-alpha-ten.vercel.app",
-        href: "https://portfolio-self-alpha-ten.vercel.app",
-        isLink: true,
-       
-    },
-    {
-        icon: null,
-        imgSrc: "/book-icon.png",
-        label: "Blog",
-        value: "https://medium.com/@tasfiatarannum",
-        href: "https://medium.com/@tasfiatarannum",
-        isLink: true,
-        
-    },
-    {
-        icon: null,
-        imgSrc: "/call-icon.png",
-        label: "Phone",
-        value: "+8801701442277",
-        href: "tel:+8801701442277",
-        isLink: true,
-        
-    },
-    {
-        icon: null,
-        imgSrc: "/location-icon.png",
-        label: "Address",
-        value: "Block-A, Aftabnagar, Rampura, Dhaka, Bangladesh",
-        href: "https://www.google.com/maps?q=bti+Chorus,+Dhaka,+Bangladesh",
-        isLink: true,
-        
-    },
-    {
-        icon: null,
-        imgSrc: "/mail-icon.png",
-        label: "Email",
-        value: "tasfiatarannum@yahoo.com",
-        href: "mailto:tasfiatarannum@yahoo.com",
-        isLink: true,
-        accent: "#3e0097",
-    },
-];
+function ContactInfoSkeleton() {
+  return (
+    <div className="w-full max-w-lg animate-pulse">
+      <div className="h-[min(90vh,800px)] rounded-[1.75rem] bg-white/60 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800" />
+    </div>
+  );
+}
 
 export default function ContactInfo() {
+  const [contact, setContact] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadContact() {
+      try {
+        const response = await fetch("/api/contact");
+        if (!response.ok) throw new Error("Failed to load contact");
+
+        const data = await response.json();
+        if (!cancelled) setContact(data);
+      } catch {
+        if (!cancelled) setError("Could not load contact data.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    loadContact();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (loading) {
     return (
-        <main className="min-h-screen bg-gradient-to-br from-sky-50 to-indigo-100 flex flex-col items-center justify-center px-4 py-24">
-            {/* Decorative blobs */}
-            <div
-                aria-hidden
-                className="pointer-events-none fixed top-[-80px] right-[-80px] w-[340px] h-[340px] rounded-full opacity-20"
-                style={{ background: "radial-gradient(circle, #3e0097, transparent)" }}
-            />
-            <div
-                aria-hidden
-                className="pointer-events-none fixed bottom-[-60px] left-[-60px] w-[260px] h-[260px] rounded-full opacity-10"
-                style={{ background: "radial-gradient(circle, #6366f1, transparent)" }}
-            />
-
-            {/* Card */}
-            <div className="w-full max-w-lg bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl overflow-hidden border border-white/60">
-                {/* Header banner */}
-                <div
-                    className="relative h-28 flex items-end px-7 pb-4"
-                    style={{
-                        background:
-                            "linear-gradient(135deg, #3e0097 0%, #6d28d9 60%, #818cf8 100%)",
-                    }}
-                >
-                    {/* Subtle pattern */}
-                    <svg
-                        className="absolute inset-0 w-full h-full opacity-10"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <defs>
-                            <pattern
-                                id="dots"
-                                x="0"
-                                y="0"
-                                width="20"
-                                height="20"
-                                patternUnits="userSpaceOnUse"
-                            >
-                                <circle cx="2" cy="2" r="1.5" fill="white" />
-                            </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#dots)" />
-                    </svg>
-
-                    <h1 className="relative text-white text-2xl font-bold tracking-tight drop-shadow">
-                        Contact Info
-                    </h1>
-                </div>
-
-                {/* Avatar bump */}
-                <div className="relative px-7 pt-0 pb-2">
-                    <div className="absolute -top-10 right-7 w-20 h-20 rounded-full border-4 border-white shadow-lg overflow-hidden bg-indigo-100">
-                        <img
-                            src="/logo.png"
-                            alt="Tasfia Tarannum"
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
-                    <div className="pt-4 pb-2">
-                        <p className="text-lg font-bold text-[#3e0097]">Tasfia Tarannum</p>
-                        <p className="text-sm text-gray-500 font-medium">Applicant</p>
-                    </div>
-                </div>
-
-                <hr className="border-gray-100 mx-7" />
-
-                {/* Contact rows */}
-                <ul className="px-7 py-5 space-y-5">
-                    {contactItems.map(({ icon: Icon, label, imgSrc, value, href, accent }) => (
-                        <li key={label} className="flex items-start gap-4 group">
-                            <span
-                                className="flex items-center justify-center w-9 h-9 rounded-xl shrink-0 mt-0.5 transition-transform group-hover:scale-110"
-                                style={imgSrc ? { background: "#f1f5f9" } : { background: accent + "15", color: accent }}
-                            >
-                                {imgSrc ? (
-                                    <img src={imgSrc} alt={label} className="w-7 h-7 object-contain" />
-                                ) : (
-                                    <Icon size={17} />
-                                )}
-                            </span>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-0.5">
-                                    {label}
-                                </p>
-                                <a
-                                    href={href}
-                                    target={href.startsWith("http") ? "_blank" : undefined}
-                                    rel="noreferrer"
-                                    className="text-sm font-medium text-gray-800 hover:text-[#3e0097] transition-colors break-words"
-                                >
-                                    {value}
-                                </a>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-
-                <hr className="border-gray-100 mx-7" />
-
-                {/* CTA */}
-                <div className="px-7 py-6">
-                    <p className="text-sm text-gray-500 mb-4">
-                        Want to reach out directly? Send me a message and I'll get back to
-                        you soon.
-                    </p>
-                    <Link
-                        href="/contact"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white text-sm font-semibold shadow-md hover:shadow-lg hover:opacity-90 transition-all"
-                        style={{
-                            background:
-                                "linear-gradient(135deg, #3e0097 0%, #6d28d9 100%)",
-                        }}
-                    >
-                        Send me a message
-                        <ArrowRight size={16} />
-                    </Link>
-                </div>
-            </div>
-        </main>
+      <main className="relative min-h-[50vh] flex items-start justify-center px-3 sm:px-4 pt-24 pb-10 overflow-hidden transition-colors duration-300 bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
+        <div className="opacity-50 pointer-events-none select-none">
+          <ContactInfoSkeleton />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <PageLoader label="Loading contact..." icon={Mail} />
+        </div>
+      </main>
     );
+  }
+
+  if (error || !contact) {
+    return (
+      <main className="flex items-center justify-center bg-slate-50 dark:bg-slate-950 px-4 pt-24 pb-10">
+        <p className="text-slate-600 dark:text-slate-400">
+          {error || contact?.ui?.unavailableLabel || "Contact unavailable."}
+        </p>
+      </main>
+    );
+  }
+
+  const { profile, header, bio, contactRows, cta, social } = contact;
+
+  return (
+    <main className="relative flex items-start justify-center px-4 pt-20 pb-6 sm:pb-8 overflow-hidden transition-colors duration-300 bg-gradient-to-br from-indigo-50 via-white to-violet-100 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -right-32 w-96 h-96 rounded-full bg-purple-400/20 dark:bg-purple-600/10 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-indigo-400/20 dark:bg-indigo-600/10 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full bg-indigo-300/10 dark:bg-indigo-600/5 blur-3xl"
+      />
+
+      <div className="relative w-full max-w-lg">
+        <div className="rounded-[1.75rem] p-[1px] bg-gradient-to-br from-[#3e0097] via-indigo-500 to-violet-400 shadow-2xl shadow-indigo-500/20 dark:shadow-indigo-950/50">
+          <div className="rounded-[calc(1.75rem-1px)] overflow-hidden bg-white dark:bg-slate-900">
+            <div className="relative px-6 sm:px-8 pt-8 sm:pt-9 pb-24 sm:pb-28 text-center bg-gradient-to-br from-[#3e0097] via-indigo-700 to-violet-500 overflow-hidden">
+              <div
+                aria-hidden
+                className="absolute inset-0 opacity-30"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 30%, white 1px, transparent 1px)",
+                  backgroundSize: "22px 22px",
+                }}
+              />
+              <div
+                aria-hidden
+                className="absolute -right-10 -top-10 w-36 h-36 rounded-full bg-white/10 blur-2xl"
+              />
+              <div
+                aria-hidden
+                className="absolute -left-8 bottom-0 w-28 h-28 rounded-full bg-violet-300/20 blur-xl"
+              />
+
+              <p className="relative text-[11px] font-semibold uppercase tracking-[0.2em] text-indigo-200/90">
+                {header.eyebrow}
+              </p>
+              <h1 className="relative mt-2 text-2xl sm:text-[1.65rem] font-bold text-white tracking-tight">
+                {header.title}
+              </h1>
+              <p className="relative mt-2 text-sm text-white/75 max-w-xs mx-auto description-text">
+                {header.description}
+              </p>
+
+              <svg
+                className="absolute bottom-0 left-0 w-full text-white dark:text-slate-900"
+                viewBox="0 0 1440 48"
+                preserveAspectRatio="none"
+                aria-hidden
+              >
+                <path
+                  fill="currentColor"
+                  d="M0,24 C240,48 480,0 720,24 C960,48 1200,0 1440,24 L1440,48 L0,48 Z"
+                />
+              </svg>
+            </div>
+
+            <div className="relative flex flex-col items-center px-4 sm:px-8 pb-1">
+              <div className="relative -mt-14 sm:-mt-[4.5rem] md:-mt-[5.5rem] z-10">
+                <div className="relative mx-auto w-fit group">
+                  <div
+                    aria-hidden
+                    className="absolute -inset-3 rounded-full bg-gradient-to-br from-[#3e0097]/35 via-indigo-500/25 to-violet-400/35 blur-xl opacity-90"
+                  />
+
+                  <div className="relative rounded-full p-[3px] bg-gradient-to-br from-[#3e0097] via-indigo-500 to-violet-400 shadow-xl shadow-indigo-500/30">
+                    <div className="rounded-full p-[4px] bg-white dark:bg-slate-900">
+                      <div className="relative w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full overflow-hidden bg-gradient-to-br from-indigo-100 to-violet-100 dark:from-slate-800 dark:to-indigo-950">
+                        <img
+                          src={profile.image}
+                          alt={profile.imageAlt}
+                          className="w-full h-full object-cover object-[center_18%] scale-[1.2] group-hover:scale-[1.28] transition-transform duration-500 ease-out"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="mt-5 text-xl font-bold text-slate-900 dark:text-white">
+                {profile.name}
+              </h2>
+              <p className="mt-1 text-sm font-semibold text-[#3e0097] dark:text-indigo-300">
+                {profile.title}
+              </p>
+
+              <p className="mt-4 text-sm text-slate-500 dark:text-slate-400 leading-relaxed description-text">
+                {bio}
+              </p>
+            </div>
+
+            <div className="mt-6 px-4 sm:px-6 space-y-2.5">
+              {contactRows.map(({ label, value, href, imgSrc, external, accent, ring }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={external ? "_blank" : undefined}
+                  rel={external ? "noopener noreferrer" : undefined}
+                  className="group flex items-center gap-3.5 p-3.5 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/40 hover:bg-white dark:hover:bg-slate-800/70 hover:border-indigo-200/80 dark:hover:border-indigo-800/60 hover:shadow-md hover:shadow-indigo-500/5 transition-all duration-200"
+                >
+                  <span
+                    className={`flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br ${accent} ring-1 ${ring} shrink-0 group-hover:scale-105 transition-transform`}
+                  >
+                    <img src={imgSrc} alt="" className="w-5 h-5 object-contain" />
+                  </span>
+                  <span className="flex-1 min-w-0 text-left">
+                    <span className="block text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
+                      {label}
+                    </span>
+                    <span className="block mt-0.5 text-sm font-medium text-slate-800 dark:text-slate-200 group-hover:text-[#3e0097] dark:group-hover:text-indigo-300 transition-colors break-words leading-snug">
+                      {value}
+                    </span>
+                  </span>
+                  {external && (
+                    <ExternalLink
+                      size={14}
+                      className="shrink-0 text-slate-300 dark:text-slate-600 group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors"
+                    />
+                  )}
+                </a>
+              ))}
+            </div>
+
+            <div className="px-6 pb-8 pt-5 mt-2">
+              <Link
+                href={cta.href}
+                className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl text-white text-sm font-semibold shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5 transition-all bg-gradient-to-r from-[#3e0097] to-indigo-600"
+              >
+                {cta.label}
+                <ArrowRight size={16} />
+              </Link>
+
+              <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500 text-center mb-3">
+                  {social.title}
+                </p>
+                <div className="flex flex-wrap items-center justify-center gap-2.5">
+                  {social.icons.map(({ href, src, label, size, internal }) =>
+                    internal ? (
+                      <Link
+                        key={label}
+                        href={href}
+                        aria-label={label}
+                        title={label}
+                        className="flex items-center justify-center w-12 h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-indigo-300 dark:hover:border-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:scale-105 transition-all"
+                      >
+                        <img src={src} alt="" style={{ width: size, height: size }} />
+                      </Link>
+                    ) : (
+                      <a
+                        key={label}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={label}
+                        title={label}
+                        className="flex items-center justify-center w-12 h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-indigo-300 dark:hover:border-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:scale-105 transition-all"
+                      >
+                        <img src={src} alt="" style={{ width: size, height: size }} />
+                      </a>
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
 }
