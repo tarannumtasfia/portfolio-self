@@ -17,7 +17,7 @@ export default function ExperienceCard() {
         <div>
           <h3 className="text-lg font-bold">Junior Software Engineer</h3>
           <p className="text-black-400">FPT IS · Full-time</p>
-          <p className="text-sm text-black-500">Jan 2025 - Present </p>
+          <p className="text-sm text-black-500">Jan 2025 - May 2026 </p>
           <p className="text-sm text-black-500">
             Banani, Dhaka, Bangladesh · On-site
           </p>
