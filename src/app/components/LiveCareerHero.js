@@ -55,11 +55,20 @@ function DurationTile({ value, label }) {
 
 export default function LiveCareerHero({ data }) {
   const [parts, setParts] = useState(() =>
-    getDurationParts(data.careerStart, new Date())
+    getDurationParts(
+      data.careerStart,
+      data.careerEnd ? new Date(data.careerEnd) : new Date()
+    )
   );
 
   useEffect(() => {
-    const tick = () => setParts(getDurationParts(data.careerStart, new Date()));
+    const tick = () =>
+      setParts(
+        getDurationParts(
+          data.careerStart,
+          data.careerEnd ? new Date(data.careerEnd) : new Date()
+        )
+      );
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
