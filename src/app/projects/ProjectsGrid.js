@@ -39,16 +39,14 @@ function DemoVideoModal({ project, ui, onClose }) {
   if (!project) return null;
 
   const videoUrl = project.demoVideo || ui?.demoVideoUrl;
+  const isLocalVideo = /\.(mp4|webm|ogg)$/i.test(videoUrl);
   const title = `${project.title} — Demo Video`;
   const subtitle = project.role;
   const loadingText = ui?.demoVideoLoadingText || "Starting playback...";
   const closeHint = ui?.demoVideoCloseHint || "Press Esc or click outside to close";
 
   return (
-    <div
-      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-3 sm:p-6"
-      role="presentation"
-    >
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-3 sm:p-6" role="presentation">
       <button
         type="button"
         aria-label="Close video"
@@ -56,12 +54,7 @@ function DemoVideoModal({ project, ui, onClose }) {
         onClick={onClose}
       />
 
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-label={title}
-        className="relative w-full max-w-4xl max-h-[min(92dvh,100%)] overflow-y-auto animate-[video-modal-in_0.3s_ease-out]"
-      >
+      <div role="dialog" aria-modal="true" aria-label={title} className="relative w-full max-w-4xl max-h-[min(92dvh,100%)] overflow-y-auto animate-[video-modal-in_0.3s_ease-out]">
         <div className="rounded-2xl p-[1px] bg-gradient-to-br from-[#3e0097] via-indigo-500 to-violet-400 shadow-2xl shadow-indigo-950/40">
           <div className="rounded-[calc(1rem-1px)] overflow-hidden bg-slate-950">
             <div className="flex items-center justify-between gap-4 px-4 sm:px-5 py-3.5 border-b border-white/10 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900">
@@ -98,16 +91,28 @@ function DemoVideoModal({ project, ui, onClose }) {
                 </div>
               )}
 
-              <iframe
-                src={videoUrl}
-                className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
-                  videoLoaded ? "opacity-100" : "opacity-0"
-                }`}
-                allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-                allowFullScreen
-                title={title}
-                onLoad={() => setVideoLoaded(true)}
-              />
+              {isLocalVideo ? (
+                <video
+                  src={videoUrl}
+                  className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                    videoLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                  controls
+                  autoPlay
+                  onLoadedData={() => setVideoLoaded(true)}
+                />
+              ) : (
+                <iframe
+                  src={videoUrl}
+                  className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                    videoLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                  allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+                  allowFullScreen
+                  title={title}
+                  onLoad={() => setVideoLoaded(true)}
+                />
+              )}
             </div>
 
             <div className="px-4 sm:px-5 py-3 border-t border-white/10 bg-slate-950/90">
