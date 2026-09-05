@@ -32,6 +32,21 @@
   },
   "projects": [
     {
+      "id": "payflow-gateway",
+      "title": "PayFlow",
+      "role": "Payment Gateway Demo",
+      "category": "live",
+      "tags": ["Vue 3", "Tailwind CSS", "Stripe", "bKash Sandbox"],
+      "description": "Mini e-commerce storefront simulating a full payment flow — cart, checkout, and payment — with Stripe test mode and bKash sandbox integration.",
+      "iframeSrc": "https://paybridge-gilt.vercel.app/",
+      "githubUrl": "https://github.com/tarannumtasfia/PayBridge",
+      "image": "/projects/paybridge.png",
+      "demoVideo": "/videos/payflow.mp4",
+      "accent": "from-teal-400 to-cyan-500",
+      "accentSoft": "from-teal-500/10 to-cyan-500/10 dark:from-teal-500/20 dark:to-cyan-500/20",
+      "accentText": "text-teal-600 dark:text-teal-400"
+    },
+    {
       "id": "dashboard-graphs",
       "title": "Dashboard Graphs",
       "role": "Data Visualization Dashboard",
